@@ -12,5 +12,5 @@ module rom (
     end
     assign data = rom[addr[31:2]];//0 4 8 16을 0,1,2,3으로 바꿔주기 위해 2비트 시프트
 
-
+//브랜치테스트
 endmodule
