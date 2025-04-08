@@ -7,7 +7,7 @@ module RV32I_Core (
     output logic [31:0] instrMemAddr
 );
     logic regFileWe;
-    logic [1:0] alu_Control;
+    logic [3:0] alu_Control;
     DataPath u_DataPath (.*);
     ControlUnit u_ControlUnit (.*);
 

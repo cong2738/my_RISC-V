@@ -10,9 +10,11 @@ module tb_rv32i ();
 
     always #5 clk = ~clk;
 
+    integer i;
     initial begin
         clk   = 0;
         reset = 1;
         #5 reset = 0;
+
     end
 endmodule

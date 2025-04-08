@@ -6,7 +6,7 @@ module DataPath (
     input  logic [31:0] instrCode,
     output logic [31:0] instrMemAddr,
     input  logic        regFileWe,
-    input  logic [ 1:0] alu_Control
+    input  logic [ 3:0] alu_Control
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
@@ -47,21 +47,32 @@ module DataPath (
 endmodule
 
 module alu (
-    input  logic [ 1:0] alu_Control,
+    input  logic [ 3:0] alu_Control,
     input  logic [31:0] a,
     input  logic [31:0] b,
     output logic [31:0] result
 );
-    typedef enum int {
-        ADD = 2'b00,
-        SUB = 2'b01,
-        OR  = 2'b10,
-        AND = 2'b11
-    } name;
+    localparam  ADD  = 4'b0000,
+                SUB  = 4'b0001,
+                SLL  = 4'b0010,
+                SRL  = 4'b0011,
+                SRA  = 4'b0100,
+                SLT  = 4'b0101,
+                SLTU = 4'b0110,
+                XOR  = 4'b0111,
+                OR   = 4'b1000,
+                AND  = 4'b1001;
+
     always_comb begin : alu
         case (alu_Control)
             ADD: result = a + b;
             SUB: result = a - b;
+            SLL: result = a << b;
+            SRL: result = a >> b;
+            SRA: result = a >>> b;
+            SLT: result = ($signed(a) < $signed(b)) ? 32'b1 : 32'b0;
+            SLTU: result = (a < b) ? 32'b1 : 32'b0;
+            XOR: result = a ^ b;
             OR: result = a | b;
             AND: result = a & b;
             default: result = 32'bx;
