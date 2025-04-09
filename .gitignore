@@ -69,4 +69,4 @@
 #systemVerilog
 !*.sv
 #me
-!*.me
+!*.md
