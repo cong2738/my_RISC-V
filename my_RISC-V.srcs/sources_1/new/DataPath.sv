@@ -120,12 +120,12 @@ module adder (
 endmodule
 
 module RegisterFile (
-    input logic clk,
-    input logic we,
-    input logic [4:0] rAddr1,
-    input logic [4:0] rAddr2,
-    input logic [4:0] wAddr,
-    input logic [31:0] wData,
+    input  logic        clk,
+    input  logic        we,
+    input  logic [ 4:0] rAddr1,
+    input  logic [ 4:0] rAddr2,
+    input  logic [ 4:0] wAddr,
+    input  logic [31:0] wData,
     output logic [31:0] rData1,
     output logic [31:0] rData2
 );
