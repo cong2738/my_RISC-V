@@ -15,7 +15,7 @@ module DataPath (
     input  logic        wDataSrcMuxSel,
     input  logic [31:0] ramData,
 
-    input logic        shamtSel,
+    input logic        shamtSel
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
