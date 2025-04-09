@@ -5,9 +5,9 @@
 
 # 2025  04 09  
 - S_Type을 만든다 
-  - S-W만듬 
+  - SW
 
 - L_Type을 만든다 
-  - L_W  
+  - LW  
 
 - I_Type을 완성함
