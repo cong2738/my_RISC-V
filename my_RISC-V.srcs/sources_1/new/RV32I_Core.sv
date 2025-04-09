@@ -14,6 +14,7 @@ module RV32I_Core (
     logic [3:0] alu_Control;
     logic       aluSrcMuxSel;
     logic       wDataSrcMuxSel;
+    logic       shamtSel;
 
     DataPath u_DataPath (.*);
     ControlUnit u_ControlUnit (.*);

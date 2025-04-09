@@ -15,12 +15,13 @@ module DataPath (
     input  logic        wDataSrcMuxSel,
     input  logic [31:0] ramData,
 
-    input logic        shamtSel
+    input logic shamtSel
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
+    logic [31:0] imm_mux_out;
 
     assign instrMemAddr = PCOutData;
     assign dataAddr     = result;
@@ -37,18 +38,18 @@ module DataPath (
         .rData2(rData2)
     );
 
-    mux_2x1 u_ALUSrcMux (
-        .sel(aluSrcMuxSel),
-        .x0 (rData2),
-        .x1 (immExt),
-        .y  (aluSrcMuxOut)
-    );
-
     mux_2x1 u_imm_shamt_mux (
         .sel(shamtSel),
         .x0 (immExt),
-        .x1 ({27'b0,immExt[4:0]}),
-        .y  (y)
+        .x1 ({27'b0, immExt[4:0]}),
+        .y  (imm_mux_out)
+    );
+
+    mux_2x1 u_ALUSrcMux (
+        .sel(aluSrcMuxSel),
+        .x0 (rData2),
+        .x1 (imm_mux_out),
+        .y  (aluSrcMuxOut)
     );
 
     alu u_alu (
