@@ -1,5 +1,7 @@
 `timescale 1ns / 1ps
 
+`include "defines.sv"
+
 module DataPath (
     input  logic        clk,
     input  logic        reset,
@@ -52,18 +54,18 @@ module alu (
     input  logic [31:0] b,
     output logic [31:0] result
 );
-    typedef enum int {
-        ADD = 2'b00,
-        SUB = 2'b01,
-        OR  = 2'b10,
-        AND = 2'b11
-    } name;
     always_comb begin : alu
         case (alu_Control)
-            ADD: result = a + b;
-            SUB: result = a - b;
-            OR: result = a | b;
-            AND: result = a & b;
+            `ADD:    result = a + b;
+            `SUB:    result = a - b;
+            `SLL:    result = a << b;
+            `SRL:    result = a >> b;
+            `SRA:    result = $signed(a) >>> b[4:0];
+            `SLT:    result = ($signed(a) < $signed(b)) ? 1 : 0;
+            `SLTU:   result = (a < b) ? 1 : 0;
+            `XOR:    result = a ^ b;
+            `OR:     result = a | b;
+            `AND:    result = a & b;
             default: result = 32'bx;
         endcase
     end
