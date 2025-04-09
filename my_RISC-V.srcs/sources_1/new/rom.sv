@@ -14,7 +14,7 @@ module rom (
         //          _imm    _imm  _rs1  _f3 _rd   _opcode;      L_Type
         rom[3] = 32'b0000000_01000_00000_010_00110_0000011; //  lw  x2, 8(ram0);
         //          _imm    _imm  _rs1  _f3 _rd   _opcode;      L_Type
-        rom[3] = 32'b0000010_01000_00010_000_00110_0000011; //  addi  rs1 + imm;
+        rom[3] = 32'b0000000_01000_00010_000_00110_0000011; //  addi  rs1 + imm;
 
     end
     assign data = rom[addr[31:2]];//0 4 8 16을 0,1,2,3으로 바꿔주기 위해 2비트 시프트
