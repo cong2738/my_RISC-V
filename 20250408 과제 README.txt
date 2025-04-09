@@ -1,0 +1,13 @@
+이번 과제는 RISC CPU에 R_Type 커멘드를 완성 시키는것이다.
+
+명령어.
+ADD
+SUB
+SLL
+SRL
+SRA
+SLT
+SLTU
+XOR
+OR
+AND
