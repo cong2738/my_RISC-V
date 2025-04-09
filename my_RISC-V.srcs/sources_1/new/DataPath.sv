@@ -18,6 +18,7 @@ module DataPath (
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
+    logic [31:0] wDataSrcMuxOut;
 
     assign instrMemAddr = PCOutData;
     assign dataAddr     = result;
@@ -29,7 +30,7 @@ module DataPath (
         .rAddr1(instrCode[19:15]),
         .rAddr2(instrCode[24:20]),
         .wAddr (instrCode[11:7]),
-        .wData (result),
+        .wData (wDataSrcMuxOut),
         .rData1(rData1),
         .rData2(rData2)
     );
