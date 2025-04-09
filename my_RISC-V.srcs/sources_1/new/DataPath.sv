@@ -11,7 +11,9 @@ module DataPath (
     input  logic [ 3:0] alu_Control,
     input  logic        aluSrcMuxSel,
     output logic [31:0] dataAddr,
-    output logic [31:0] dataWData
+    output logic [31:0] dataWData,
+    input  logic        wDataSrcMuxSel,
+    input  logic [31:0] ramData
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
@@ -46,6 +48,13 @@ module DataPath (
         .result     (result)
     );
 
+    mux_2x1 u_WDataSrcMux (
+        .sel(wDataSrcMuxSel),
+        .x0 (result),
+        .x1 (ramData),
+        .y  (wDataSrcMuxOut)
+    );
+
     extend u_ImmExtend (
         .instrCode(instrCode),
         .immExt   (immExt)
@@ -72,7 +81,7 @@ module alu (
     input  logic [31:0] b,
     output logic [31:0] result
 );
-    always_comb begin : alu
+    always_comb begin : alu_sel
         case (alu_Control)
             `ADD:    result = a + b;
             `SUB:    result = a - b;
