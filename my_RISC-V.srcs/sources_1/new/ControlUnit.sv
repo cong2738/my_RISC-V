@@ -44,7 +44,7 @@ module ControlUnit (
             case (operators)
                 `SLL: shamtSel = 1;
                 `SRL: shamtSel = 1;
-                `SRA: shamtSel = 1;
+                `SRA: shamtSel = 0;
             endcase
     end
 endmodule
