@@ -13,7 +13,9 @@ module DataPath (
     output logic [31:0] dataAddr,
     output logic [31:0] dataWData,
     input  logic        wDataSrcMuxSel,
-    input  logic [31:0] ramData
+    input  logic [31:0] ramData,
+
+    input logic        shamtSel
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
@@ -40,6 +42,13 @@ module DataPath (
         .x0 (rData2),
         .x1 (immExt),
         .y  (aluSrcMuxOut)
+    );
+
+    mux_2x1 u_imm_shamt_mux (
+        .sel(shamtSel),
+        .x0 (immExt),
+        .x1 ({27'b0,immExt[4:0]}),
+        .y  (y)
     );
 
     alu u_alu (
@@ -120,12 +129,12 @@ module adder (
 endmodule
 
 module RegisterFile (
-    input logic clk,
-    input logic we,
-    input logic [4:0] rAddr1,
-    input logic [4:0] rAddr2,
-    input logic [4:0] wAddr,
-    input logic [31:0] wData,
+    input  logic        clk,
+    input  logic        we,
+    input  logic [ 4:0] rAddr1,
+    input  logic [ 4:0] rAddr2,
+    input  logic [ 4:0] wAddr,
+    input  logic [31:0] wData,
     output logic [31:0] rData1,
     output logic [31:0] rData2
 );
