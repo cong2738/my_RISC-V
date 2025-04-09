@@ -68,3 +68,5 @@
 ~$*
 #systemVerilog
 !*.sv
+#me
+!*.me
