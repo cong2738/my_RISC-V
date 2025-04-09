@@ -3,10 +3,7 @@
 module tb_rv32i ();
     logic clk;
     logic reset;
-    MCU u_MCU (
-        .clk  (clk),
-        .reset(reset)
-    );
+    MCU u_MCU (.*);
 
     always #5 clk = ~clk;
 
@@ -14,5 +11,6 @@ module tb_rv32i ();
         clk   = 0;
         reset = 1;
         #5 reset = 0;
+        #60 $finish;
     end
 endmodule

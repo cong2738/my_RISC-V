@@ -4,6 +4,7 @@ sv xil_defaultlib  \
 "../../../../my_RISC-V.srcs/sources_1/new/DataPath.sv" \
 "../../../../my_RISC-V.srcs/sources_1/new/RV32I_Core.sv" \
 "../../../../my_RISC-V.srcs/sources_1/new/my_MCU.sv" \
+"../../../../my_RISC-V.srcs/sources_1/new/ram.sv" \
 "../../../../my_RISC-V.srcs/sources_1/new/rom.sv" \
 "../../../../my_RISC-V.srcs/sim_1/new/tb_rv32i.sv" \
 
