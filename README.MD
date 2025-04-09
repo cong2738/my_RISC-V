@@ -7,5 +7,5 @@
 - S_Type을 만든다 
   - S-W만듬 
 ## L_Type을 만든다 
-### L_W  
-## I_Type 완성 
+- L_W  
+  - I_Type 완성 
