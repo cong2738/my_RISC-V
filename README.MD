@@ -1,32 +1,32 @@
 # RISC-V 제작
 
-# 2025 04 08
+## 2025 04 08
 - R_Type
-    -ADD
-    -SUB
-    -SLL
-    -SRL
-    -SRA
-    -SLT
-    -SLTU
-    -XOR
-    -OR
-    -AND
+    -ADD 
+    -SUB 
+    -SLL 
+    -SRL 
+    -SRA 
+    -SLT 
+    -SLTU 
+    -XOR 
+    -OR 
+    -AND 
 
-# 2025  04 09  
+## 2025  04 09  
 - S_Type
-  - SW
+  - SW 
 
 - L_Type을 만든다 
-  - LW  
+  - LW   
 
-- I_Type
-    -ADDI
-    -SLTI
-    -SLTUI
-    -XORI
-    -ORI
-    -ANDI
-    -SLLI
-    -SRLI
-    -SRAI
+- I_Type 
+    -ADDI 
+    -SLTI 
+    -SLTUI 
+    -XORI 
+    -ORI 
+    -ANDI 
+    -SLLI 
+    -SRLI 
+    -SRAI 
