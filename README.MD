@@ -17,7 +17,7 @@
 - S_Type
   - SW 
 
-- L_Type을 만든다 
+- L_Type
   - LW   
 
 - I_Type 
