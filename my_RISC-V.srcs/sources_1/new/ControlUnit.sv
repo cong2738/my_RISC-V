@@ -18,11 +18,11 @@ module ControlUnit (
     assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel} = signals;
 
     always_comb begin : we
-        signals = 3'b0;
+        signals = 4'b0;
         case (opcode)   //        F_A_D_W
             `R_Type: signals = 4'b1_0_0_0;
             `S_Type: signals = 4'b0_1_1_0;
-            `L_Type: signals = 4'b0_1_0_1;
+            `L_Type: signals = 4'b1_1_0_1;
         endcase
     end
 
