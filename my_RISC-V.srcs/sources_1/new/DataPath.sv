@@ -21,10 +21,13 @@ module DataPath (
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
     logic [31:0] pcaSrcMuxOut;
-
+    logic [31:0] pcaSrcMuxIn;
+    
     assign instrMemAddr = PCOutData;
     assign dataAddr     = result;
     assign dataWData    = rData2;
+    
+    assign pcaSrcMuxIn  = (result[0]) ? immExt : 32'b0;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -71,17 +74,15 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    assign pcaSrcMuxSel = is_B_type & ((result[0]) ? 1'b1 : 1'b0);
-
-    mux_2x1 u_PcaSrcMux (
-        .sel(pcaSrcMuxSel),
+    mux_2x1 u_PcAdderSrcMux (
+        .sel(is_B_type),
         .x0 (32'b1),
-        .x1 (1),
+        .x1 (pcaSrcMuxIn),
         .y  (pcaSrcMuxOut)
     );
 
     programCounter u_ProgramCounterAdder (
-        .a(1),
+        .a(pcaSrcMuxOut),
         .b(PCOutData),
         .y(PCSrcData)
     );
@@ -112,12 +113,12 @@ module alu (
             endcase
         else
             case (alu_Control)
-                `BEQ:  result = (a == b) ? 1 : 0;
-                `BNE:  result = (a != b) ? 1 : 0;
-                `BLT:  result = ($signed(a) < $signed(b)) ? 1 : 0;
-                `BGE:  result = ($signed(a) >= $signed(b)) ? 1 : 0;
-                `BLTU: result = (a < b) ? 1 : 0;
-                `BGEU: result = (a >= b) ? 1 : 0;
+                `BEQ:  result = (a == b);
+                `BNE:  result = (a != b);
+                `BLT:  result = ($signed(a) < $signed(b));
+                `BGE:  result = ($signed(a) >= $signed(b));
+                `BLTU: result = (a < b);
+                `BGEU: result = (a >= b);
             endcase
     end
 endmodule
@@ -207,7 +208,10 @@ module extend (
             end
             `S_Type:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
-            `B_Type: immExt = {20'b0, instrCode[31:20]};
+            `B_Type:
+            immExt = {
+                instrCode[31], instrCode[7], instrCode[30:25], instrCode[11:8]
+            };
         endcase
     end
 endmodule

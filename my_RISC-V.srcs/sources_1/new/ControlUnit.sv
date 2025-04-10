@@ -26,7 +26,7 @@ module ControlUnit (
             `S_Type: signals = 5'b0_1_1_0_0;
             `L_Type: signals = 5'b1_1_0_1_0;
             `I_Type: signals = 5'b1_1_0_0_0;
-            `B_Type: signals = 5'b0_1_0_0_1;
+            `B_Type: signals = 5'b0_0_0_0_1;
         endcase
     end
 
