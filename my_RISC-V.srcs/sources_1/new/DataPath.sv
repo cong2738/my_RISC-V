@@ -16,6 +16,7 @@ module DataPath (
     input logic       aluSrcMuxSel,
     input logic       wDataSrcMuxSel,
     input logic       branch,
+    input logic       upper,
 
     // ram unit side port
     output logic [31:0] dataAddr,
@@ -24,15 +25,16 @@ module DataPath (
 );
     logic [31:0] calculator_result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
-    logic [31:0] immExt, aluSrcMuxOut;
+    logic [31:0] immExt, aluSrcMuxOut1, aluSrcMuxOut2;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult;
-    logic PCSrcMuxMuxSel, comparator_result;
+    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_Imm_U_AdderResult;
+    logic [2:0] PCSrcMuxMuxSel;
+    logic comparator_result;
 
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = branch & comparator_result;
+    assign PCSrcMuxMuxSel = {upper, branch, comparator_result};
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -45,17 +47,25 @@ module DataPath (
         .rData2(rData2)
     );
 
+    mux_2x1 u_mux_2x1 (
+        .sel(upper),
+        .x0 (rData1),
+        .x1 (32'd12),
+        .y  (aluSrcMuxOut1)
+    );
+
+
     mux_2x1 u_ALUSrcMux (
         .sel(aluSrcMuxSel),
         .x0 (rData2),
         .x1 (immExt),
-        .y  (aluSrcMuxOut)
+        .y  (aluSrcMuxOut2)
     );
 
     alu u_alu (
         .alu_Control      (alu_Control),
-        .a                (rData1),
-        .b                (aluSrcMuxOut),
+        .a                (aluSrcMuxOut1),
+        .b                (aluSrcMuxOut2),
         .calculator_result(calculator_result),
         .comparator_result(comparator_result)
     );
@@ -91,13 +101,34 @@ module DataPath (
         .y(PC_Imm_AdderResult)
     );
 
-    mux_2x1 u_PcSrcMux (
+    adder u_PC_Imm_U_Adder (
+        .a(PCOutData),
+        .b(calculator_result),
+        .y(PC_Imm_U_AdderResult)
+    );
+
+    mux_3x1 u_PcSrcMux (
         .sel(PCSrcMuxMuxSel),
         .x0 (PC_4_AdderResult),
         .x1 (PC_Imm_AdderResult),
+        .x2 (PC_Imm_U_AdderResult),
         .y  (PCSrcData)
     );
 
+endmodule
+
+module mux_3x1 (
+    input  logic [ 2:0] sel,
+    input  logic [31:0] x0,
+    input  logic [31:0] x1,
+    input  logic [31:0] x2,
+    output logic [31:0] y
+);
+    always_comb begin : select
+        if (sel[0]) y = x2;
+        else if (sel[1] & sel[2]) y = x1;
+        else y = x0;
+    end
 endmodule
 
 module alu (
