@@ -7,8 +7,7 @@ module ControlUnit (
     output logic [ 3:0] alu_Control,
     output logic        aluSrcMuxSel,
     output logic        dataWe,
-    output logic        wDataSrcMuxSel,
-    output logic        shamtSel
+    output logic        wDataSrcMuxSel
 );
 
     wire [6:0] opcode = instrCode[6:0];
@@ -29,16 +28,6 @@ module ControlUnit (
         endcase
     end
 
-    always_comb begin : shamt_sel
-        shamtSel = 0;
-        if (opcode == `I_Type)
-            case (operators)
-                `SLL: shamtSel = 1;
-                `SRL: shamtSel = 1;
-                `SRA: shamtSel = 1;
-            endcase
-    end
-
     always_comb begin : alu_Control_sel
         alu_Control = 2'bx;
         case (opcode)
@@ -46,10 +35,8 @@ module ControlUnit (
             `S_Type: alu_Control = `ADD;  //        {3'b000}
             `L_Type: alu_Control = `ADD;  //        {3'b000}
             `I_Type: begin
-                case (operators)
-                    `SRA: alu_Control = {1'b1, operators[2:0]};
-                    default: alu_Control = {1'b0, operators[2:0]};
-                endcase
+                if (operators == 4'b1101) alu_Control = operators;
+                else alu_Control = {1'b0, operators[2:0]};
             end
         endcase
     end

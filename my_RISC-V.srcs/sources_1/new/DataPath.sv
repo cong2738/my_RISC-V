@@ -168,7 +168,6 @@ module extend (
 );
     wire [6:0] opcode = instrCode[6:0];
     wire [2:0] func3 = instrCode[14:12];
-    wire [2:0] func7 = instrCode[31:25];
 
     always_comb begin : extend_imm
         immExt = 32'bx;
@@ -177,19 +176,12 @@ module extend (
             `R_Type: immExt = 32'bx;
             `L_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
             `I_Type: begin
-                case ({
-                    func7[0], func3
-                })
-                    `SLL: immExt = {27'b0, instrCode[24:20]};
-                    `SRL: immExt = {27'b0, instrCode[24:20]};
-                    `SRA: immExt = {27'b0, instrCode[24:20]};
-                    default: begin
-                        if (func3 == 3'b011)
-                            immExt = {20'b0, instrCode[31:20]};
-                        else immExt = {{20{instrCode[31]}}, instrCode[31:20]};
-                    end
+                case (func3)
+                    3'b001:  immExt = {27'b0, instrCode[24:20]};
+                    3'b101:  immExt = {27'b0, instrCode[24:20]};
+                    3'b011:  immExt = {20'b0, instrCode[31:20]};
+                    default: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
                 endcase
-
             end
             `S_Type:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
