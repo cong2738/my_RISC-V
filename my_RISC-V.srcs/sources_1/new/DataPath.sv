@@ -218,7 +218,11 @@ module extend (
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
             `B_Type:
             immExt = {
-                instrCode[31], instrCode[7], instrCode[30:25], instrCode[11:8]
+                instrCode[31],
+                instrCode[7],
+                instrCode[30:25],
+                instrCode[11:8],
+                1'b0
             };
         endcase
     end
