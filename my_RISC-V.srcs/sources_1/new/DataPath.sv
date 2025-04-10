@@ -62,7 +62,7 @@ module DataPath (
 
     mux_2x1 u_WDataSrcMux (
         .sel(wDataSrcMuxSel),
-        .x0 (result),
+        .x0 (calculator_result),
         .x1 (ramData),
         .y  (wDataSrcMuxOut)
     );
@@ -122,7 +122,7 @@ module alu (
             `AND:  calculator_result = a & b;
         endcase
     end
-    
+
     always_comb begin : Branch_Comparator
         comparator_result = 0;
         case (alu_Control[2:0])
