@@ -16,14 +16,15 @@ module DataPath (
     input  logic [31:0] ramData,
     input  logic        Branch
 );
-    logic [31:0] result, rData1, rData2;
+    logic comparator_result;
+    logic [31:0] calculator_result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] pcaSrcMuxOut;
+    logic [31:0] pa1O, pa2O;
 
     assign instrMemAddr = PCOutData;
-    assign dataAddr     = result;
+    assign dataAddr     = calculator_result;
     assign dataWData    = rData2;
 
     RegisterFile u_RegisterFile (
@@ -45,11 +46,11 @@ module DataPath (
     );
 
     alu u_alu (
-        .RB_T_sel   (Branch),
-        .alu_Control(alu_Control),
-        .a          (rData1),
-        .b          (aluSrcMuxOut),
-        .result     (result)
+        .alu_Control      (alu_Control),
+        .a                (rData1),
+        .b                (aluSrcMuxOut),
+        .calculator_result(calculator_result),
+        .comparator_result(comparator_result)
     );
 
     mux_2x1 u_WDataSrcMux (
@@ -71,52 +72,62 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    mux_2x1 u_PcAdderSrcMux (
-        .sel(Branch&result[0]),
-        .x0 (32'd4),
-        .x1 (immExt),
-        .y  (pcaSrcMuxOut)
+    adder u_ProgramCounterAdder0 (
+        .a(PCOutData),
+        .b(32'd4),
+        .y(pa1O)
     );
 
-    programCounter u_ProgramCounterAdder (
-        .a(pcaSrcMuxOut),
-        .b(PCOutData),
-        .y(PCSrcData)
+    adder u_ProgramCounterAdder1 (
+        .a(PCOutData),
+        .b(immExt),
+        .y(pa2O)
     );
+
+    assign pcAdderSrcMuxSel = Branch & comparator_result;
+
+    mux_2x1 u_PcAdderSrcMux (
+        .sel(pcAdderSrcMuxSel),
+        .x0 (pa1O),
+        .x1 (pa2O),
+        .y  (PCSrcData)
+    );
+
 
 endmodule
 
 module alu (
-    input               RB_T_sel,
     input  logic [ 3:0] alu_Control,
     input  logic [31:0] a,
     input  logic [31:0] b,
-    output logic [31:0] result
+    output logic [31:0] calculator_result,
+    output logic        comparator_result
 );
-    always_comb begin : alu_sel
-        result = 32'bx;
-        if (!RB_T_sel)
-            case (alu_Control)
-                `ADD:  result = a + b;
-                `SUB:  result = a - b;
-                `SLL:  result = a << b;
-                `SRL:  result = a >> b;
-                `SRA:  result = $signed(a) >>> b[4:0];
-                `SLT:  result = ($signed(a) < $signed(b)) ? 1 : 0;
-                `SLTU: result = (a < b) ? 1 : 0;
-                `XOR:  result = a ^ b;
-                `OR:   result = a | b;
-                `AND:  result = a & b;
-            endcase
-        else
-            case (alu_Control)
-                `BEQ:  result = (a == b) ? 1 : 0;
-                `BNE:  result = (a != b) ? 1 : 0;
-                `BLT:  result = ($signed(a) < $signed(b)) ? 1 : 0;
-                `BGE:  result = ($signed(a) >= $signed(b)) ? 1 : 0;
-                `BLTU: result = (a < b) ? 1 : 0;
-                `BGEU: result = (a >= b) ? 1 : 0;
-            endcase
+    always_comb begin : Calculator
+        calculator_result = 32'bx;
+        case (alu_Control)
+            `ADD:  calculator_result = a + b;
+            `SUB:  calculator_result = a - b;
+            `SLL:  calculator_result = a << b;
+            `SRL:  calculator_result = a >> b;
+            `SRA:  calculator_result = $signed(a) >>> b[4:0];
+            `SLT:  calculator_result = ($signed(a) < $signed(b)) ? 1 : 0;
+            `SLTU: calculator_result = (a < b) ? 1 : 0;
+            `XOR:  calculator_result = a ^ b;
+            `OR:   calculator_result = a | b;
+            `AND:  calculator_result = a & b;
+        endcase
+    end
+    always_comb begin : Branch_Comparator
+        comparator_result = 0;
+        case (alu_Control[2:0])
+            `BEQ:  comparator_result = (a == b) ? 1 : 0;
+            `BNE:  comparator_result = (a != b) ? 1 : 0;
+            `BLT:  comparator_result = ($signed(a) < $signed(b)) ? 1 : 0;
+            `BGE:  comparator_result = ($signed(a) >= $signed(b)) ? 1 : 0;
+            `BLTU: comparator_result = (a < b) ? 1 : 0;
+            `BGEU: comparator_result = (a >= b) ? 1 : 0;
+        endcase
     end
 endmodule
 
@@ -132,7 +143,7 @@ module register (
     end
 endmodule
 
-module programCounter (
+module adder (
     input  logic [31:0] a,
     input  logic [31:0] b,
     output logic [31:0] y

@@ -18,10 +18,9 @@
 `define AND 4'b0_111
 
 //B_Type func
-`define BEQ 4'b0_000
-`define BNE 4'b0_001
-`define BLT 4'b0_100
-`define BGE 4'b0_101
-`define BLTU 4'b0_110
-`define BGEU 4'b0_111
-
+`define BEQ 4'b000
+`define BNE 4'b001
+`define BLT 4'b100
+`define BGE 4'b101
+`define BLTU 4'b110
+`define BGEU 4'b111
