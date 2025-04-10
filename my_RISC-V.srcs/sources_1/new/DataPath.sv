@@ -3,29 +3,36 @@
 `include "defines.sv"
 
 module DataPath (
-    input  logic        clk,
-    input  logic        reset,
+    input logic clk,
+    input logic reset,
+
+    // instr side port
     input  logic [31:0] instrCode,
     output logic [31:0] instrMemAddr,
-    input  logic        regFileWe,
-    input  logic [ 3:0] alu_Control,
-    input  logic        aluSrcMuxSel,
+
+    // control unit side port
+    input logic       regFileWe,
+    input logic [3:0] alu_Control,
+    input logic       aluSrcMuxSel,
+    input logic       wDataSrcMuxSel,
+    input logic       Branch,
+
+    // ram unit side port
     output logic [31:0] dataAddr,
     output logic [31:0] dataWData,
-    input  logic        wDataSrcMuxSel,
-    input  logic [31:0] ramData,
-    input  logic        Branch
+    input  logic [31:0] ramData
 );
-    logic comparator_result;
     logic [31:0] calculator_result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] pa1O, pa2O;
+    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult;
+    logic PCSrcMuxMuxSel, comparator_result;
 
-    assign instrMemAddr = PCOutData;
-    assign dataAddr     = calculator_result;
-    assign dataWData    = rData2;
+    assign instrMemAddr   = PCOutData;
+    assign dataAddr       = calculator_result;
+    assign dataWData      = rData2;
+    assign PCSrcMuxMuxSel = Branch & comparator_result;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -72,27 +79,24 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    adder u_ProgramCounterAdder0 (
-        .a(PCOutData),
-        .b(32'd4),
-        .y(pa1O)
-    );
-
-    adder u_ProgramCounterAdder1 (
+    adder u_PC_Imm_Adder (
         .a(PCOutData),
         .b(immExt),
-        .y(pa2O)
+        .y(PC_Imm_AdderResult)
     );
 
-    assign pcAdderSrcMuxSel = Branch & comparator_result;
+    adder u_PC_4_Adder (
+        .a(PCOutData),
+        .b(32'd4),
+        .y(PC_4_AdderResult)
+    );
 
-    mux_2x1 u_PcAdderSrcMux (
-        .sel(pcAdderSrcMuxSel),
-        .x0 (pa1O),
-        .x1 (pa2O),
+    mux_2x1 u_PcSrcMux (
+        .sel(PCSrcMuxMuxSel),
+        .x0 (PC_Imm_AdderResult),
+        .x1 (PC_4_AdderResult),
         .y  (PCSrcData)
     );
-
 
 endmodule
 
