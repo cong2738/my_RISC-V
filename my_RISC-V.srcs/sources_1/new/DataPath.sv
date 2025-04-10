@@ -16,7 +16,6 @@ module DataPath (
     input logic       aluSrcMuxSel,
     input logic       wDataSrcMuxSel,
     input logic       branch,
-    input logic       upper,
 
     // ram unit side port
     output logic [31:0] dataAddr,
@@ -34,7 +33,7 @@ module DataPath (
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = {upper, branch, comparator_result};
+    assign PCSrcMuxMuxSel = {branch, comparator_result};
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -47,33 +46,26 @@ module DataPath (
         .rData2(rData2)
     );
 
-    mux_2x1 u_mux_2x1 (
-        .sel(upper),
-        .x0 (rData1),
-        .x1 (32'd12),
-        .y  (aluSrcMuxOut1)
-    );
-
-
-    mux_2x1 u_ALUSrcMux (
-        .sel(aluSrcMuxSel),
-        .x0 (rData2),
-        .x1 (immExt),
-        .y  (aluSrcMuxOut2)
-    );
-
     alu u_alu (
         .alu_Control      (alu_Control),
-        .a                (aluSrcMuxOut1),
-        .b                (aluSrcMuxOut2),
+        .a                (rData1),
+        .b                (rData2),
         .calculator_result(calculator_result),
         .comparator_result(comparator_result)
     );
 
-    mux_2x1 u_WDataSrcMux (
+    mux_2x1 u_RamSelMux (
         .sel(wDataSrcMuxSel),
         .x0 (calculator_result),
         .x1 (ramData),
+        .y  (RamSelMuxMuxOut)
+    );
+
+    mux_3x1 u_wDataSrcMux (
+        .sel(instrCode[6:0]),
+        .x0 (RamSelMuxMuxOut),
+        .x1 (immExt),
+        .x2 (PC_Imm_AdderResult),
         .y  (wDataSrcMuxOut)
     );
 
@@ -101,17 +93,10 @@ module DataPath (
         .y(PC_Imm_AdderResult)
     );
 
-    adder u_PC_Imm_U_Adder (
-        .a(PCOutData),
-        .b(calculator_result),
-        .y(PC_Imm_U_AdderResult)
-    );
-
-    mux_3x1 u_PcSrcMux (
+    mux_2x1 u_PcSrcMux (
         .sel(PCSrcMuxMuxSel),
         .x0 (PC_4_AdderResult),
         .x1 (PC_Imm_AdderResult),
-        .x2 (PC_Imm_U_AdderResult),
         .y  (PCSrcData)
     );
 
@@ -125,9 +110,11 @@ module mux_3x1 (
     output logic [31:0] y
 );
     always_comb begin : select
-        if (sel[0]) y = x2;
-        else if (sel[1] & sel[2]) y = x1;
-        else y = x0;
+        case (sel)
+            `AU_Type: y = x2;
+            `LU_Type: y = x1;
+            default:  y = x0;
+        endcase
     end
 endmodule
 
@@ -260,6 +247,9 @@ module extend (
                 instrCode[11:8],
                 1'b0
             };
+            `LU_Type: immExt = {instrCode[31:20], 12'b0};
+            `AU_Type: immExt = {instrCode[31:20], 12'b0};
+
         endcase
     end
 endmodule
