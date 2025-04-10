@@ -40,7 +40,7 @@ module ControlUnit (
                 if (operators == 4'b1101) alu_Control = operators;
                 else alu_Control = {1'b0, operators[2:0]};
             end
-            `B_Type: alu_Control =  {1'b0, operators[2:0]};
+            `B_Type: alu_Control =  operators;
         endcase
     end
 
