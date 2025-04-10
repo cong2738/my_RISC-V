@@ -13,12 +13,14 @@ module DataPath (
     output logic [31:0] dataAddr,
     output logic [31:0] dataWData,
     input  logic        wDataSrcMuxSel,
-    input  logic [31:0] ramData
+    input  logic [31:0] ramData,
+    input  logic        is_B_type
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
+    logic [31:0] pcaSrcMuxOut;
 
     assign instrMemAddr = PCOutData;
     assign dataAddr     = result;
@@ -35,7 +37,6 @@ module DataPath (
         .rData2(rData2)
     );
 
-
     mux_2x1 u_ALUSrcMux (
         .sel(aluSrcMuxSel),
         .x0 (rData2),
@@ -44,6 +45,7 @@ module DataPath (
     );
 
     alu u_alu (
+        .RB_T_sel   (is_B_type),
         .alu_Control(alu_Control),
         .a          (rData1),
         .b          (aluSrcMuxOut),
@@ -69,8 +71,17 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    adder u_adder (
-        .a(32'd4),
+    assign pcaSrcMuxSel = is_B_type & ((result[0]) ? 1'b1 : 1'b0);
+
+    mux_2x1 u_PcaSrcMux (
+        .sel(pcaSrcMuxSel),
+        .x0 (32'b1),
+        .x1 (1),
+        .y  (pcaSrcMuxOut)
+    );
+
+    programCounter u_ProgramCounterAdder (
+        .a(1),
         .b(PCOutData),
         .y(PCSrcData)
     );
@@ -78,25 +89,36 @@ module DataPath (
 endmodule
 
 module alu (
+    input               RB_T_sel,
     input  logic [ 3:0] alu_Control,
     input  logic [31:0] a,
     input  logic [31:0] b,
     output logic [31:0] result
 );
     always_comb begin : alu_sel
-        case (alu_Control)
-            `ADD:    result = a + b;
-            `SUB:    result = a - b;
-            `SLL:    result = a << b;
-            `SRL:    result = a >> b;
-            `SRA:    result = $signed(a) >>> b[4:0];
-            `SLT:    result = ($signed(a) < $signed(b)) ? 1 : 0;
-            `SLTU:   result = (a < b) ? 1 : 0;
-            `XOR:    result = a ^ b;
-            `OR:     result = a | b;
-            `AND:    result = a & b;
-            default: result = 32'bx;
-        endcase
+        result = 32'bx;
+        if (!RB_T_sel)
+            case (alu_Control)
+                `ADD:  result = a + b;
+                `SUB:  result = a - b;
+                `SLL:  result = a << b;
+                `SRL:  result = a >> b;
+                `SRA:  result = $signed(a) >>> b[4:0];
+                `SLT:  result = ($signed(a) < $signed(b)) ? 1 : 0;
+                `SLTU: result = (a < b) ? 1 : 0;
+                `XOR:  result = a ^ b;
+                `OR:   result = a | b;
+                `AND:  result = a & b;
+            endcase
+        else
+            case (alu_Control)
+                `BEQ:  result = (a == b) ? 1 : 0;
+                `BNE:  result = (a != b) ? 1 : 0;
+                `BLT:  result = ($signed(a) < $signed(b)) ? 1 : 0;
+                `BGE:  result = ($signed(a) >= $signed(b)) ? 1 : 0;
+                `BLTU: result = (a < b) ? 1 : 0;
+                `BGEU: result = (a >= b) ? 1 : 0;
+            endcase
     end
 endmodule
 
@@ -112,12 +134,12 @@ module register (
     end
 endmodule
 
-module adder (
+module programCounter (
     input  logic [31:0] a,
     input  logic [31:0] b,
     output logic [31:0] y
 );
-    assign y = a + b;
+    assign y = a * 4 + b;
 endmodule
 
 module RegisterFile (
@@ -185,6 +207,7 @@ module extend (
             end
             `S_Type:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
+            `B_Type: immExt = {20'b0, instrCode[31:20]};
         endcase
     end
 endmodule

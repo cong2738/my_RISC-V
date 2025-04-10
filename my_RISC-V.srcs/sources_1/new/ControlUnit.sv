@@ -7,7 +7,8 @@ module ControlUnit (
     output logic [ 3:0] alu_Control,
     output logic        aluSrcMuxSel,
     output logic        dataWe,
-    output logic        wDataSrcMuxSel
+    output logic        wDataSrcMuxSel,
+    output  logic        is_B_type
 );
 
     wire [6:0] opcode = instrCode[6:0];
@@ -15,16 +16,17 @@ module ControlUnit (
     wire [2:0] func7 = instrCode[31:25];
     wire [3:0] operators = {instrCode[30], func3};  // {func7[5] funct3}
 
-    logic [3:0] signals;
-    assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel} = signals;
+    logic [4:0] signals;
+    assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel, is_B_type} = signals;
 
     always_comb begin : reg_we_sel
-        signals = 4'b0;
-        case (opcode)  //        F_A_D_W
-            `R_Type: signals = 4'b1_0_0_0;
-            `S_Type: signals = 4'b0_1_1_0;
-            `L_Type: signals = 4'b1_1_0_1;
-            `I_Type: signals = 4'b1_1_0_0;
+        signals = 5'b0;
+        case (opcode)  //         F_A_D_W_I
+            `R_Type: signals = 5'b1_0_0_0_0;
+            `S_Type: signals = 5'b0_1_1_0_0;
+            `L_Type: signals = 5'b1_1_0_1_0;
+            `I_Type: signals = 5'b1_1_0_0_0;
+            `B_Type: signals = 5'b0_1_0_0_1;
         endcase
     end
 
@@ -38,6 +40,7 @@ module ControlUnit (
                 if (operators == 4'b1101) alu_Control = operators;
                 else alu_Control = {1'b0, operators[2:0]};
             end
+            `B_Type: alu_Control =  {1'b0, operators[2:0]};
         endcase
     end
 

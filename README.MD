@@ -37,3 +37,11 @@
   - operation selection 매커니즘에 문제가 있었음: 
     - 이슈내용: 비트코드의 최상위2번째 비트를 항상 operation에 사용하여 ADD동작에 SUB동작이 발생
     - 대처: I-TYPE을 case문을 나눔
+
+- B_Type
+  - BEQ 
+  - BNE 
+  - BLT 
+  - BGE 
+  - BLTU 
+  - BGEU 
