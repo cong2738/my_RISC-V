@@ -21,13 +21,10 @@ module DataPath (
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
     logic [31:0] pcaSrcMuxOut;
-    logic [31:0] pcaSrcMuxIn;
-    
+
     assign instrMemAddr = PCOutData;
     assign dataAddr     = result;
     assign dataWData    = rData2;
-    
-    assign pcaSrcMuxIn  = (result[0]) ? immExt : 32'b0;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -74,6 +71,8 @@ module DataPath (
         .q    (PCOutData)
     );
 
+    logic [31:0] pcaSrcMuxIn;
+    assign pcaSrcMuxIn = (result[0]) ? immExt : 32'b0;
     mux_2x1 u_PcAdderSrcMux (
         .sel(is_B_type),
         .x0 (32'b1),
@@ -113,12 +112,12 @@ module alu (
             endcase
         else
             case (alu_Control)
-                `BEQ:  result = (a == b);
-                `BNE:  result = (a != b);
-                `BLT:  result = ($signed(a) < $signed(b));
-                `BGE:  result = ($signed(a) >= $signed(b));
-                `BLTU: result = (a < b);
-                `BGEU: result = (a >= b);
+                `BEQ:  result = (a == b) ? 1 : 0;
+                `BNE:  result = (a != b) ? 1 : 0;
+                `BLT:  result = ($signed(a) < $signed(b)) ? 1 : 0;
+                `BGE:  result = ($signed(a) >= $signed(b)) ? 1 : 0;
+                `BLTU: result = (a < b) ? 1 : 0;
+                `BGEU: result = (a >= b) ? 1 : 0;
             endcase
     end
 endmodule
