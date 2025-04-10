@@ -14,7 +14,7 @@
     - AND 
 
 
-## 2025  04 09  
+## 2025 04 09  
 - S_Type
   - SW 
 
@@ -31,3 +31,6 @@
     - SLLI 
     - SRLI 
     - SRAI 
+
+## 2025 04 10
+- I_Type Error Fix
