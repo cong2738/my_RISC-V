@@ -72,10 +72,10 @@ module DataPath (
     );
 
     logic [31:0] pcaSrcMuxIn;
-    assign pcaSrcMuxIn = (result[0]) ? immExt : 32'b0;
+    assign pcaSrcMuxIn = (result[0]) ? immExt * 4 : 32'd4;
     mux_2x1 u_PcAdderSrcMux (
         .sel(is_B_type),
-        .x0 (32'b1),
+        .x0 (32'd4),
         .x1 (pcaSrcMuxIn),
         .y  (pcaSrcMuxOut)
     );
@@ -139,7 +139,7 @@ module programCounter (
     input  logic [31:0] b,
     output logic [31:0] y
 );
-    assign y = a * 4 + b;
+    assign y = a + b;
 endmodule
 
 module RegisterFile (
