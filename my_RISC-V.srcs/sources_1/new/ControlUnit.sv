@@ -8,7 +8,7 @@ module ControlUnit (
     output logic        aluSrcMuxSel,
     output logic        dataWe,
     output logic        wDataSrcMuxSel,
-    output logic        Branch
+    output logic        branch
 );
 
     wire [6:0] opcode = instrCode[6:0];
@@ -17,7 +17,7 @@ module ControlUnit (
     wire [3:0] operators = {instrCode[30], func3};  // {func7[5] funct3}
 
     logic [4:0] signals;
-    assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel, Branch} = signals;
+    assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel, branch} = signals;
 
     always_comb begin : reg_we_sel
         signals = 5'b0;

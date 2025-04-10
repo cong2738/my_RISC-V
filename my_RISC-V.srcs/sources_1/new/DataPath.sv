@@ -15,7 +15,7 @@ module DataPath (
     input logic [3:0] alu_Control,
     input logic       aluSrcMuxSel,
     input logic       wDataSrcMuxSel,
-    input logic       Branch,
+    input logic       branch,
 
     // ram unit side port
     output logic [31:0] dataAddr,
@@ -32,7 +32,7 @@ module DataPath (
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = Branch & comparator_result;
+    assign PCSrcMuxMuxSel = branch & comparator_result;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
