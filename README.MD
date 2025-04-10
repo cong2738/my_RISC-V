@@ -45,3 +45,6 @@
   - BGE 
   - BLTU 
   - BGEU 
+  
+- LU_Type
+- AU_Type
