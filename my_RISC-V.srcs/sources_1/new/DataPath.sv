@@ -72,7 +72,7 @@ module DataPath (
     );
 
     logic [31:0] pcaSrcMuxIn;
-    assign pcaSrcMuxIn = (result[0]) ? immExt * 4 : 32'd4;
+    assign pcaSrcMuxIn = (result[0]) ? immExt : 32'd4;
     mux_2x1 u_PcAdderSrcMux (
         .sel(is_B_type),
         .x0 (32'd4),
