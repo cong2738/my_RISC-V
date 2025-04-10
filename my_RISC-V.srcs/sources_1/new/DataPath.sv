@@ -14,7 +14,7 @@ module DataPath (
     output logic [31:0] dataWData,
     input  logic        wDataSrcMuxSel,
     input  logic [31:0] ramData,
-    input  logic        is_B_type
+    input  logic        Branch
 );
     logic [31:0] result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
@@ -45,7 +45,7 @@ module DataPath (
     );
 
     alu u_alu (
-        .RB_T_sel   (is_B_type),
+        .RB_T_sel   (Branch),
         .alu_Control(alu_Control),
         .a          (rData1),
         .b          (aluSrcMuxOut),
@@ -71,12 +71,10 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    logic [31:0] pcaSrcMuxIn;
-    assign pcaSrcMuxIn = (result[0]) ? immExt : 32'd4;
     mux_2x1 u_PcAdderSrcMux (
-        .sel(is_B_type),
+        .sel(Branch&result[0]),
         .x0 (32'd4),
-        .x1 (pcaSrcMuxIn),
+        .x1 (immExt),
         .y  (pcaSrcMuxOut)
     );
 
