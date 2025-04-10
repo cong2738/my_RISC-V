@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="73677fs"></ZoomEndTime>
-      <Cursor1Time time="19467fs"></Cursor1Time>
+      <ZoomEndTime time="105001fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="184"></NameColumnWidth>
-      <ValueColumnWidth column_width="148"></ValueColumnWidth>
+      <ValueColumnWidth column_width="144"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="32" />
+   <WVObjectSize size="25" />
    <wvobject fp_name="/tb_rv32i/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -41,12 +41,12 @@
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[1]" type="array">
          <obj_property name="ElementShortName">[1][31:0]</obj_property>
          <obj_property name="ObjectShortName">[1][31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[2]" type="array">
          <obj_property name="ElementShortName">[2][31:0]</obj_property>
          <obj_property name="ObjectShortName">[2][31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[3]" type="array">
          <obj_property name="ElementShortName">[3][31:0]</obj_property>
@@ -193,6 +193,134 @@
          <obj_property name="ObjectShortName">[31][31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[0]" type="array">
+         <obj_property name="ElementShortName">[0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[1]" type="array">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[2]" type="array">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[3]" type="array">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[4]" type="array">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[5]" type="array">
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[6]" type="array">
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[7]" type="array">
+         <obj_property name="ElementShortName">[7][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[8]" type="array">
+         <obj_property name="ElementShortName">[8][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[9]" type="array">
+         <obj_property name="ElementShortName">[9][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[10]" type="array">
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[11]" type="array">
+         <obj_property name="ElementShortName">[11][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[12]" type="array">
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[13]" type="array">
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[14]" type="array">
+         <obj_property name="ElementShortName">[14][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[15]" type="array">
+         <obj_property name="ElementShortName">[15][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[16]" type="array">
+         <obj_property name="ElementShortName">[16][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[16][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[17]" type="array">
+         <obj_property name="ElementShortName">[17][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[17][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[18]" type="array">
+         <obj_property name="ElementShortName">[18][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[18][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[19]" type="array">
+         <obj_property name="ElementShortName">[19][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[19][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[20]" type="array">
+         <obj_property name="ElementShortName">[20][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[20][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[21]" type="array">
+         <obj_property name="ElementShortName">[21][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[21][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[22]" type="array">
+         <obj_property name="ElementShortName">[22][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[22][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[23]" type="array">
+         <obj_property name="ElementShortName">[23][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[23][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[24]" type="array">
+         <obj_property name="ElementShortName">[24][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[24][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[25]" type="array">
+         <obj_property name="ElementShortName">[25][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[25][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[26]" type="array">
+         <obj_property name="ElementShortName">[26][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[26][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[27]" type="array">
+         <obj_property name="ElementShortName">[27][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[27][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[28]" type="array">
+         <obj_property name="ElementShortName">[28][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[28][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[29]" type="array">
+         <obj_property name="ElementShortName">[29][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[29][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[30]" type="array">
+         <obj_property name="ElementShortName">[30][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[30][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[31]" type="array">
+         <obj_property name="ElementShortName">[31][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[31][31:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_ram/mem" type="array">
       <obj_property name="ElementShortName">mem[0:9][31:0]</obj_property>
@@ -226,10 +354,6 @@
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_ControlUnit/wDataSrcMuxSel" type="logic">
       <obj_property name="ElementShortName">wDataSrcMuxSel</obj_property>
       <obj_property name="ObjectShortName">wDataSrcMuxSel</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_ControlUnit/is_B_type" type="logic">
-      <obj_property name="ElementShortName">is_B_type</obj_property>
-      <obj_property name="ObjectShortName">is_B_type</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_ControlUnit/opcode" type="array">
       <obj_property name="ElementShortName">opcode[6:0]</obj_property>
@@ -308,15 +432,6 @@
          <obj_property name="ElementShortName">ramData[31:0]</obj_property>
          <obj_property name="ObjectShortName">ramData[31:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/is_B_type" type="logic">
-         <obj_property name="ElementShortName">is_B_type</obj_property>
-         <obj_property name="ObjectShortName">is_B_type</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/result" type="array">
-         <obj_property name="ElementShortName">result[31:0]</obj_property>
-         <obj_property name="ObjectShortName">result[31:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/rData1" type="array">
          <obj_property name="ElementShortName">rData1[31:0]</obj_property>
          <obj_property name="ObjectShortName">rData1[31:0]</obj_property>
@@ -340,17 +455,9 @@
          <obj_property name="ObjectShortName">immExt[31:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/aluSrcMuxOut" type="array">
-         <obj_property name="ElementShortName">aluSrcMuxOut[31:0]</obj_property>
-         <obj_property name="ObjectShortName">aluSrcMuxOut[31:0]</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/wDataSrcMuxOut" type="array">
          <obj_property name="ElementShortName">wDataSrcMuxOut[31:0]</obj_property>
          <obj_property name="ObjectShortName">wDataSrcMuxOut[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/pcaSrcMuxOut" type="array">
-         <obj_property name="ElementShortName">pcaSrcMuxOut[31:0]</obj_property>
-         <obj_property name="ObjectShortName">pcaSrcMuxOut[31:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject type="divider" fp_name="divider375">
@@ -358,11 +465,6 @@
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/PCOutData" type="array">
       <obj_property name="ElementShortName">PCOutData[31:0]</obj_property>
       <obj_property name="ObjectShortName">PCOutData[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/pcaSrcMuxOut" type="array">
-      <obj_property name="ElementShortName">pcaSrcMuxOut[31:0]</obj_property>
-      <obj_property name="ObjectShortName">pcaSrcMuxOut[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/PCSrcData" type="array">
@@ -376,27 +478,6 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="divider" fp_name="divider551">
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/result" type="array">
-      <obj_property name="ElementShortName">result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">result[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_PcaSrcMux/sel" type="logic">
-      <obj_property name="ElementShortName">sel</obj_property>
-      <obj_property name="ObjectShortName">sel</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_PcaSrcMux/x0" type="array">
-      <obj_property name="ElementShortName">x0[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x0[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_PcaSrcMux/x1" type="array">
-      <obj_property name="ElementShortName">x1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x1[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_PcaSrcMux/y" type="array">
-      <obj_property name="ElementShortName">y[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_rom/addr" type="array">
       <obj_property name="ElementShortName">addr[31:0]</obj_property>

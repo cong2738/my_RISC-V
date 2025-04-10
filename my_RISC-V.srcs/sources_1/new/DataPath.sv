@@ -27,13 +27,14 @@ module DataPath (
     logic [31:0] immExt, aluSrcMuxOut1, aluSrcMuxOut2;
     logic [31:0] wDataSrcMuxOut;
     logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_Imm_U_AdderResult;
-    logic [2:0] PCSrcMuxMuxSel;
-    logic comparator_result;
+    logic        PCSrcMuxMuxSel;
+    logic        comparator_result;
+    logic [31:0] RamSelMuxMuxOut;
 
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = {branch, comparator_result};
+    assign PCSrcMuxMuxSel = branch & comparator_result;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -103,7 +104,7 @@ module DataPath (
 endmodule
 
 module mux_3x1 (
-    input  logic [ 2:0] sel,
+    input  logic [ 6:0] sel,
     input  logic [31:0] x0,
     input  logic [31:0] x1,
     input  logic [31:0] x2,
@@ -247,8 +248,8 @@ module extend (
                 instrCode[11:8],
                 1'b0
             };
-            `LU_Type: immExt = {instrCode[31:20], 12'b0};
-            `AU_Type: immExt = {instrCode[31:20], 12'b0};
+            `LU_Type: immExt = {instrCode[31:12], 12'b0};
+            `AU_Type: immExt = {instrCode[31:12], 12'b0};
 
         endcase
     end

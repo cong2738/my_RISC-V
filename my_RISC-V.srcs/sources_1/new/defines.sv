@@ -4,8 +4,8 @@
 `define I_Type 7'b0010011
 `define S_Type 7'b0100011
 `define B_Type 7'b1100011
-`define LU_Type 7'b1100011
-`define AU_Type 7'b1100011
+`define LU_Type 7'b0110111
+`define AU_Type 7'b0010111
 
 //R_Type func
 `define ADD 4'b0_000
