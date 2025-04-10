@@ -8,7 +8,7 @@ module ControlUnit (
     output logic        aluSrcMuxSel,
     output logic        dataWe,
     output logic        wDataSrcMuxSel,
-    output  logic        Branch
+    output logic        Branch
 );
 
     wire [6:0] opcode = instrCode[6:0];
