@@ -122,6 +122,7 @@ module alu (
             `AND:  calculator_result = a & b;
         endcase
     end
+    
     always_comb begin : Branch_Comparator
         comparator_result = 0;
         case (alu_Control[2:0])
