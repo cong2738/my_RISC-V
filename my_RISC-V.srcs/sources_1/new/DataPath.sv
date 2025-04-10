@@ -79,22 +79,22 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    adder u_PC_Imm_Adder (
-        .a(PCOutData),
-        .b(immExt),
-        .y(PC_Imm_AdderResult)
-    );
-
     adder u_PC_4_Adder (
         .a(PCOutData),
         .b(32'd4),
         .y(PC_4_AdderResult)
     );
 
+    adder u_PC_Imm_Adder (
+        .a(PCOutData),
+        .b(immExt),
+        .y(PC_Imm_AdderResult)
+    );
+
     mux_2x1 u_PcSrcMux (
         .sel(PCSrcMuxMuxSel),
-        .x0 (PC_Imm_AdderResult),
-        .x1 (PC_4_AdderResult),
+        .x0 (PC_4_AdderResult),
+        .x1 (PC_Imm_AdderResult),
         .y  (PCSrcData)
     );
 
