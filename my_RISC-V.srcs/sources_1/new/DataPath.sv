@@ -3,29 +3,36 @@
 `include "defines.sv"
 
 module DataPath (
-    input  logic        clk,
-    input  logic        reset,
+    input logic clk,
+    input logic reset,
+
+    // instr side port
     input  logic [31:0] instrCode,
     output logic [31:0] instrMemAddr,
-    input  logic        regFileWe,
-    input  logic [ 3:0] alu_Control,
-    input  logic        aluSrcMuxSel,
+
+    // control unit side port
+    input logic       regFileWe,
+    input logic [3:0] alu_Control,
+    input logic       aluSrcMuxSel,
+    input logic       wDataSrcMuxSel,
+    input logic       branch,
+
+    // ram unit side port
     output logic [31:0] dataAddr,
     output logic [31:0] dataWData,
-    input  logic        wDataSrcMuxSel,
-    input  logic [31:0] ramData,
-
-    input logic shamtSel
+    input  logic [31:0] ramData
 );
-    logic [31:0] result, rData1, rData2;
+    logic [31:0] calculator_result, rData1, rData2;
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] imm_mux_out;
+    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult;
+    logic PCSrcMuxMuxSel, comparator_result;
 
-    assign instrMemAddr = PCOutData;
-    assign dataAddr     = result;
-    assign dataWData    = rData2;
+    assign instrMemAddr   = PCOutData;
+    assign dataAddr       = calculator_result;
+    assign dataWData      = rData2;
+    assign PCSrcMuxMuxSel = branch & comparator_result;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -38,30 +45,24 @@ module DataPath (
         .rData2(rData2)
     );
 
-    mux_2x1 u_imm_shamt_mux (
-        .sel(shamtSel),
-        .x0 (immExt),
-        .x1 ({27'b0, immExt[4:0]}),
-        .y  (imm_mux_out)
-    );
-
     mux_2x1 u_ALUSrcMux (
         .sel(aluSrcMuxSel),
         .x0 (rData2),
-        .x1 (imm_mux_out),
+        .x1 (immExt),
         .y  (aluSrcMuxOut)
     );
 
     alu u_alu (
-        .alu_Control(alu_Control),
-        .a          (rData1),
-        .b          (aluSrcMuxOut),
-        .result     (result)
+        .alu_Control      (alu_Control),
+        .a                (rData1),
+        .b                (aluSrcMuxOut),
+        .calculator_result(calculator_result),
+        .comparator_result(comparator_result)
     );
 
     mux_2x1 u_WDataSrcMux (
         .sel(wDataSrcMuxSel),
-        .x0 (result),
+        .x0 (calculator_result),
         .x1 (ramData),
         .y  (wDataSrcMuxOut)
     );
@@ -78,10 +79,23 @@ module DataPath (
         .q    (PCOutData)
     );
 
-    adder u_adder (
-        .a(32'd4),
-        .b(PCOutData),
-        .y(PCSrcData)
+    adder u_PC_4_Adder (
+        .a(PCOutData),
+        .b(32'd4),
+        .y(PC_4_AdderResult)
+    );
+
+    adder u_PC_Imm_Adder (
+        .a(PCOutData),
+        .b(immExt),
+        .y(PC_Imm_AdderResult)
+    );
+
+    mux_2x1 u_PcSrcMux (
+        .sel(PCSrcMuxMuxSel),
+        .x0 (PC_4_AdderResult),
+        .x1 (PC_Imm_AdderResult),
+        .y  (PCSrcData)
     );
 
 endmodule
@@ -90,21 +104,34 @@ module alu (
     input  logic [ 3:0] alu_Control,
     input  logic [31:0] a,
     input  logic [31:0] b,
-    output logic [31:0] result
+    output logic [31:0] calculator_result,
+    output logic        comparator_result
 );
-    always_comb begin : alu_sel
+    always_comb begin : Calculator
+        calculator_result = 32'bx;
         case (alu_Control)
-            `ADD:    result = a + b;
-            `SUB:    result = a - b;
-            `SLL:    result = a << b;
-            `SRL:    result = a >> b;
-            `SRA:    result = $signed(a) >>> b[4:0];
-            `SLT:    result = ($signed(a) < $signed(b)) ? 1 : 0;
-            `SLTU:   result = (a < b) ? 1 : 0;
-            `XOR:    result = a ^ b;
-            `OR:     result = a | b;
-            `AND:    result = a & b;
-            default: result = 32'bx;
+            `ADD:  calculator_result = a + b;
+            `SUB:  calculator_result = a - b;
+            `SLL:  calculator_result = a << b;
+            `SRL:  calculator_result = a >> b;
+            `SRA:  calculator_result = $signed(a) >>> b[4:0];
+            `SLT:  calculator_result = ($signed(a) < $signed(b)) ? 1 : 0;
+            `SLTU: calculator_result = (a < b) ? 1 : 0;
+            `XOR:  calculator_result = a ^ b;
+            `OR:   calculator_result = a | b;
+            `AND:  calculator_result = a & b;
+        endcase
+    end
+
+    always_comb begin : Branch_Comparator
+        comparator_result = 0;
+        case (alu_Control[2:0])
+            `BEQ:  comparator_result = (a == b) ? 1 : 0;
+            `BNE:  comparator_result = (a != b) ? 1 : 0;
+            `BLT:  comparator_result = ($signed(a) < $signed(b)) ? 1 : 0;
+            `BGE:  comparator_result = ($signed(a) >= $signed(b)) ? 1 : 0;
+            `BLTU: comparator_result = (a < b) ? 1 : 0;
+            `BGEU: comparator_result = (a >= b) ? 1 : 0;
         endcase
     end
 endmodule
@@ -176,6 +203,7 @@ module extend (
     output logic [31:0] immExt
 );
     wire [6:0] opcode = instrCode[6:0];
+    wire [2:0] func3 = instrCode[14:12];
 
     always_comb begin : extend_imm
         immExt = 32'bx;
@@ -183,9 +211,24 @@ module extend (
         case (opcode)
             `R_Type: immExt = 32'bx;
             `L_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
-            `I_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
+            `I_Type: begin
+                case (func3)
+                    3'b001:  immExt = {27'b0, instrCode[24:20]};
+                    3'b101:  immExt = {27'b0, instrCode[24:20]};
+                    3'b011:  immExt = {20'b0, instrCode[31:20]};
+                    default: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
+                endcase
+            end
             `S_Type:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
+            `B_Type:
+            immExt = {
+                instrCode[31],
+                instrCode[7],
+                instrCode[30:25],
+                instrCode[11:8],
+                1'b0
+            };
         endcase
     end
 endmodule
