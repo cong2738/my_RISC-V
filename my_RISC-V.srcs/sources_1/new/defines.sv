@@ -6,6 +6,8 @@
 `define B_Type 7'b1100011
 `define LU_Type 7'b0110111
 `define AU_Type 7'b0010111
+`define J_Type  7'b1101111
+`define JL_Type 7'b1100111
 
 //R_Type func
 `define ADD 4'b0_000
