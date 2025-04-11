@@ -26,7 +26,7 @@ module DataPath (
 );
     logic [31:0] calculator_result, rData1, rData2;
     logic [31:0] PCSrcData, PCSrcData0, PCOutData;
-    logic [31:0] immExt, aluSrcMuxOut1, aluSrcMuxOut2;
+    logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
     logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_R1_AdderResult;
     logic         PCSrcMuxMuxSel;
@@ -57,10 +57,17 @@ module DataPath (
         .rData2(rData2)
     );
 
+    mux_2x1 u_aluSrcMux (
+        .sel(aluSrcMuxSel),
+        .x0 (rData2),
+        .x1 (immExt),
+        .y  (aluSrcMuxOut)
+    );
+
     alu u_alu (
         .alu_Control      (alu_Control),
         .a                (rData1),
-        .b                (rData2),
+        .b                (aluSrcMuxOut),
         .calculator_result(calculator_result),
         .comparator_result(comparator_result)
     );
@@ -71,14 +78,6 @@ module DataPath (
         .x1 (ramData),
         .y  (RamSelMuxMuxOut)
     );
-
-    mux_2x1 u_aluSrcMux (
-        .sel(aluSrcMuxSel),
-        .x0 (x0),
-        .x1 (x1),
-        .y  (aluSrcMuxOut1)
-    );
-
 
     mux_5x1 u_wDataSrcMux (
         .sel(instrCode[6:0]),
