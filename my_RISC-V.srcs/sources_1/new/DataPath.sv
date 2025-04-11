@@ -14,8 +14,10 @@ module DataPath (
     input logic       regFileWe,
     input logic [3:0] alu_Control,
     input logic       aluSrcMuxSel,
-    input logic       wDataSrcMuxSel,
+    input logic [2:0] wDataSrcMuxSel,
     input logic       branch,
+    input logic       jump,
+    input logic       jalr,
 
     // ram unit side port
     output logic [31:0] dataAddr,
@@ -26,13 +28,14 @@ module DataPath (
     logic [31:0] PCSrcData, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult;
+    logic [31:0] immRD1_MuxOut;
+    logic [31:0] PC_4_AdderResult, PC_ImmRD_AdderResult;
     logic PCSrcMuxMuxSel, comparator_result;
 
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = branch & comparator_result;
+    assign PCSrcMuxMuxSel = jump | (branch & comparator_result);
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -60,10 +63,13 @@ module DataPath (
         .comparator_result(comparator_result)
     );
 
-    mux_2x1 u_WDataSrcMux (
+    mux_5x1 u_wDataSrcMux (
         .sel(wDataSrcMuxSel),
         .x0 (calculator_result),
         .x1 (ramData),
+        .x2 (immExt),
+        .x3 (PC_ImmRD_AdderResult),
+        .x4 (PC_4_AdderResult),
         .y  (wDataSrcMuxOut)
     );
 
@@ -85,16 +91,23 @@ module DataPath (
         .y(PC_4_AdderResult)
     );
 
-    adder u_PC_Imm_Adder (
+    mux_2x1 u_immRD1_mux (
+        .sel(jalr),
+        .x0 (immExt),
+        .x1 (rData1),
+        .y  (immRD1_MuxOut)
+    );
+
+    adder u_PC_ImmRD1_Adder (
         .a(PCOutData),
-        .b(immExt),
-        .y(PC_Imm_AdderResult)
+        .b(immRD1_MuxOut),
+        .y(PC_ImmRD_AdderResult)
     );
 
     mux_2x1 u_PcSrcMux (
         .sel(PCSrcMuxMuxSel),
         .x0 (PC_4_AdderResult),
-        .x1 (PC_Imm_AdderResult),
+        .x1 (PC_ImmRD_AdderResult),
         .y  (PCSrcData)
     );
 
@@ -198,6 +211,27 @@ module mux_2x1 (
     end
 endmodule
 
+module mux_5x1 (
+    input  logic [ 2:0] sel,
+    input  logic [31:0] x0,
+    input  logic [31:0] x1,
+    input  logic [31:0] x2,
+    input  logic [31:0] x3,
+    input  logic [31:0] x4,
+    output logic [31:0] y
+);
+    always_comb begin : select
+        y = 32'bx;
+        case (sel)
+            3'd0: y = x0;
+            3'd1: y = x1;
+            3'd2: y = x2;
+            3'd3: y = x3;
+            3'd4: y = x4;
+        endcase
+    end
+endmodule
+
 module extend (
     input  logic [31:0] instrCode,
     output logic [31:0] immExt
@@ -210,7 +244,9 @@ module extend (
         //{b{a}} a비트를 b만큼 반복한다. imm이 signed비트이기 때문에 최상위 부호 비트로 꽉 채워서 확장한다.
         case (opcode)
             `R_Type: immExt = 32'bx;
+
             `L_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
+
             `I_Type: begin
                 case (func3)
                     3'b001:  immExt = {27'b0, instrCode[24:20]};
@@ -219,8 +255,10 @@ module extend (
                     default: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
                 endcase
             end
+
             `S_Type:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
+
             `B_Type:
             immExt = {
                 instrCode[31],
@@ -229,6 +267,21 @@ module extend (
                 instrCode[11:8],
                 1'b0
             };
+
+            `LU_Type: immExt = {instrCode[31:12], 12'b0};
+
+            `AU_Type: immExt = {instrCode[31:12], 12'b0};
+
+            `J_Type:
+            immExt = {
+                {12{instrCode[31]}},  // imm[20]
+                instrCode[19:12],  // imm[19:12]
+                instrCode[20],  // imm[11]
+                instrCode[30:21],  // imm[10:1]
+                1'b0  // imm[0]
+            };
+
+            `JL_Type: immExt = {{12{instrCode[31]}}, instrCode[31:20]};
         endcase
     end
 endmodule

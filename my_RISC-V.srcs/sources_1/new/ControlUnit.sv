@@ -6,9 +6,11 @@ module ControlUnit (
     output logic        regFileWe,
     output logic [ 3:0] alu_Control,
     output logic        aluSrcMuxSel,
-    output logic        dataWe,
-    output logic        wDataSrcMuxSel,
-    output logic        branch
+    output logic        ramWe,
+    output logic [ 2:0] wDataSrcMuxSel,
+    output logic        branch,
+    output logic        jump,
+    input  logic        jalr
 );
 
     wire [6:0] opcode = instrCode[6:0];
@@ -16,31 +18,43 @@ module ControlUnit (
     wire [2:0] func7 = instrCode[31:25];
     wire [3:0] operators = {instrCode[30], func3};  // {func7[5] funct3}
 
-    logic [4:0] signals;
-    assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel, branch} = signals;
+    logic [8:0] signals;
+    //      E         _A            _R     _wDs            _B      _J    _JR
+    assign {regFileWe, aluSrcMuxSel, ramWe, wDataSrcMuxSel, branch, jump, jalr} = signals; 
 
     always_comb begin : reg_we_sel
-        signals = 5'b0;
-        case (opcode)  //         F_A_D_W_B
-            `R_Type: signals = 5'b1_0_0_0_0;
-            `S_Type: signals = 5'b0_1_1_0_0;
-            `L_Type: signals = 5'b1_1_0_1_0;
-            `I_Type: signals = 5'b1_1_0_0_0;
-            `B_Type: signals = 5'b0_0_0_0_1;
+        signals = 9'b0;
+        case (opcode)  //          E_A_R_wDs_B_J_JR
+            `R_Type:  signals = 9'b1_0_0_000_0_0_0;
+            `S_Type:  signals = 9'b0_1_1_000_0_0_0;
+            `L_Type:  signals = 9'b1_1_0_001_0_0_0;
+            `I_Type:  signals = 9'b1_1_0_000_0_0_0;
+            `B_Type:  signals = 9'b0_0_0_000_1_0_0;
+            `LU_Type: signals = 9'b1_0_0_010_0_0_0;
+            `AU_Type: signals = 9'b1_0_0_011_0_0_0;
+            `J_Type:  signals = 9'b1_0_0_100_0_1_0;
+            `JL_Type: signals = 9'b1_1_0_100_0_1_1; // ALU를 쓸 수 있을지도? 나중에 해보자.
         endcase
     end
 
     always_comb begin : alu_Control_sel
         alu_Control = 2'bx;
         case (opcode)
-            `R_Type: alu_Control = operators;  //   {func7[5],func3}
-            `S_Type: alu_Control = `ADD;  //        {3'b000}
-            `L_Type: alu_Control = `ADD;  //        {3'b000}
+            `S_Type: alu_Control = `ADD;  //        {4'b0000}
+            `L_Type: alu_Control = `ADD;  //        {4'b0000}
             `I_Type: begin
-                if (operators == 4'b1101) alu_Control = operators;
+                //I_Type의 시프트를 제외한 모든 연산이 func3가 다르고 SRAI만 code[7]가 필요하니 SRAI를 특이케이스로 둔다
+                if (operators == `SRA) alu_Control = operators; 
                 else alu_Control = {1'b0, operators[2:0]};
             end
-            `B_Type: alu_Control =  operators;
+            default: alu_Control = operators;
+            // `R_Type:  alu_Control = operators;  //   {func7[5],func3}
+            // `B_Type:  alu_Control = operators;
+            // `LU_Type: alu_Control = operators;
+            // `AU_Type: alu_Control = operators;
+            // `J_Type:  alu_Control = operators;
+            `JL_Type: alu_Control = `ADD;
+
         endcase
     end
 
