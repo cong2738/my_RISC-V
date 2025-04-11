@@ -9,8 +9,8 @@ module ControlUnit (
     output logic        dataWe,
     output logic        wDataSrcMuxSel,
     output logic        branch,
-    input  logic        j_on,
-    input  logic        jl_on
+    output  logic        j_on,
+    output  logic        jl_on
 
 );
 
@@ -48,9 +48,9 @@ module ControlUnit (
                 else alu_Control = {1'b0, operators[2:0]};
             end
             `B_Type:  alu_Control = operators;
-            `LU_Type: alu_Control = 4'bx;
-            `AU_Type: alu_Control = 4'bx;
-            `J_Type:  alu_Control = 4'bx;
+            `LU_Type: alu_Control = `ADD;
+            `AU_Type: alu_Control = `ADD;
+            `J_Type:  alu_Control = `ADD;
             `JL_Type: alu_Control = `ADD;
         endcase
     end
