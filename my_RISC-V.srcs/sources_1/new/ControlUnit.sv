@@ -51,7 +51,7 @@ module ControlUnit (
             `LU_Type: alu_Control = 2'bx;
             `AU_Type: alu_Control = 2'bx;
             `J_Type:  alu_Control = 2'bx;
-            `JL_Type: alu_Control = 2'bx;
+            `JL_Type: alu_Control = `ADD;
         endcase
     end
 
