@@ -27,6 +27,8 @@ module ControlUnit (
             `L_Type: signals = 5'b1_1_0_1_0;
             `I_Type: signals = 5'b1_1_0_0_0;
             `B_Type: signals = 5'b0_0_0_0_1;
+            `LU_Type: signals = 5'b0_0_0_0_1;
+            `AU_Type: signals = 5'b0_0_0_0_1;
         endcase
     end
 
@@ -41,6 +43,8 @@ module ControlUnit (
                 else alu_Control = {1'b0, operators[2:0]};
             end
             `B_Type: alu_Control =  operators;
+            `LU_Type: alu_Control =  `SLL;
+            `AU_Type: alu_Control =  `SLL;
         endcase
     end
 
