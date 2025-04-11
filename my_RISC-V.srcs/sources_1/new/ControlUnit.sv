@@ -38,7 +38,7 @@ module ControlUnit (
     end
 
     always_comb begin : alu_Control_sel
-        alu_Control = 2'bx;
+        alu_Control = 4'bx;
         case (opcode)
             `R_Type:  alu_Control = operators;  //   {func7[5],func3}
             `S_Type:  alu_Control = `ADD;  //        {3'b000}
@@ -48,9 +48,9 @@ module ControlUnit (
                 else alu_Control = {1'b0, operators[2:0]};
             end
             `B_Type:  alu_Control = operators;
-            `LU_Type: alu_Control = 2'bx;
-            `AU_Type: alu_Control = 2'bx;
-            `J_Type:  alu_Control = 2'bx;
+            `LU_Type: alu_Control = 4'bx;
+            `AU_Type: alu_Control = 4'bx;
+            `J_Type:  alu_Control = 4'bx;
             `JL_Type: alu_Control = `ADD;
         endcase
     end
