@@ -40,10 +40,11 @@ module ControlUnit (
     always_comb begin : alu_Control_sel
         alu_Control = 2'bx;
         case (opcode)
-            `S_Type: alu_Control = `ADD;  //        {3'b000}
-            `L_Type: alu_Control = `ADD;  //        {3'b000}
+            `S_Type: alu_Control = `ADD;  //        {4'b0000}
+            `L_Type: alu_Control = `ADD;  //        {4'b0000}
             `I_Type: begin
-                if (operators == 4'b1101) alu_Control = operators;
+                //I_Type의 시프트를 제외한 모든 연산이 func3가 다르고 SRAI만 code[7]가 필요하니 SRAI를 특이케이스로 둔다
+                if (operators == `SRA) alu_Control = operators; 
                 else alu_Control = {1'b0, operators[2:0]};
             end
             default: alu_Control = operators;
