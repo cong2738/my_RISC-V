@@ -13,13 +13,13 @@
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
       <ZoomEndTime time="105001fs"></ZoomEndTime>
-      <Cursor1Time time="0fs"></Cursor1Time>
+      <Cursor1Time time="2813fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="184"></NameColumnWidth>
-      <ValueColumnWidth column_width="144"></ValueColumnWidth>
+      <ValueColumnWidth column_width="140"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="40" />
+   <WVObjectSize size="41" />
    <wvobject fp_name="/tb_rv32i/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -85,8 +85,8 @@
       <obj_property name="ObjectShortName">operators[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_ControlUnit/signals" type="array">
-      <obj_property name="ElementShortName">signals[4:0]</obj_property>
-      <obj_property name="ObjectShortName">signals[4:0]</obj_property>
+      <obj_property name="ElementShortName">signals[6:0]</obj_property>
+      <obj_property name="ObjectShortName">signals[6:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="group47" type="group">
@@ -217,8 +217,8 @@
    <wvobject type="divider" fp_name="divider551">
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/sel" type="array">
-      <obj_property name="ElementShortName">sel[2:0]</obj_property>
-      <obj_property name="ObjectShortName">sel[2:0]</obj_property>
+      <obj_property name="ElementShortName">sel[6:0]</obj_property>
+      <obj_property name="ObjectShortName">sel[6:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/x0" type="array">
       <obj_property name="ElementShortName">x0[31:0]</obj_property>
@@ -260,5 +260,9 @@
       <obj_property name="ElementShortName">y[31:0]</obj_property>
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rv32i/u_MCU/u_rom/addr" type="array">
+      <obj_property name="ElementShortName">addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[31:0]</obj_property>
    </wvobject>
 </wave_config>
