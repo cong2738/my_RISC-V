@@ -16,6 +16,8 @@ module DataPath (
     input logic       aluSrcMuxSel,
     input logic       wDataSrcMuxSel,
     input logic       branch,
+    input logic       j_on,
+    input logic       jl_on,
 
     // ram unit side port
     output logic [31:0] dataAddr,
@@ -23,10 +25,10 @@ module DataPath (
     input  logic [31:0] ramData
 );
     logic [31:0] calculator_result, rData1, rData2;
-    logic [31:0] PCSrcData, PCOutData;
+    logic [31:0] PCSrcData, PCSrcData0, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut1, aluSrcMuxOut2;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_Imm_U_AdderResult;
+    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_R1_AdderResult;
     logic        PCSrcMuxMuxSel;
     logic        comparator_result;
     logic [31:0] RamSelMuxMuxOut;
@@ -34,7 +36,7 @@ module DataPath (
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = branch & comparator_result;
+    assign PCSrcMuxMuxSel = (branch & comparator_result) | j_on;
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
@@ -62,11 +64,13 @@ module DataPath (
         .y  (RamSelMuxMuxOut)
     );
 
-    mux_3x1 u_wDataSrcMux (
+    mux_5x1 u_wDataSrcMux (
         .sel(instrCode[6:0]),
         .x0 (RamSelMuxMuxOut),
         .x1 (immExt),
         .x2 (PC_Imm_AdderResult),
+        .x3 (PC_4_AdderResult),
+        .x4 (PC_4_AdderResult),
         .y  (wDataSrcMuxOut)
     );
 
@@ -94,24 +98,42 @@ module DataPath (
         .y(PC_Imm_AdderResult)
     );
 
-    mux_2x1 u_PcSrcMux (
+    adder u_PC_R1_Adder (
+        .a(rData1),
+        .b(immExt),
+        .y(PC_R1_AdderResult)
+    );
+
+    mux_2x1 u_PcSrcMux0 (
         .sel(PCSrcMuxMuxSel),
         .x0 (PC_4_AdderResult),
         .x1 (PC_Imm_AdderResult),
+        .y  (PCSrcData0)
+    );
+
+    mux_2x1 u_PcSrcMux1 (
+        .sel(jl_on),
+        .x0 (PCSrcData0),
+        .x1 (PC_R1_AdderResult),
         .y  (PCSrcData)
     );
 
+
 endmodule
 
-module mux_3x1 (
+module mux_5x1 (
     input  logic [ 6:0] sel,
     input  logic [31:0] x0,
     input  logic [31:0] x1,
     input  logic [31:0] x2,
+    input  logic [31:0] x3,
+    input  logic [31:0] x4,
     output logic [31:0] y
 );
     always_comb begin : select
         case (sel)
+            `JL_Type: y = x4;
+            `J_Type:  y = x3;
             `AU_Type: y = x2;
             `LU_Type: y = x1;
             default:  y = x0;
@@ -250,6 +272,16 @@ module extend (
             };
             `LU_Type: immExt = {instrCode[31:12], 12'b0};
             `AU_Type: immExt = {instrCode[31:12], 12'b0};
+            `J_Type:
+            immExt = {
+                {11{instrCode[31]}},
+                instrCode[31],
+                instrCode[19:12],
+                instrCode[20],
+                instrCode[30:21],
+                1'b0
+            };
+            `JL_Type: immExt = {{20{instrCode[31]}},instrCode[31:20]};
 
         endcase
     end
