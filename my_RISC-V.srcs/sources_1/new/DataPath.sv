@@ -37,13 +37,16 @@ module DataPath (
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
     assign PCSrcMuxMuxSel = (branch & comparator_result) | j_on;
+    assign reg_rAddr1     = instrCode[19:15];
+    assign reg_rAddr2     = instrCode[24:20];
+    assign reg_wAddr     = instrCode[11:7];
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
         .we    (regFileWe),
-        .rAddr1(instrCode[19:15]),
-        .rAddr2(instrCode[24:20]),
-        .wAddr (instrCode[11:7]),
+        .rAddr1(reg_rAddr1),
+        .rAddr2(reg_rAddr2),
+        .wAddr (reg_wAddr),
         .wData (wDataSrcMuxOut),
         .rData1(rData1),
         .rData2(rData2)
@@ -281,7 +284,7 @@ module extend (
                 instrCode[30:21],
                 1'b0
             };
-            `JL_Type: immExt = {{20{instrCode[31]}},instrCode[31:20]};
+            `JL_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
 
         endcase
     end
