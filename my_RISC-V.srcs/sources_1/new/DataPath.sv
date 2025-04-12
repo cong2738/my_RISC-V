@@ -255,27 +255,6 @@ module mux_2x1 (
     end
 endmodule
 
-module mux_5x1 (
-    input  logic [ 2:0] sel,
-    input  logic [31:0] x0,
-    input  logic [31:0] x1,
-    input  logic [31:0] x2,
-    input  logic [31:0] x3,
-    input  logic [31:0] x4,
-    output logic [31:0] y
-);
-    always_comb begin : select
-        y = 32'bx;
-        case (sel)
-            3'd0: y = x0;
-            3'd1: y = x1;
-            3'd2: y = x2;
-            3'd3: y = x3;
-            3'd4: y = x4;
-        endcase
-    end
-endmodule
-
 module extend (
     input  logic [31:0] instrCode,
     output logic [31:0] immExt
