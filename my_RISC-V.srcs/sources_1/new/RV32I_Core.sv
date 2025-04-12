@@ -16,9 +16,9 @@ module RV32I_Core (
     logic [2:0] wDataSrcMuxSel;
     logic       shamtSel;
     logic       branch;
-    logic       jump;
-    logic       jalr;
-
+    logic        j_on;
+    logic        jl_on;
+    
     DataPath u_DataPath (.*);
     ControlUnit u_ControlUnit (.*);
 
