@@ -16,8 +16,8 @@ module DataPath (
     input logic       aluSrcMuxSel,
     input logic [2:0] wDataSrcMuxSel,
     input logic       branch,
-    input logic       jump,
-    input logic       jalr,
+    input logic       j_on,
+    input logic       jl_on,
 
     // ram unit side port
     output logic [31:0] dataAddr,
@@ -25,30 +25,39 @@ module DataPath (
     input  logic [31:0] ramData
 );
     logic [31:0] calculator_result, rData1, rData2;
-    logic [31:0] PCSrcData, PCOutData;
+    logic [31:0] PCSrcData, PCSrcData0, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] immRD1_MuxOut;
-    logic [31:0] PC_4_AdderResult, PC_ImmRD_AdderResult;
-    logic PCSrcMuxMuxSel, comparator_result;
+    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_R1_AdderResult;
+    logic         PCSrcMuxMuxSel;
+    logic         comparator_result;
+    logic [ 31:0] RamSelMuxMuxOut;
+
+
+    logic [19:15] reg_rAddr1;
+    logic [24:20] reg_rAddr2;
+    logic [ 11:7] reg_wAddr;
 
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = jump | (branch & comparator_result);
+    assign PCSrcMuxMuxSel = (branch & comparator_result) | j_on;
+    assign reg_rAddr1     = instrCode[19:15];
+    assign reg_rAddr2     = instrCode[24:20];
+    assign reg_wAddr      = instrCode[11:7];
 
     RegisterFile u_RegisterFile (
         .clk   (clk),
         .we    (regFileWe),
-        .rAddr1(instrCode[19:15]),
-        .rAddr2(instrCode[24:20]),
-        .wAddr (instrCode[11:7]),
+        .rAddr1(reg_rAddr1),
+        .rAddr2(reg_rAddr2),
+        .wAddr (reg_wAddr),
         .wData (wDataSrcMuxOut),
         .rData1(rData1),
         .rData2(rData2)
     );
 
-    mux_2x1 u_ALUSrcMux (
+    mux_2x1 u_aluSrcMux (
         .sel(aluSrcMuxSel),
         .x0 (rData2),
         .x1 (immExt),
@@ -63,12 +72,19 @@ module DataPath (
         .comparator_result(comparator_result)
     );
 
-    mux_5x1 u_wDataSrcMux (
+    mux_2x1 u_RamSelMux (
         .sel(wDataSrcMuxSel),
         .x0 (calculator_result),
         .x1 (ramData),
-        .x2 (immExt),
-        .x3 (PC_ImmRD_AdderResult),
+        .y  (RamSelMuxMuxOut)
+    );
+
+    mux_5x1 u_wDataSrcMux (
+        .sel(instrCode[6:0]),
+        .x0 (RamSelMuxMuxOut),
+        .x1 (immExt),
+        .x2 (PC_Imm_AdderResult),
+        .x3 (PC_4_AdderResult),
         .x4 (PC_4_AdderResult),
         .y  (wDataSrcMuxOut)
     );
@@ -100,17 +116,45 @@ module DataPath (
 
     adder u_PC_ImmRD1_Adder (
         .a(PCOutData),
-        .b(immRD1_MuxOut),
-        .y(PC_ImmRD_AdderResult)
+        .b(immExt),
+        .y(PC_Imm_AdderResult)
     );
 
     mux_2x1 u_PcSrcMux (
         .sel(PCSrcMuxMuxSel),
         .x0 (PC_4_AdderResult),
-        .x1 (PC_ImmRD_AdderResult),
+        .x1 (PC_Imm_AdderResult),
+        .y  (PCSrcData0)
+    );
+
+    mux_2x1 u_PcSrcMux1 (
+        .sel(jl_on),
+        .x0 (PCSrcData0),
+        .x1 (PC_R1_AdderResult),
         .y  (PCSrcData)
     );
 
+
+endmodule
+
+module mux_5x1 (
+    input  logic [ 6:0] sel,
+    input  logic [31:0] x0,
+    input  logic [31:0] x1,
+    input  logic [31:0] x2,
+    input  logic [31:0] x3,
+    input  logic [31:0] x4,
+    output logic [31:0] y
+);
+    always_comb begin : select
+        case (sel)
+            `JL_Type: y = x4;
+            `J_Type:  y = x3;
+            `AU_Type: y = x2;
+            `LU_Type: y = x1;
+            default:  y = x0;
+        endcase
+    end
 endmodule
 
 module alu (
@@ -211,27 +255,6 @@ module mux_2x1 (
     end
 endmodule
 
-module mux_5x1 (
-    input  logic [ 2:0] sel,
-    input  logic [31:0] x0,
-    input  logic [31:0] x1,
-    input  logic [31:0] x2,
-    input  logic [31:0] x3,
-    input  logic [31:0] x4,
-    output logic [31:0] y
-);
-    always_comb begin : select
-        y = 32'bx;
-        case (sel)
-            3'd0: y = x0;
-            3'd1: y = x1;
-            3'd2: y = x2;
-            3'd3: y = x3;
-            3'd4: y = x4;
-        endcase
-    end
-endmodule
-
 module extend (
     input  logic [31:0] instrCode,
     output logic [31:0] immExt
@@ -267,21 +290,19 @@ module extend (
                 instrCode[11:8],
                 1'b0
             };
-
             `LU_Type: immExt = {instrCode[31:12], 12'b0};
-
             `AU_Type: immExt = {instrCode[31:12], 12'b0};
-
             `J_Type:
             immExt = {
-                {12{instrCode[31]}},  // imm[20]
-                instrCode[19:12],  // imm[19:12]
-                instrCode[20],  // imm[11]
-                instrCode[30:21],  // imm[10:1]
-                1'b0  // imm[0]
+                {11{instrCode[31]}},
+                instrCode[31],
+                instrCode[19:12],
+                instrCode[20],
+                instrCode[30:21],
+                1'b0
             };
+            `JL_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
 
-            `JL_Type: immExt = {{12{instrCode[31]}}, instrCode[31:20]};
         endcase
     end
 endmodule
