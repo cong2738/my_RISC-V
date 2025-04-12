@@ -45,12 +45,9 @@
   - BGE 
   - BLTU 
   - BGEU 
-  
-- LU_Type 
 
-- AU_Type 
-
-## 2025 04 11  
-- J_Type 
-
-- JL_Type 
+## 2025 04 10
+- LU_Type
+- AU_Type
+- J_Type
+- JR_Type
