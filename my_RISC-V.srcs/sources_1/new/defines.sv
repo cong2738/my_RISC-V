@@ -9,7 +9,7 @@
 `define J_Type  7'b1101111
 `define JL_Type 7'b1100111
 
-//R_Type func
+//func
 `define ADD 4'b0_000
 `define SUB 4'b1_000
 `define SLL 4'b0_001
