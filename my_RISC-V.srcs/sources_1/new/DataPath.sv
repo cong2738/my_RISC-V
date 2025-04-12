@@ -14,7 +14,7 @@ module DataPath (
     input logic       regFileWe,
     input logic [3:0] alu_Control,
     input logic       aluSrcMuxSel,
-    input logic       wDataSrcMuxSel,
+    input logic [2:0] wDataSrcMuxSel,
     input logic       branch,
     input logic       j_on,
     input logic       jl_on,
@@ -28,7 +28,8 @@ module DataPath (
     logic [31:0] PCSrcData, PCSrcData0, PCOutData;
     logic [31:0] immExt, aluSrcMuxOut;
     logic [31:0] wDataSrcMuxOut;
-    logic [31:0] PC_4_AdderResult, PC_Imm_AdderResult, PC_R1_AdderResult;
+    logic [31:0] immRD1_MuxOut;
+    logic [31:0] PC_4_AdderResult, PC_ImmRD_AdderResult, PC_R1_AdderResult;
     logic         PCSrcMuxMuxSel;
     logic         comparator_result;
     logic [ 31:0] RamSelMuxMuxOut;
@@ -41,7 +42,7 @@ module DataPath (
     assign instrMemAddr   = PCOutData;
     assign dataAddr       = calculator_result;
     assign dataWData      = rData2;
-    assign PCSrcMuxMuxSel = (branch & comparator_result) | j_on;
+    assign PCSrcMuxMuxSel = jump | ((branch & comparator_result)) | j_on;
     assign reg_rAddr1     = instrCode[19:15];
     assign reg_rAddr2     = instrCode[24:20];
     assign reg_wAddr      = instrCode[11:7];
@@ -72,7 +73,7 @@ module DataPath (
         .comparator_result(comparator_result)
     );
 
-    mux_2x1 u_RamSelMux (
+    mux_2x1 u_WDataSrcMux (
         .sel(wDataSrcMuxSel),
         .x0 (calculator_result),
         .x1 (ramData),
@@ -122,7 +123,7 @@ module DataPath (
     mux_2x1 u_PcSrcMux0 (
         .sel(PCSrcMuxMuxSel),
         .x0 (PC_4_AdderResult),
-        .x1 (PC_Imm_AdderResult),
+        .x1 (PC_ImmRD_AdderResult),
         .y  (PCSrcData0)
     );
 
@@ -285,6 +286,21 @@ module extend (
                 instrCode[11:8],
                 1'b0
             };
+
+            `LU_Type: immExt = {instrCode[31:12], 12'b0};
+
+            `AU_Type: immExt = {instrCode[31:12], 12'b0};
+
+            `J_Type:
+            immExt = {
+                {12{instrCode[31]}},  // imm[20]
+                instrCode[19:12],  // imm[19:12]
+                instrCode[20],  // imm[11]
+                instrCode[30:21],  // imm[10:1]
+                1'b0  // imm[0]
+            };
+
+            `JL_Type: immExt = {{12{instrCode[31]}}, instrCode[31:20]};
             `LU_Type: immExt = {instrCode[31:12], 12'b0};
             `AU_Type: immExt = {instrCode[31:12], 12'b0};
             `J_Type:
