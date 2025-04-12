@@ -14,7 +14,7 @@ module DataPath (
     input logic       regFileWe,
     input logic [3:0] alu_Control,
     input logic       aluSrcMuxSel,
-    input logic       wDataSrcMuxSel,
+    input logic [2:0] wDataSrcMuxSel,
     input logic       branch,
     input logic       j_on,
     input logic       jl_on,
@@ -107,7 +107,14 @@ module DataPath (
         .y(PC_4_AdderResult)
     );
 
-    adder u_PC_Imm_Adder (
+    mux_2x1 u_immRD1_mux (
+        .sel(jalr),
+        .x0 (immExt),
+        .x1 (rData1),
+        .y  (immRD1_MuxOut)
+    );
+
+    adder u_PC_ImmRD1_Adder (
         .a(PCOutData),
         .b(immExt),
         .y(PC_Imm_AdderResult)
@@ -254,6 +261,27 @@ module mux_2x1 (
     end
 endmodule
 
+module mux_5x1 (
+    input  logic [ 2:0] sel,
+    input  logic [31:0] x0,
+    input  logic [31:0] x1,
+    input  logic [31:0] x2,
+    input  logic [31:0] x3,
+    input  logic [31:0] x4,
+    output logic [31:0] y
+);
+    always_comb begin : select
+        y = 32'bx;
+        case (sel)
+            3'd0: y = x0;
+            3'd1: y = x1;
+            3'd2: y = x2;
+            3'd3: y = x3;
+            3'd4: y = x4;
+        endcase
+    end
+endmodule
+
 module extend (
     input  logic [31:0] instrCode,
     output logic [31:0] immExt
@@ -266,7 +294,9 @@ module extend (
         //{b{a}} a비트를 b만큼 반복한다. imm이 signed비트이기 때문에 최상위 부호 비트로 꽉 채워서 확장한다.
         case (opcode)
             `R_Type: immExt = 32'bx;
+
             `L_Type: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
+
             `I_Type: begin
                 case (func3)
                     3'b001:  immExt = {27'b0, instrCode[24:20]};
@@ -275,8 +305,10 @@ module extend (
                     default: immExt = {{20{instrCode[31]}}, instrCode[31:20]};
                 endcase
             end
+
             `S_Type:
             immExt = {{20{instrCode[31]}}, instrCode[31:25], instrCode[11:7]};
+
             `B_Type:
             immExt = {
                 instrCode[31],
