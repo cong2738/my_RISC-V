@@ -13,13 +13,13 @@
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
       <ZoomEndTime time="101.001 ns"></ZoomEndTime>
-      <Cursor1Time time="101.000 ns"></Cursor1Time>
+      <Cursor1Time time="6.231 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="113"></NameColumnWidth>
-      <ValueColumnWidth column_width="77"></ValueColumnWidth>
+      <NameColumnWidth column_width="173"></NameColumnWidth>
+      <ValueColumnWidth column_width="113"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
+   <WVObjectSize size="15" />
    <wvobject fp_name="/tb_rv32i/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -27,6 +27,49 @@
    <wvobject fp_name="/tb_rv32i/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider685">
+   </wvobject>
+   <wvobject fp_name="/tb_rv32i/u_MCU/u_rom/addr" type="array">
+      <obj_property name="ElementShortName">addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/immExt" type="array">
+      <obj_property name="ElementShortName">immExt[31:0]</obj_property>
+      <obj_property name="ObjectShortName">immExt[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="group734" type="group">
+      <obj_property name="label">reg[4:1]</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[0]" type="array">
+         <obj_property name="ElementShortName">[0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[1]" type="array">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[2]" type="array">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[3]" type="array">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[4]" type="array">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider685">
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile" type="array">
       <obj_property name="ElementShortName">RegFile[0:31][31:0]</obj_property>
@@ -199,7 +242,6 @@
    <wvobject fp_name="group303" type="group">
       <obj_property name="label">CU</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_ControlUnit/instrCode" type="array">
          <obj_property name="ElementShortName">instrCode[31:0]</obj_property>
          <obj_property name="ObjectShortName">instrCode[31:0]</obj_property>
@@ -260,7 +302,6 @@
    <wvobject fp_name="group303" type="group">
       <obj_property name="label">DP</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -289,9 +330,9 @@
          <obj_property name="ElementShortName">aluSrcMuxSel</obj_property>
          <obj_property name="ObjectShortName">aluSrcMuxSel</obj_property>
       </wvobject>
-      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/wDataSrcMuxSel" type="array">
-         <obj_property name="ElementShortName">wDataSrcMuxSel[2:0]</obj_property>
-         <obj_property name="ObjectShortName">wDataSrcMuxSel[2:0]</obj_property>
+      <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/wDataSrcMuxSel" type="logic">
+         <obj_property name="ElementShortName">wDataSrcMuxSel</obj_property>
+         <obj_property name="ObjectShortName">wDataSrcMuxSel</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/branch" type="logic">
          <obj_property name="ElementShortName">branch</obj_property>
@@ -312,6 +353,7 @@
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/dataWData" type="array">
          <obj_property name="ElementShortName">dataWData[31:0]</obj_property>
          <obj_property name="ObjectShortName">dataWData[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/ramData" type="array">
          <obj_property name="ElementShortName">ramData[31:0]</obj_property>
@@ -320,6 +362,7 @@
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/calculator_result" type="array">
          <obj_property name="ElementShortName">calculator_result[31:0]</obj_property>
          <obj_property name="ObjectShortName">calculator_result[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/rData1" type="array">
          <obj_property name="ElementShortName">rData1[31:0]</obj_property>
@@ -378,30 +421,17 @@
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/sel" type="array">
       <obj_property name="ElementShortName">sel[6:0]</obj_property>
       <obj_property name="ObjectShortName">sel[6:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/x0" type="array">
-      <obj_property name="ElementShortName">x0[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x0[31:0]</obj_property>
+   <wvobject type="divider" fp_name="divider696">
    </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/x1" type="array">
-      <obj_property name="ElementShortName">x1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x1[31:0]</obj_property>
+   <wvobject fp_name="/tb_rv32i/u_MCU/u_rom/addr" type="array">
+      <obj_property name="ElementShortName">addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/x2" type="array">
-      <obj_property name="ElementShortName">x2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x2[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/x3" type="array">
-      <obj_property name="ElementShortName">x3[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x3[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/x4" type="array">
-      <obj_property name="ElementShortName">x4[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x4[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_wDataSrcMux/y" type="array">
-      <obj_property name="ElementShortName">y[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y[31:0]</obj_property>
+   <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/immExt" type="array">
+      <obj_property name="ElementShortName">immExt[31:0]</obj_property>
+      <obj_property name="ObjectShortName">immExt[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>
