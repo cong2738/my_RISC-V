@@ -68,5 +68,7 @@
 ~$*
 #systemVerilog
 !*.sv
+#VerilogHeader
+!*.vh
 #me
 !*.md
