@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="101.001 ns"></ZoomEndTime>
-      <Cursor1Time time="6.231 ns"></Cursor1Time>
+      <ZoomEndTime time="171.001 ns"></ZoomEndTime>
+      <Cursor1Time time="171.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="173"></NameColumnWidth>
       <ValueColumnWidth column_width="113"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="16" />
    <wvobject fp_name="/tb_rv32i/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -31,18 +31,28 @@
    <wvobject type="divider" fp_name="divider685">
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_rom/addr" type="array">
+      <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">addr[31:0]</obj_property>
       <obj_property name="ObjectShortName">addr[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="label">romAddr</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/immExt" type="array">
       <obj_property name="ElementShortName">immExt[31:0]</obj_property>
       <obj_property name="ObjectShortName">immExt[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_rv32i/u_MCU/u_ram/mem[2]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[2][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      <obj_property name="label">mem[8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="group734" type="group">
       <obj_property name="label">reg[4:1]</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_rv32i/u_MCU/u_Core/u_DataPath/u_RegisterFile/RegFile[0]" type="array">
          <obj_property name="ElementShortName">[0][31:0]</obj_property>
          <obj_property name="ObjectShortName">[0][31:0]</obj_property>
