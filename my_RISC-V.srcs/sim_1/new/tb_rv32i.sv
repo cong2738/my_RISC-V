@@ -27,8 +27,8 @@ module tb_rv32i ();
             `R_Type: begin
                 tp = "R_Type";
                 case (op)
-                    `ADD: $display("%s - %d + %d = %d", tp, alu1, alu2, wdata);
-                    `SUB: $display("%s - %d - %d = %d", tp, alu1, alu2, wdata);
+                    `ADD: $display("%s - %d + %d = %d", tp, alu1, alu2, $signed(wdata));
+                    `SUB: $display("%s - %d - %d = %d", tp, alu1, alu2, $signed(wdata));
                     `SLL: $display("%s - %d << %d = %d", tp, alu1, alu2, wdata);
                     `SRL: $display("%s - %d >> %d = %d", tp, alu1, alu2, wdata);
                     `SRA:
@@ -49,7 +49,7 @@ module tb_rv32i ();
             `I_Type: begin
                 tp = "I_Type";
                 case (op)
-                    `ADD: $display("%s - %d + %d = %d", tp, alu1, alu2, wdata);
+                    `ADD: $display("%s - %d + %d = %d", tp, alu1, alu2, $signed(wdata));
                     `SLT: $display("%s - %d < %d = %d", tp, alu1, alu2, wdata);
                     `SLTU:
                     $display("%s - %d < %d = %d (U)", tp, alu1, alu2, wdata);
