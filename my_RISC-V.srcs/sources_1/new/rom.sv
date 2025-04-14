@@ -59,7 +59,7 @@ module rom (
         // //          _imm7   _rs2  _rs1  _f3 _imm5   _opcode;     S_Type
         // rom[0] = 32'b0000000_11111_00000_010_01000_0100011; //   SW x2, 8(x0)
         // //          _imm7   _imm5 _rs1  _f3 _rd   _opcode;       L_Type
-        // rom[1] = 32'b0000000_01000_00000_010_00010_0000011; //   LW x6, 8(x0)
+        // rom[1] = 32'b0000000_01000_00000_010_00010_0000011; //   LW x6, 2(x0)
 
         // //B타입 롬시나리오: imm동작 검증1 romAddr 변화를 확인. 
         // //          _imm    _rs2  _rs1  _f3 _imm  _opcode;           -B_Type
