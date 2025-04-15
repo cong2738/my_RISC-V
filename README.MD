@@ -56,5 +56,5 @@
 - Single Cycle RISC-V 완성 
 
 ## 2025 04 15
-- Single Cycle RISC-V 발표완료 
+- Single Cycle RISC-V 발표 
 
