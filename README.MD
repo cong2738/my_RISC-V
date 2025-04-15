@@ -51,3 +51,7 @@
 - AU_Type
 - J_Type
 - JR_Type
+
+## 2025 04 14
+- Single Cycle RISC-V 완성 
+
