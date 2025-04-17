@@ -7,7 +7,7 @@ module ram (
     input  logic [31:0] wData,
     output logic [31:0] rData
 );
-    logic [31:0] mem[0:9];
+    logic [31:0] mem[0:63];
 
     always_ff @(posedge clk) begin : save
         if (we) 
