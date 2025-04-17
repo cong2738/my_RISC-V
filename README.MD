@@ -2,7 +2,6 @@
 
 ## RV32I
 
-
 ### SingleCycleRISC-V
 
 #### 2025 04 08
