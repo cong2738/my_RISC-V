@@ -1,5 +1,7 @@
 # RISC-V 제작
+
 ## SingleCycleRISC-V
+
 ### 2025 04 08
 - R_Type 
     - ADD 
@@ -59,4 +61,6 @@
 - Single Cycle RISC-V 발표 
 
 ## MultiCtcleRISC-V 
+
 ### 2025 04 17
+ - Fethc/Decode/Execute/MemAcc/WriteBack 스테이지에 대한 공부 
