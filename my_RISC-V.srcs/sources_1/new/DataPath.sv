@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "defines.vh"
+`include "defines.sv"
 
 module DataPath (
     input logic clk,
