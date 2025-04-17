@@ -233,11 +233,11 @@ module RegisterFile (
         rData2 = (rAddr2) ? RegFile[rAddr2] : 0;
     end
 
-    initial begin
-        for (int i = 0; i < 32; i++) begin
-            RegFile[i] = 10 + i;
-        end
-    end
+    // initial begin
+    //     for (int i = 0; i < 32; i++) begin
+    //         RegFile[i] = 10 + i;
+    //     end
+    // end
 endmodule
 
 module mux_2x1 (
