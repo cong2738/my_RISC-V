@@ -43,23 +43,6 @@ module DataPath (
         .RData2(RFData2)
     );
 
-    register u_RFData1_Buff(
-        .clk   (clk   ),
-        .reset (reset ),
-        .en    (RFData1En    ),
-        .d     (d     ),
-        .q     (q     )
-    );
-    
-    register u_RFData2_rBuff(
-        .clk   (clk   ),
-        .reset (reset ),
-        .en    (RFData2En    ),
-        .d     (d     ),
-        .q     (q     )
-    );
-    
-
     mux_2x1 U_ALUSrcMux (
         .sel(aluSrcMuxSel),
         .x0 (RFData2),
@@ -117,11 +100,9 @@ module DataPath (
         .y  (PCSrcMuxOut)
     );
 
-    logic PCEn;
     register U_PC (
         .clk(clk),
         .reset(reset),
-        .en(PCEn),
         .d(PCSrcMuxOut),
         .q(PCOutData)
     );
@@ -170,13 +151,12 @@ endmodule
 module register (
     input  logic        clk,
     input  logic        reset,
-    input  logic        en,
     input  logic [31:0] d,
     output logic [31:0] q
 );
     always_ff @(posedge clk, posedge reset) begin
         if (reset) q <= 0;
-        else if (en) q <= d;
+        else q <= d;
     end
 endmodule
 
@@ -205,7 +185,7 @@ module RegisterFile (
             RegFile[i] = 10 + i;
         end
     end
-*/
+    */
     always_ff @(posedge clk) begin
         if (we) RegFile[WAddr] <= WData;
     end
