@@ -1,58 +1,59 @@
 `timescale 1ns / 1ps
+
 `include "defines.sv"
 
 module ControlUnit (
     input  logic [31:0] instrCode,
     output logic        regFileWe,
-    output logic [ 3:0] alu_Control,
+    output logic [ 3:0] aluControl,
     output logic        aluSrcMuxSel,
     output logic        dataWe,
-    output logic        wDataSrcMuxSel,
+    output logic [ 2:0] RFWDSrcMuxSel,
     output logic        branch,
-    output  logic        j_on,
-    output  logic        jl_on
-
+    output logic        jal,
+    output logic        jalr
 );
-
     wire [6:0] opcode = instrCode[6:0];
-    wire [2:0] func3 = instrCode[14:12];
-    wire [2:0] func7 = instrCode[31:25];
-    wire [3:0] operators = {instrCode[30], func3};  // {func7[5] funct3}
+    wire [3:0] operators = {
+        instrCode[30], instrCode[14:12]
+    };  // {func7[5], func3}
 
-    logic [6:0] signals;
-    assign {regFileWe, aluSrcMuxSel, dataWe, wDataSrcMuxSel, branch, j_on, jl_on} = signals;
+    logic [9:0] signals;
+    assign {regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel, branch, jal, jalr} = signals;
 
-    always_comb begin : reg_we_sel
-        signals = 7'b0;
-        case (opcode)  //          F_A_D_W_B_J_L
-            `R_Type:  signals = 7'b1_0_0_0_0_0_0;
-            `S_Type:  signals = 7'b0_1_1_0_0_0_0;
-            `L_Type:  signals = 7'b1_1_0_1_0_0_0;
-            `I_Type:  signals = 7'b1_1_0_0_0_0_0;
-            `B_Type:  signals = 7'b0_0_0_0_1_0_0;
-            `LU_Type: signals = 7'b1_0_0_0_0_0_0;
-            `AU_Type: signals = 7'b1_0_0_0_0_0_0;
-            `J_Type:  signals = 7'b1_0_0_0_0_1_0;
-            `JL_Type: signals = 7'b1_0_0_0_0_0_1;
-        endcase
-    end
-
-    always_comb begin : alu_Control_sel
-        alu_Control = 4'bx;
+    always_comb begin
+        signals = 9'b0;
         case (opcode)
-            `R_Type:  alu_Control = operators;  //   {func7[5],func3}
-            `S_Type:  alu_Control = `ADD;  //        {3'b000}
-            `L_Type:  alu_Control = `ADD;  //        {3'b000}
-            `I_Type: begin
-                if (operators == 4'b1101) alu_Control = operators;
-                else alu_Control = {1'b0, operators[2:0]};
-            end
-            `B_Type:  alu_Control = operators;
-            `LU_Type: alu_Control = `ADD;
-            `AU_Type: alu_Control = `ADD;
-            `J_Type:  alu_Control = `ADD;
-            `JL_Type: alu_Control = `ADD;
+            // {regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel(3), branch, jal, jalr} = signals
+            `OP_TYPE_R:  signals = 9'b1_0_0_000_0_0_0;
+            `OP_TYPE_S:  signals = 9'b0_1_1_000_0_0_0;
+            `OP_TYPE_L:  signals = 9'b1_1_0_001_0_0_0;
+            `OP_TYPE_I:  signals = 9'b1_1_0_000_0_0_0;
+            `OP_TYPE_B:  signals = 9'b0_0_0_000_1_0_0;
+            `OP_TYPE_LU: signals = 9'b1_0_0_010_0_0_0;
+            `OP_TYPE_AU: signals = 9'b1_0_0_011_0_0_0;
+            `OP_TYPE_J:  signals = 9'b1_0_0_100_0_1_0;
+            `OP_TYPE_JL: signals = 9'b1_0_0_100_0_1_1;
         endcase
     end
 
+    always_comb begin
+        aluControl = 4'bx;
+        case (opcode)
+            `OP_TYPE_S:  aluControl = `ADD;
+            `OP_TYPE_L:  aluControl = `ADD;
+            `OP_TYPE_JL: aluControl = `ADD;  // {func7[5], func3}
+            `OP_TYPE_I: begin
+                if (operators == 4'b1101)
+                    aluControl = operators;  // {1'b1, func3}
+                else aluControl = {1'b0, operators[2:0]};  // {1'b0, func3}
+            end
+            default : aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_R:  aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_B:  aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_LU: aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_AU: aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_J:  aluControl = operators;  // {func7[5], func3}
+        endcase
+    end
 endmodule
