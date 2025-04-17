@@ -1,6 +1,8 @@
 # RISC-V Project
 
 ## RV32I
+### instruction set
+![InstructuonSet](./RV32I-1.png) 
 
 ### SingleCycleRISC-V
 
@@ -41,7 +43,6 @@
   - operation selection 매커니즘 이슈: 
     - issue: 비트코드의 최상위2번째 비트를 항상 operation에 사용하여 ADDI동작에 SUB연산이 동작 
     - fix: I-TYPE을 연산에 따라 case문으로 나눔 
-
 - B_Type 
   - BEQ 
   - BNE 
