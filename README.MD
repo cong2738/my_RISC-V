@@ -6,16 +6,16 @@
 
 #### 2025 04 08
 - R_Type 
-    - ADD 
-    - SUB 
-    - SLL 
-    - SRL 
-    - SRA 
-    - SLT 
-    - SLTU 
-    - XOR 
-    - OR 
-    - AND 
+  - ADD 
+  - SUB 
+  - SLL 
+  - SRL 
+  - SRA 
+  - SLT 
+  - SLTU 
+  - XOR 
+  - OR 
+  - AND 
 
 
 #### 2025 04 09  
