@@ -29,7 +29,7 @@ module APB_Master (
     output logic [31:0] rdata,
     input  logic        write      //1:write, 2:read
 );
-    typedef enum bit[1:0] {
+    typedef enum bit [1:0] {
         IDLE,
         SETUP,
         ACCESS
@@ -41,7 +41,10 @@ module APB_Master (
     logic decoder_en;
     logic [3:0] pselx;
 
-    assign {PSEL0, PSEL1, PSEL2, PSEL3} = pselx;
+    assign PSEL0 = pselx[0],
+        PSEL1 = pselx[1],
+        PSEL2 = pselx[2],
+        PSEL3 = pselx[3];
     assign PADDR  = temp_addr;  //next_logic에서 default값 해 줘서 필요없을수도있음(래치제거용 어사인)
     assign PWDATA = temp_wdata; //next_logic에서 default값 해 줘서 필요없을수도있음(래치제거용 어사인)
 
@@ -102,7 +105,7 @@ module APB_Master (
                 end else begin
                     PWRITE = 1'b0;
                 end
-                
+
                 if (ready) begin
                     next = IDLE;
                 end

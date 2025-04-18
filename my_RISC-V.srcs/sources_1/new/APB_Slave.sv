@@ -15,10 +15,10 @@ module APB_Slave (
 );
     logic [31:0] slv_reg0, slv_reg1, slv_reg2, slv_reg3;
 
-    always_ff @(posedge pclk, posedge preset) begin : state_logic
+    always_ff @(posedge pclk, posedge preset) begin : slv_sel
         if (preset) begin
             slv_reg0 <= 0;
-            slv_reg1 <= 0;
+            slv_reg1 <= 0; 
             slv_reg2 <= 0;
             slv_reg3 <= 0;
         end else begin
