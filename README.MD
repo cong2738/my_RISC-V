@@ -102,6 +102,6 @@
       - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T3: Acces(slave ready send), T4: Idle  
       ![alt text](image-7.png)  
     - ready신호는 규격화 된 범용버스으로서 쓰기 위해 표준규격을 만든것이다  
-## APB MASTER  
-### 2025 04 18  
+### APB MASTER  
+#### 2025 04 18  
   - MASTER  
