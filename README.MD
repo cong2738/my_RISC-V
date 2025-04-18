@@ -89,6 +89,19 @@
   GPT는 똑똑하다  
 ----------
   -  cpu는 주변기기를 RAM과 구분하지 않고 같은 신호를 공통선에 보내버린다. DECODER로 ENsig를 제어해줘서 주변기기를 제어해야한다.  
-    <img src="image.png" alt="alt text" style="width:70%;">  
-    ![alt text](image-1.png)  
-    
+    <img src="image.png" alt="alt text" style="width:60%;">
+    <img src="image-1.png" alt="alt text" style="width:20%;">  
+----------
+  - APB state     
+  ![alt text](image-6.png)  
+    - write  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready send), T3: Idle  
+      ![alt text](image-3.png)  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T3: Acces(slave ready send), T4: Idle  
+      ![alt text](image-4.png)   
+    - read  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready send), T3: Idle  
+      ![alt text](image-5.png)  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T3: Acces(slave ready send), T4: Idle  
+      ![alt text](image-7.png)  
+    - ready신호는 규격화 된 범용버스으로서 쓰기 위해 표준규격을 만든것이다  
