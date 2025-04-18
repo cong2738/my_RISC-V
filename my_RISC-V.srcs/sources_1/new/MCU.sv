@@ -3,30 +3,26 @@
 module MCU (
     input logic clk,
     input logic reset
-
 );
-    logic [31:0] instrMemAddr;
     logic [31:0] instrCode;
-    logic        regFileWe;
-    logic [ 3:0] alu_Control;
+    logic [31:0] instrMemAddr;
     logic        dataWe;
     logic [31:0] dataAddr;
     logic [31:0] dataWData;
-    logic [31:0] ramData;
+    logic [31:0] dataRData;
 
-    RV32I_Core u_Core (.*);
+    RV32I_Core U_Core (.*);
 
-    ram u_ram (
-        .clk  (clk),
-        .we   (dataWe),
-        .addr (dataAddr),
-        .wData(dataWData),
-        .rData(ramData)
-    );
-
-    rom u_rom (
+    rom U_ROM (
         .addr(instrMemAddr),
         .data(instrCode)
     );
 
+    ram U_RAM (
+        .clk  (clk),
+        .we   (dataWe),
+        .addr (dataAddr),
+        .wData(dataWData),
+        .rData(dataRData)
+    );
 endmodule

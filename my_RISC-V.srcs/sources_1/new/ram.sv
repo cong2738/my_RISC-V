@@ -9,9 +9,8 @@ module ram (
 );
     logic [31:0] mem[0:63];
 
-    always_ff @(posedge clk) begin : save
-        if (we) 
-            mem[addr[31:2]] <= wData;
+    always_ff @( posedge clk ) begin
+        if (we) mem[addr[31:2]] <= wData;
     end
 
     assign rData = mem[addr[31:2]];
