@@ -3,7 +3,7 @@
 module APB_Master (
     // Global Signal                (APB_MS - APB_SL)
     input  logic        pclk,
-    input  logic        reset,
+    input  logic        preset,
     // APB Interface Signal
     output logic [31:0] PADDR,
     output logic        PWRITE,
@@ -29,7 +29,7 @@ module APB_Master (
     output logic [31:0] rdata,
     input  logic        write      //1:write, 2:read
 );
-    typedef enum {
+    typedef enum bit[1:0] {
         IDLE,
         SETUP,
         ACCESS
@@ -43,8 +43,8 @@ module APB_Master (
 
     assign {PSEL0, PSEL1, PSEL2, PSEL3} = pselx;
 
-    always_ff @(posedge pclk, posedge reset) begin : state_logic
-        if (reset) begin
+    always_ff @(posedge pclk, posedge preset) begin : state_logic
+        if (preset) begin
             state      <= IDLE;
             temp_addr  <= 0;
             temp_wdata <= 0;
