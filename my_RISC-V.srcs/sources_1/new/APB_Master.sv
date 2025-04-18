@@ -42,8 +42,8 @@ module APB_Master (
     logic [3:0] pselx;
 
     assign {PSEL0, PSEL1, PSEL2, PSEL3} = pselx;
-    assign PADDR  = temp_addr;
-    assign PWDATA = temp_wdata;
+    assign PADDR  = temp_addr;  //next_logic에서 default값 해 줘서 필요없을수도있음(래치제거용 어사인)
+    assign PWDATA = temp_wdata; //next_logic에서 default값 해 줘서 필요없을수도있음(래치제거용 어사인)
 
     always_ff @(posedge pclk, posedge preset) begin : state_logic
         if (preset) begin
