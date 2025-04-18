@@ -85,7 +85,10 @@
   ![alt text](image-2.png)  
   GPT는 똑똑하다  
 ----------
-  -  cpu는 주변기기를 RAM과 구분하지 않는다. DECODER로 ENsig를 제어해줘서 주변기기를 제어해야한다.  
+  - cpu는 주변기기를 RAM과 구분하지 않는다. DECODER로 ENsig를 제어해줘서 주변기기를 제어해야한다.  
+  ![alt text](image-8.png)  
+----------  
+  - memory maping  
     <img src="image.png" alt="alt text" style="width:60%;">
     <img src="image-1.png" alt="alt text" style="width:20%;">  
 ----------
