@@ -19,14 +19,11 @@
   - OR 
   - AND 
 
-
 #### 2025 04 09  
-- S_Type 
+- S_Type  
   - SW   
-
-- L_Type
+- L_Type  
   - LW   
-
 - I_Type 
   - ADDI 
   - SLTI 
@@ -79,8 +76,8 @@
  - Fethc/Decode/Execute/MemAcc/WriteBack 스테이지에 대한 공부 
  - MultiCtcleProccesing 매커니즘 완성
 
-### AMBA APB Protocol
-  #### study
+## AMBA APB Protocol
+### study
 ----------
   - rom, ram, z/0 의 CS(Chip Select) 신호는 LOW ACTIVE이다:    
     ![alt text](addr_map.png)  
@@ -105,6 +102,6 @@
       - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T3: Acces(slave ready send), T4: Idle  
       ![alt text](image-7.png)  
     - ready신호는 규격화 된 범용버스으로서 쓰기 위해 표준규격을 만든것이다  
-  ### APB MASTER  
-  - 2025 04 18  
-    - MASTER  
+## APB MASTER  
+### 2025 04 18  
+  - MASTER  
