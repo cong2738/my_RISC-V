@@ -36,6 +36,24 @@ module APB_tb ();
         .PRDATA(PRDATA0),
         .PREADY(PREADY0)
     );
+    APB_Slave u_Periph1 (
+        .*,
+       .PSEL  (PSEL1),
+       .PRDATA(PRDATA1),
+        .PREADY(PREADY1)
+    );
+    APB_Slave u_Periph2 (
+        .*,
+       .PSEL  (PSEL2),
+       .PRDATA(PRDATA2),
+        .PREADY(PREADY2)
+    );
+    APB_Slave u_Periph3 (
+        .*,
+       .PSEL  (PSEL3),
+       .PRDATA(PRDATA3),
+        .PREADY(PREADY3)
+    );
 
     task automatic PPTASK(logic [31:0] i_addr, logic i_write, logic wdata);
         @(posedge pclk);
@@ -57,7 +75,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_0000;
+        addr  = 32'h1000_2000;
         write = 1;
         wdata = 32'd10;
         @(posedge pclk);
@@ -67,7 +85,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_0004;
+        addr  = 32'h1000_2004;
         write = 1;
         wdata = 32'd11;
         @(posedge pclk);
@@ -77,7 +95,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_0008;
+        addr  = 32'h1000_2008;
         write = 1;
         wdata = 32'd12;
         @(posedge pclk);
@@ -87,7 +105,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_000C;
+        addr  = 32'h1000_200C;
         write = 1;
         wdata = 32'd13;
         @(posedge pclk);
@@ -97,7 +115,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_0000;
+        addr  = 32'h1000_2000;
         write = 0;
         wdata = 32'd13;
         @(posedge pclk);
@@ -107,7 +125,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_0004;
+        addr  = 32'h1000_2004;
         write = 0;
         wdata = 32'd13;
         @(posedge pclk);
@@ -117,7 +135,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_0008;
+        addr  = 32'h1000_2008;
         write = 0;
         wdata = 32'd13;
         @(posedge pclk);
@@ -127,7 +145,7 @@ module APB_tb ();
 
         @(posedge pclk);
         #1 transfer = 1;
-        addr  = 32'h1000_000C;
+        addr  = 32'h1000_200C;
         write = 0;
         wdata = 32'd13;
         @(posedge pclk);
