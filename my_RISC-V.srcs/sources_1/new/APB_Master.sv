@@ -42,6 +42,8 @@ module APB_Master (
     logic [3:0] pselx;
 
     assign {PSEL0, PSEL1, PSEL2, PSEL3} = pselx;
+    assign PADDR  = temp_addr;
+    assign PWDATA = temp_wdata;
 
     always_ff @(posedge pclk, posedge preset) begin : state_logic
         if (preset) begin
