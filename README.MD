@@ -19,14 +19,11 @@
   - OR 
   - AND 
 
-
 #### 2025 04 09  
-- S_Type 
+- S_Type  
   - SW   
-
-- L_Type
+- L_Type  
   - LW   
-
 - I_Type 
   - ADDI 
   - SLTI 
@@ -79,8 +76,8 @@
  - Fethc/Decode/Execute/MemAcc/WriteBack 스테이지에 대한 공부 
  - MultiCtcleProccesing 매커니즘 완성
 
-### AMBA APB Protocol
-  #### study
+## AMBA APB Protocol
+### study
 ----------
   - rom, ram, z/0 의 CS(Chip Select) 신호는 LOW ACTIVE이다:    
     ![alt text](addr_map.png)  
@@ -88,7 +85,26 @@
   ![alt text](image-2.png)  
   GPT는 똑똑하다  
 ----------
-  -  cpu는 주변기기를 RAM과 구분하지 않고 같은 신호를 공통선에 보내버린다. DECODER로 ENsig를 제어해줘서 주변기기를 제어해야한다.  
-    <img src="image.png" alt="alt text" style="width:70%;">  
-    ![alt text](image-1.png)  
-    
+  - cpu는 주변기기를 RAM과 구분하지 않는다. DECODER로 ENsig를 제어해줘서 주변기기를 제어해야한다.  
+  ![alt text](image-8.png)  
+----------  
+  - memory maping  
+    <img src="image.png" alt="alt text" style="width:60%;">
+    <img src="image-1.png" alt="alt text" style="width:20%;">  
+----------
+  - APB state     
+  ![alt text](image-6.png)  
+    - write  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready send), T3: Idle  
+      ![alt text](image-3.png)  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T3: Acces(slave ready send), T4: Idle  
+      ![alt text](image-4.png)  
+    - read  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready send), T3: Idle  
+      ![alt text](image-5.png)  
+      - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T3: Acces(slave ready send), T4: Idle  
+      ![alt text](image-7.png)  
+    - ready신호는 규격화 된 범용버스으로서 쓰기 위해 표준규격을 만든것이다  
+### APB MASTER  
+#### 2025 04 18  
+  - MASTER  
