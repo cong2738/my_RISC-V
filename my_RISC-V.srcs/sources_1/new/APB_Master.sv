@@ -45,8 +45,8 @@ module APB_Master (
         PSEL1 = pselx[1],
         PSEL2 = pselx[2],
         PSEL3 = pselx[3];
-    assign PADDR  = temp_addr;  //next_logic에서 default값 해 줘서 필요없을수도있음(래치제거용 어사인)
-    assign PWDATA = temp_wdata; //next_logic에서 default값 해 줘서 필요없을수도있음(래치제거용 어사인)
+    assign PADDR  = temp_addr;  
+    assign PWDATA = temp_wdata; 
 
     always_ff @(posedge pclk, posedge preset) begin : state_logic
         if (preset) begin
@@ -67,7 +67,6 @@ module APB_Master (
         temp_addr_next  = temp_addr;
         temp_wdata_next = temp_wdata;
         temp_write_next = temp_write;
-        PADDR           = temp_addr;
         PWDATA          = temp_wdata;
         PWRITE          = 1'b0;
         PENABLE         = 1'b0;
@@ -85,7 +84,6 @@ module APB_Master (
             end
             SETUP: begin
                 decoder_en = 1'b1;
-                PADDR = temp_addr;
                 PENABLE = 1'b0;
                 if (temp_write) begin
                     PWRITE = 1'b1;
@@ -96,7 +94,6 @@ module APB_Master (
                 next = ACCESS;
             end
             ACCESS: begin
-                PADDR = temp_addr;
                 decoder_en = 1'b1;
                 PENABLE = 1'b1;
                 if (temp_write) begin
