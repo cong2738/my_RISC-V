@@ -15,16 +15,17 @@ module APB_Slave (
 );
     logic [31:0] slv_reg0, slv_reg1, slv_reg2, slv_reg3;
 
+    assign PREADY = PSEL && PENABLE;
+
     always_ff @(posedge pclk, posedge preset) begin : slv_sel
         if (preset) begin
             slv_reg0 <= 0;
-            slv_reg1 <= 0; 
+            slv_reg1 <= 0;
             slv_reg2 <= 0;
             slv_reg3 <= 0;
+            PRDATA   <= 32'bx;
         end else begin
-            PREADY   <= 0;
-            if (PSEL && PENABLE) begin
-                PREADY <= 1;
+            if (PREADY) begin
                 if (PWRITE) begin
                     case (PADDR[3:2])
                         2'd0: slv_reg0 <= PWDATA;
