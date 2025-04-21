@@ -107,5 +107,9 @@
     - ready신호는 규격화 된 범용버스으로서 쓰기 위해 표준규격을 만든것이다  
 ### APB MASTER  
 #### 2025 04 18  
-  - MASTER  
-  - SLAVE  
+  - MASTER  Logical design
+  - SLAVE   Logical design
+
+#### 2025 04 20  
+  - CPU는 모든 패리패럴을 메모리와 구분하지 않는다  
+    "주소를 던지고 값을 읽고 쓰는 구조"가 동일하다.
