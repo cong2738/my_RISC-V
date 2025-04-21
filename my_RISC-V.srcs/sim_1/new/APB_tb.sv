@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module APB_tb ();
-    // Global Signal                (APB_MS - APB_SL)
+    // Global Signal                
     logic        pclk;
     logic        preset;
     // APB Interface Signal

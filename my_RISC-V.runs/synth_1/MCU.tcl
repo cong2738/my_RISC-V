@@ -71,6 +71,7 @@ proc create_report { reportName command } {
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 4
+set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-9040-DESKTOP-7CFQ9ND/incrSyn
 set_param xicom.use_bs_reader 1
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
@@ -93,9 +94,10 @@ OPTRACE "Adding files" START { }
 read_mem C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/code.mem
 read_verilog -library xil_defaultlib -sv {
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/APB_Master.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/APB_Slave.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ControlUnit.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/DataPath.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPI.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPO.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/RV32I_Core.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ram.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/rom.sv
