@@ -2,15 +2,15 @@
 
 module ram (
     // Global Signal                (APB_MS - APB_SL)
-    input  logic        pclk,
+    input  logic        pclk, 
     // APB Interface Signal
-    input  logic [31:0] PADDR,
-    input  logic        PWRITE,
-    input  logic [31:0] PWDATA,
-    input  logic        PENABLE,
-    input  logic        PSEL,
-    output logic [31:0] PRDATA,
-    output logic        PREADY
+    input  logic [31:0] PADDR, 
+    input  logic        PWRITE, 
+    input  logic [31:0] PWDATA, 
+    input  logic        PENABLE, 
+    input  logic        PSEL, 
+    output logic [31:0] PRDATA, 
+    output logic        PREADY 
 );
     logic [31:0] mem[0:2**10-1];
 
