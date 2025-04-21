@@ -115,4 +115,4 @@
     "주소를 던지고 값을 읽고 쓰는 구조"가 동일하다.
 
 #### 2025 04 21  
-  - 아침에 눈을뜨면 지난날이 궁금해  
+  - paripheral device module template (GPO)
