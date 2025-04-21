@@ -12,7 +12,7 @@ module ram (
     output logic [31:0] PRDATA, 
     output logic        PREADY 
 );
-    logic [31:0] mem[0:2**10-1];
+    logic [31:0] mem[0:2**12-1];
 
     always_ff @(posedge pclk) begin
         PREADY <= 0;
