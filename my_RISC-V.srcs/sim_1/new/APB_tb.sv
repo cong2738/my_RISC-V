@@ -81,8 +81,7 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
-
+        
         @(posedge pclk);
         #1 transfer = 1;
         addr  = 32'h1000_2004;
@@ -91,7 +90,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #1 transfer = 1;
@@ -101,7 +99,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #1 transfer = 1;
@@ -111,7 +108,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #1 transfer = 1;
@@ -121,7 +117,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #1 transfer = 1;
@@ -131,7 +126,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #1 transfer = 1;
@@ -141,7 +135,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #1 transfer = 1;
@@ -151,7 +144,6 @@ module APB_tb ();
         @(posedge pclk);
         #1 transfer = 0;
         wait (ready == 1'b1);
-        @(posedge pclk);
 
         @(posedge pclk);
         #20 $finish;
