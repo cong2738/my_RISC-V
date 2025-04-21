@@ -2,16 +2,18 @@
 
 module tb_RV32I ();
 
-    logic clk;
-    logic reset;
+    logic       clk;
+    logic       reset;
+    logic [7:0] GPOA;
 
     MCU dut (.*);
 
     always #5 clk = ~clk;
 
     initial begin
-        clk = 0; reset = 1;
+        clk   = 0;
+        reset = 1;
         #10 reset = 0;
-        #100 $finish;
+        // #100 $finish;
     end
 endmodule

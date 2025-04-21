@@ -4,7 +4,7 @@ module ram (
     // Global Signal                (APB_MS - APB_SL)
     input  logic        pclk, 
     // APB Interface Signal
-    input  logic [31:0] PADDR, 
+    input  logic [11:0] PADDR, 
     input  logic        PWRITE, 
     input  logic [31:0] PWDATA, 
     input  logic        PENABLE, 
@@ -18,8 +18,8 @@ module ram (
         PREADY <= 0;
         if (PSEL && PENABLE) begin
             PREADY <= 1;
-            if (PWRITE) mem[PADDR[9:2]] <= PWDATA;
-            else PRDATA <= mem[PADDR[9:2]];
+            if (PWRITE) mem[PADDR[11:2]] <= PWDATA;
+            else PRDATA <= mem[PADDR[11:2]];
         end
     end
 endmodule

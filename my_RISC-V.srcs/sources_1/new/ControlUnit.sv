@@ -15,7 +15,7 @@ module ControlUnit (
     output logic        jal,
     output logic        jalr,
     output logic        PCEn,
-    output logic        tansfer,
+    output logic        transfer,
     input  logic        ready
 );
     wire [6:0] opcode = instrCode[6:0];
@@ -24,7 +24,7 @@ module ControlUnit (
     };  // {func7[5], func3}
 
     logic [10:0] signals;
-    assign {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel, branch, jal, jalr, tansfer} = signals;
+    assign {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel, branch, jal, jalr, transfer} = signals;
 
     typedef enum {
         FETCH,
@@ -86,7 +86,7 @@ module ControlUnit (
         signals = 11'b0_0_0_0_000_0_0_0_0;
         aluControl = operators;
         case (state)
-            // {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel(3), branch, jal, jalr, tansfer} = signals
+            // {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel(3), branch, jal, jalr, transfer} = signals
             FETCH:  signals = 11'b1_0_0_0_000_0_0_0_0;
             DECODE: signals = 11'b0_0_0_0_000_0_0_0_0;
             R_EXE:  signals = 11'b0_1_0_0_000_0_0_0_0;
