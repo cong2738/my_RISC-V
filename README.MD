@@ -122,3 +122,4 @@
     - GPIO  
 
 #### 2025 04 22  
+<img src="AMBA_APB_BUS_SC.png" alt="alt text" style="width:20%;">  
