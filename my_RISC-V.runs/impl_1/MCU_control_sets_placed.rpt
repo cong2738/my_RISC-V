@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Tue Apr 22 09:37:47 2025
+| Date         : Tue Apr 22 09:58:46 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file MCU_control_sets_placed.rpt
 | Design       : MCU
@@ -75,12 +75,12 @@ Table of Contents
 +----------------+------------------------------------------------------+------------------+------------------+----------------+--------------+
 |  clk_IBUF_BUFG |                                                      |                  |                1 |              3 |         3.00 |
 |  clk_IBUF_BUFG | U_Core/U_ControlUnit/FSM_sequential_state[3]_i_1_n_0 | reset_IBUF       |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG | u_APB_Master/slv_reg0_0                              | reset_IBUF       |                7 |             32 |         4.57 |
-|  clk_IBUF_BUFG | u_APB_Master/slv_reg0                                | reset_IBUF       |                9 |             32 |         3.56 |
 |  clk_IBUF_BUFG | u_APB_Master/E[0]                                    |                  |               12 |             32 |         2.67 |
-|  clk_IBUF_BUFG | u_APB_Master/temp_write_reg_0[0]                     | reset_IBUF       |                9 |             32 |         3.56 |
 |  clk_IBUF_BUFG | u_APB_Master/temp_write_reg_1[0]                     |                  |               15 |             32 |         2.13 |
 |  clk_IBUF_BUFG | u_APB_Master/temp_write_reg_2[0]                     | reset_IBUF       |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG | u_APB_Master/temp_write_reg_0[0]                     | reset_IBUF       |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG | u_APB_Master/slv_reg0                                | reset_IBUF       |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG | u_APB_Master/slv_reg0_0                              | reset_IBUF       |                7 |             32 |         4.57 |
 |  clk_IBUF_BUFG | U_Core/U_ControlUnit/E[0]                            | reset_IBUF       |               11 |             32 |         2.91 |
 |  clk_IBUF_BUFG | U_Core/U_ControlUnit/temp_addr_next                  | reset_IBUF       |               28 |             63 |         2.25 |
 |  clk_IBUF_BUFG | U_Core/U_ControlUnit/regFileWe                       |                  |               12 |             96 |         8.00 |
