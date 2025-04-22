@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<webTalkData  fileName='usage_statistics_webtalk.xml'  majorVersion='1' minorVersion='0' timeStamp='Mon Apr 21 16:40:51 2025'>
+<webTalkData  fileName='usage_statistics_webtalk.xml'  majorVersion='1' minorVersion='0' timeStamp='Tue Apr 22 09:38:13 2025'>
 <section name="__ROOT__" level="0" order="1" description="">
  <section name="software_version_and_target_device" level="1" order="1" description="">
   <keyValuePair key="beta" value="FALSE" description="" />
   <keyValuePair key="build_version" value="3064766" description="" />
-  <keyValuePair key="date_generated" value="Mon Apr 21 16:40:51 2025" description="" />
+  <keyValuePair key="date_generated" value="Tue Apr 22 09:38:13 2025" description="" />
   <keyValuePair key="os_platform" value="WIN64" description="" />
   <keyValuePair key="product_version" value="Vivado v2020.2 (64-bit)" description="" />
   <keyValuePair key="project_id" value="5bf14d21fa514446801ddada29bdc5de" description="" />
-  <keyValuePair key="project_iteration" value="13" description="" />
+  <keyValuePair key="project_iteration" value="14" description="" />
   <keyValuePair key="random_id" value="960015ea2f6a5a31aec9523ac9311632" description="" />
   <keyValuePair key="registration_id" value="960015ea2f6a5a31aec9523ac9311632" description="" />
   <keyValuePair key="route_design" value="TRUE" description="" />
@@ -173,7 +173,7 @@
    <keyValuePair key="output_load" value="5.000000" description="" />
    <keyValuePair key="output_toggle" value="12.500000" description="" />
    <keyValuePair key="package" value="cpg236" description="" />
-   <keyValuePair key="pct_clock_constrained" value="2.000000" description="" />
+   <keyValuePair key="pct_clock_constrained" value="1.000000" description="" />
    <keyValuePair key="pct_inputs_defined" value="5" description="" />
    <keyValuePair key="platform" value="nt64" description="" />
    <keyValuePair key="process" value="typical" description="" />
@@ -529,10 +529,10 @@
    <keyValuePair key="-verilog_define" value="default::[not_specified]" description="" />
   </section>
   <section name="usage" level="2" order="2" description="">
-   <keyValuePair key="elapsed" value="00:00:27s" description="" />
+   <keyValuePair key="elapsed" value="00:00:38s" description="" />
    <keyValuePair key="hls_ip" value="0" description="" />
-   <keyValuePair key="memory_gain" value="200.379MB" description="" />
-   <keyValuePair key="memory_peak" value="1305.520MB" description="" />
+   <keyValuePair key="memory_gain" value="216.859MB" description="" />
+   <keyValuePair key="memory_peak" value="1301.828MB" description="" />
   </section>
  </section>
  <section name="unisim_transformation" level="1" order="10" description="">
@@ -584,8 +584,8 @@
    <keyValuePair key="addsrcwizard_specify_or_create_constraint_files" value="1" description="" />
    <keyValuePair key="addsrcwizard_specify_simulation_specific_hdl_files" value="1" description="" />
    <keyValuePair key="basedialog_cancel" value="1" description="" />
-   <keyValuePair key="basedialog_ok" value="50" description="" />
-   <keyValuePair key="basedialog_yes" value="15" description="" />
+   <keyValuePair key="basedialog_ok" value="51" description="" />
+   <keyValuePair key="basedialog_yes" value="16" description="" />
    <keyValuePair key="boardchooser_board_table" value="4" description="" />
    <keyValuePair key="closeplanner_yes" value="1" description="" />
    <keyValuePair key="cmdmsgdialog_messages" value="1" description="" />
@@ -593,8 +593,8 @@
    <keyValuePair key="constraintschooserpanel_add_files" value="1" description="" />
    <keyValuePair key="createsrcfiledialog_file_name" value="4" description="" />
    <keyValuePair key="createsrcfiledialog_file_type" value="5" description="" />
-   <keyValuePair key="filesetpanel_file_set_panel_tree" value="51" description="" />
-   <keyValuePair key="flownavigatortreepanel_flow_navigator_tree" value="36" description="" />
+   <keyValuePair key="filesetpanel_file_set_panel_tree" value="52" description="" />
+   <keyValuePair key="flownavigatortreepanel_flow_navigator_tree" value="37" description="" />
    <keyValuePair key="graphicalview_zoom_fit" value="1" description="" />
    <keyValuePair key="mainmenumgr_edit" value="4" description="" />
    <keyValuePair key="mainmenumgr_file" value="4" description="" />
@@ -611,7 +611,7 @@
    <keyValuePair key="pacommandnames_import_all_srcs" value="1" description="" />
    <keyValuePair key="pacommandnames_open_hardware_manager" value="4" description="" />
    <keyValuePair key="pacommandnames_reports_window" value="5" description="" />
-   <keyValuePair key="pacommandnames_run_bitgen" value="15" description="" />
+   <keyValuePair key="pacommandnames_run_bitgen" value="16" description="" />
    <keyValuePair key="pacommandnames_set_used_in_prop" value="1" description="" />
    <keyValuePair key="pacommandnames_simulation_live_break" value="3" description="" />
    <keyValuePair key="pacommandnames_simulation_live_run" value="54" description="" />
@@ -641,7 +641,7 @@
    <keyValuePair key="srcmenu_ip_hierarchy" value="9" description="" />
    <keyValuePair key="stalerundialog_open_design" value="1" description="" />
    <keyValuePair key="statemonitor_reset_run" value="1" description="" />
-   <keyValuePair key="syntheticagettingstartedview_recent_projects" value="1" description="" />
+   <keyValuePair key="syntheticagettingstartedview_recent_projects" value="2" description="" />
    <keyValuePair key="syntheticastatemonitor_cancel" value="2" description="" />
    <keyValuePair key="taskbanner_close" value="3" description="" />
    <keyValuePair key="waveformnametree_waveform_name_tree" value="74" description="" />
@@ -657,7 +657,7 @@
    <keyValuePair key="fliptoviewtaskrtlanalysis" value="8" description="" />
    <keyValuePair key="launchprogramfpga" value="15" description="" />
    <keyValuePair key="openhardwaremanager" value="6" description="" />
-   <keyValuePair key="runbitgen" value="15" description="" />
+   <keyValuePair key="runbitgen" value="16" description="" />
    <keyValuePair key="runsynthesis" value="2" description="" />
    <keyValuePair key="setsourceenabled" value="1" description="" />
    <keyValuePair key="showview" value="8" description="" />
@@ -674,7 +674,7 @@
    <keyValuePair key="waveformsaveconfiguration" value="1" description="" />
   </section>
   <section name="other_data" level="2" order="3" description="">
-   <keyValuePair key="guimode" value="20" description="" />
+   <keyValuePair key="guimode" value="21" description="" />
   </section>
   <section name="project_data" level="2" order="4" description="">
    <keyValuePair key="constraintsetcount" value="1" description="" />
