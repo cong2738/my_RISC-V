@@ -40,6 +40,111 @@ class transection;
     endtask
 endclass  //transection
 
+class monitor;
+    mailbox #(transection) mon2Scb_mbox;
+    virtual APB_Slave_interface fnd_interf;
+    event scb_next_event;
+
+    function new(mailbox#(transection) mon2Scb_mbox,
+                 virtual APB_Slave_interface fnd_interf, event scb_next_event);
+        this.mon2Scb_mbox = mon2Scb_mbox;
+        this.fnd_interf = fnd_interf;
+        this.scb_next_event = scb_next_event;
+    endfunction  //new()
+
+    task run();
+        transection fnd_tr;
+        forever begin
+            @(posedge fnd_interf.pclk);
+            fnd_tr         = new();
+            fnd_tr.PADDR   = fnd_interf.PADDR;
+            fnd_tr.PWDATA  = fnd_interf.PWDATA;
+            fnd_tr.PWRITE  = 1'b1;
+            fnd_tr.PENABLE = 1'b0;
+            fnd_tr.PSEL    = 1'b1;
+            mon2Scb_mbox.put(fnd_tr);
+
+            @(posedge fnd_interf.pclk);
+            fnd_tr         = new();
+            fnd_tr.PADDR   = fnd_interf.PADDR;
+            fnd_tr.PWDATA  = fnd_interf.PWDATA;
+            fnd_tr.PWRITE  = 1'b1;
+            fnd_tr.PENABLE = 1'b1;
+            fnd_tr.PSEL    = 1'b1;
+
+            wait (fnd_interf.PREADY == 1'b1);
+            @(posedge fnd_interf.pclk);
+            @(posedge fnd_interf.pclk);
+            @(posedge fnd_interf.pclk);
+            mon2Scb_mbox.put(fnd_tr);
+
+            ->scb_next_event;  //event trigger
+        end
+    endtask
+endclass  //monitor
+
+class scoreboard;
+    mailbox #(transection) mon2Scb_mbox;
+    logic [7:0] ref_model_PRDATA;
+    logic [7:0] ref_model_PREADY;
+    logic [7:0] ref_model_commOut;
+    logic [7:0] ref_model_segOut;
+    event scb_next_event;
+
+    function new(mailbox#(transection) mon2Scb_mbox, event scb_next_event);
+        this.mon2Scb_mbox = mon2Scb_mbox;
+        ref_model_PRDATA = 0;
+        ref_model_PREADY = 0;
+        ref_model_commOut = 0;
+        ref_model_segOut = 0;
+        this.scb_next_event = scb_next_event;
+    endfunction  //new()
+    task run();
+        transection fnd_tr;
+        forever begin
+            mon2Scb_mbox.get(fnd_tr);
+            fnd_tr.display("SCB");
+            if (fnd_tr.PWRITE) begin
+                ref_model_PRDATA  = fnd_tr.PRDATA;
+                ref_model_PREADY  = fnd_tr.PREADY;
+                ref_model_commOut = fnd_tr.commOut;
+                ref_model_segOut  = fnd_tr.segOut;
+            end else begin
+                if(
+                    (ref_model_PRDATA == fnd_tr.PRDATA) &&
+                    (ref_model_PREADY == fnd_tr.PREADY) &&
+                    (ref_model_commOut == fnd_tr.commOut) &&
+                    (ref_model_segOut == fnd_tr.segOut) 
+                )
+                    $display(
+                        "PASS!! Matched Data! ref_model: PRDATA: %h==%h, PREADY: %h==%h, commOut: %h==%h, segOut: %h==%h ",
+                        ref_model_PRDATA,
+                        fnd_tr.PRDATA,
+                        ref_model_PREADY,
+                        fnd_tr.PREADY,
+                        ref_model_commOut,
+                        fnd_tr.commOut,
+                        ref_model_segOut,
+                        fnd_tr.segOut,
+                    );
+                else
+                    $display(
+                        "FAIL!! Dismatched Data! ref_model: PRDATA: %h==%h, PREADY: %h==%h, commOut: %h==%h, segOut: %h==%h ",
+                        ref_model_PRDATA,
+                        fnd_tr.PRDATA,
+                        ref_model_PREADY,
+                        fnd_tr.PREADY,
+                        ref_model_commOut,
+                        fnd_tr.commOut,
+                        ref_model_segOut,
+                        fnd_tr.segOut,
+                    );
+            end
+            @(scb_next_event);  //wait ecent from driver
+        end
+    endtask  //
+endclass  //scoreboard
+
 class generator;
     mailbox #(transection) gen2Drv_mbox;
     event gen_next_event;
@@ -105,20 +210,28 @@ endclass  //driver
 
 class envirionment;
     mailbox #(transection) gen2Drv_mbox;
-    generator fnd_gen;
-    driver fnd_drv;
-    event gen_next_event;
+    mailbox #(transection) mon2Scb_mbox;
+    generator              fnd_gen;
+    driver                 fnd_drv;
+    monitor                fnd_mon;
+    scoreboard             fnd_scb;
+    event                  gen_next_event;
+    event                  scb_next_event;
 
     function new(virtual APB_Slave_interface fnd_interf);
         this.gen2Drv_mbox = new();
         this.fnd_gen = new(gen2Drv_mbox, gen_next_event);
         this.fnd_drv = new(fnd_interf, gen2Drv_mbox, gen_next_event);
+        this.fnd_mon = new(mon2Scb_mbox, fnd_interf, scb_next_event);
+        this.fnd_scb = new(mon2Scb_mbox, scb_next_event);
     endfunction  //new()
 
     task run(int count);
         fork
             fnd_gen.run(count);
             fnd_drv.run();
+            fnd_mon.run();
+            fnd_scb.run();
         join_any
     endtask  //
 endclass  //envirionment
