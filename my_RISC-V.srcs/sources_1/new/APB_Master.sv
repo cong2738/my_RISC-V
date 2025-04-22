@@ -14,16 +14,19 @@ module APB_Master (
     output logic        PSEL2,
     output logic        PSEL3,
     output logic        PSEL4,
+    output logic        PSEL5,
     input  logic [31:0] PRDATA0,
     input  logic [31:0] PRDATA1,
     input  logic [31:0] PRDATA2,
     input  logic [31:0] PRDATA3,
     input  logic [31:0] PRDATA4,
+    input  logic [31:0] PRDATA5,
     input  logic        PREADY0,
     input  logic        PREADY1,
     input  logic        PREADY2,
     input  logic        PREADY3,
     input  logic        PREADY4,
+    input  logic        PREADY5,
     // Internal Interface Signal    (CPU - APB_MS)
     input  logic        transfer,  //trigger signal
     output logic        ready,
@@ -42,13 +45,14 @@ module APB_Master (
     logic [31:0] temp_wdata, temp_wdata_next;
     logic temp_write, temp_write_next;
     logic decoder_en;
-    logic [4:0] pselx;
+    logic [5:0] pselx;
 
     assign PSEL0 = pselx[0],
         PSEL1 = pselx[1],
         PSEL2 = pselx[2],
         PSEL3 = pselx[3],
-        PSEL4 = pselx[4];
+        PSEL4 = pselx[4],
+        PSEL5 = pselx[5];
     assign PADDR = temp_addr;
     assign PWDATA = temp_wdata;
 
@@ -127,11 +131,13 @@ module APB_Master (
         .d2   (PRDATA2),
         .d3   (PRDATA3),
         .d4   (PRDATA4),
+        .d5   (PRDATA5),
         .r0   (PREADY0),
         .r1   (PREADY1),
         .r2   (PREADY2),
         .r3   (PREADY3),
         .r4   (PREADY4),
+        .r5   (PREADY5),
         .rdata(rdata),
         .ready(ready)
     );
@@ -142,17 +148,18 @@ endmodule
 module APB_Decoder (
     input  logic        en,
     input  logic [31:0] sel,
-    output logic [ 4:0] y
+    output logic [ 5:0] y
 );
     always_comb begin : decode
         y = 0;
         if (en) begin
             casex (sel) // x는 진짜로 don't care 함 나머지만 맞으면 케이스 동작
-                32'h1000_0xxx: y = 5'b00001;
-                32'h1000_1xxx: y = 5'b00010;
-                32'h1000_2xxx: y = 5'b00100;
-                32'h1000_3xxx: y = 5'b01000;
-                32'h1000_4xxx: y = 5'b10000;
+                32'h1000_0xxx: y = 6'b000001;
+                32'h1000_1xxx: y = 6'b000010;
+                32'h1000_2xxx: y = 6'b000100;
+                32'h1000_3xxx: y = 6'b001000;
+                32'h1000_4xxx: y = 6'b010000;
+                32'h1000_5xxx: y = 6'b100000;
             endcase
         end
     end
@@ -166,11 +173,13 @@ module APB_Mux (
     input  logic [31:0] d2,
     input  logic [31:0] d3,
     input  logic [31:0] d4,
+    input  logic [31:0] d5,
     input  logic        r0,
     input  logic        r1,
     input  logic        r2,
     input  logic        r3,
     input  logic        r4,
+    input  logic        r5,
     output logic [31:0] rdata,
     output logic        ready
 );
@@ -182,6 +191,7 @@ module APB_Mux (
             32'h1000_2xxx: rdata = d2;
             32'h1000_3xxx: rdata = d3;
             32'h1000_4xxx: rdata = d4;
+            32'h1000_5xxx: rdata = d5;
         endcase
     end
 
@@ -193,6 +203,7 @@ module APB_Mux (
             32'h1000_2xxx: ready = r2;
             32'h1000_3xxx: ready = r3;
             32'h1000_4xxx: ready = r4;
+            32'h1000_5xxx: ready = r5;
         endcase
     end
 

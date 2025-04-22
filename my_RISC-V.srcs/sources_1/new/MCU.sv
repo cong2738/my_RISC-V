@@ -26,16 +26,19 @@ module MCU (
     logic        PSEL_P2;
     logic        PSEL_P3;
     logic        PSEL_P4;
+    logic        PSEL_P5;
     logic [31:0] PRDATA_RAM;
     logic [31:0] PRDATA_P1;
     logic [31:0] PRDATA_P2;
     logic [31:0] PRDATA_P3;
     logic [31:0] PRDATA_P4;
+    logic [31:0] PRDATA_P5;
     logic        PREADY_RAM;
     logic        PREADY_P1;
     logic        PREADY_P2;
     logic        PREADY_P3;
     logic        PREADY_P4;
+    logic        PREADY_P5;
     // CPU - APB_MASTER Signals    (CPU - APB_MS)
     logic        transfer;  //trigger signal
     logic        ready;
@@ -66,16 +69,19 @@ module MCU (
         .PSEL2  (PSEL_P2),
         .PSEL3  (PSEL_P3),
         .PSEL4  (PSEL_P4),
+        .PSEL5  (PSEL_P5),
         .PRDATA0(PRDATA_RAM),
         .PRDATA1(PRDATA_P1),
         .PRDATA2(PRDATA_P2),
         .PRDATA3(PRDATA_P3),
         .PRDATA4(PRDATA_P4),
+        .PRDATA5(PRDATA_P5),
         .PREADY0(PREADY_RAM),
         .PREADY1(PREADY_P1),
         .PREADY2(PREADY_P2),
         .PREADY3(PREADY_P3),
-        .PREADY4(PREADY_P4)
+        .PREADY4(PREADY_P4),
+        .PREADY5(PREADY_P5)
     );
 
     GP_FND u_FND_CTRL (
