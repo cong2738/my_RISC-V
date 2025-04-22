@@ -40,7 +40,7 @@ module APB_SlaveIntf_GPIO (
     input  logic [ 7:0] idr,
     output logic [ 7:0] odr
 );
-    logic [31:0] slv_reg0, slv_reg1, slv_reg2, slv_reg3;
+    logic [31:0] slv_reg0, slv_reg1, slv_reg2;  //, slv_reg3;
 
     assign moder         = slv_reg0[7:0];
     assign slv_reg1[7:0] = idr;
@@ -85,7 +85,7 @@ module GPIO (  // my_IP
 );
     generate
         for (genvar i = 0; i < 8; i = i + 1) begin
-            assign ioPort[i] = (moder[i]) ? odr[i] : 1'bz;      //INPUT
+            assign ioPort[i] = (moder[i]) ? odr[i] : 1'bz;  //INPUT
             assign idr[i]    = (~moder[i]) ? ioPort[i] : 1'bz;  //OUTPUT
         end
     endgenerate

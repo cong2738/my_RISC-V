@@ -3,8 +3,9 @@
 module MCU (
     input logic       clk,
     input logic       reset,
-    inout logic [7:0] GPOA,
-    inout logic [7:0] GPIB
+    inout logic [7:0] GPIOA,
+    inout logic [7:0] GPIOB,
+    inout logic [7:0] GPIOC
 );
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
@@ -24,15 +25,15 @@ module MCU (
     logic        PSEL_RAM;
     logic        PSEL_P1;
     logic        PSEL_P2;
-    logic        PSEL3;
+    logic        PSEL_P3;
     logic [31:0] PRDATA_RAM;
     logic [31:0] PRDATA_P1;
     logic [31:0] PRDATA_P2;
-    logic [31:0] PRDATA3;
+    logic [31:0] PRDATA_P3;
     logic        PREADY_RAM;
     logic        PREADY_P1;
     logic        PREADY_P2;
-    logic        PREADY3;
+    logic        PREADY_P3;
     // CPU - APB_MASTER Signals    (CPU - APB_MS)
     logic        transfer;  //trigger signal
     logic        ready;
@@ -61,31 +62,39 @@ module MCU (
         .PSEL0  (PSEL_RAM),
         .PSEL1  (PSEL_P1),
         .PSEL2  (PSEL_P2),
-        .PSEL3  (),
+        .PSEL3  (PSEL_P3),
         .PRDATA0(PRDATA_RAM),
         .PRDATA1(PRDATA_P1),
         .PRDATA2(PRDATA_P2),
-        .PRDATA3(),
+        .PRDATA3(PRDATA_P3),
         .PREADY0(PREADY0),
         .PREADY1(PREADY_P1),
         .PREADY2(PREADY_P2),
-        .PREADY3()
+        .PREADY3(PREADY_P3)
     );
 
-    GPIO_Periph u_GPOA (
+    GPIO_Periph u_GPIOA (
         .*,
         .PSEL  (PSEL_P1),
         .PRDATA(PRDATA_P1),
         .PREADY(PREADY_P1),
-        .ioPort(GPOA)
+        .ioPort(GPIOA)
     );
 
-    GPIO_Periph u_GPIB (
+    GPIO_Periph u_GPIOB (
         .*,
         .PSEL  (PSEL_P2),
         .PRDATA(PRDATA_P2),
         .PREADY(PREADY_P2),
-        .ioPort(GPIB)
+        .ioPort(GPIOB)
+    );
+
+    GPIO_Periph u_GPIOC (
+        .*,
+        .PSEL  (PSEL_P3),
+        .PRDATA(PRDATA_P3),
+        .PREADY(PREADY_P3),
+        .ioPort(GPIC)
     );
 
     ram u_ram (
