@@ -115,6 +115,9 @@
     "주소를 던지고 값을 읽고 쓰는 구조"가 동일하다.
 
 #### 2025 04 21  
-  - paripheral device module template 
+  - paripheral device module template  
     - GPO  
     - GPI  
+    - GPIO  
+
+#### 2025 04 22  
