@@ -116,6 +116,7 @@
 
 #### 2025 04 21  
   - paripheral device module template  
+    - APB_INTERFACE
     - GPO  
     - GPI  
     - GPIO  
