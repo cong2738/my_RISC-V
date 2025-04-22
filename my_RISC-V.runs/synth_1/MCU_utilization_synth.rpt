@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Tue Apr 22 14:11:19 2025
+| Date         : Tue Apr 22 14:19:05 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_utilization -file MCU_utilization_synth.rpt -pb MCU_utilization_synth.pb
 | Design       : MCU
@@ -30,8 +30,8 @@ Table of Contents
 +----------------------------+------+-------+-----------+-------+
 |          Site Type         | Used | Fixed | Available | Util% |
 +----------------------------+------+-------+-----------+-------+
-| Slice LUTs*                |  992 |     0 |     20800 |  4.77 |
-|   LUT as Logic             |  944 |     0 |     20800 |  4.54 |
+| Slice LUTs*                |  990 |     0 |     20800 |  4.76 |
+|   LUT as Logic             |  942 |     0 |     20800 |  4.53 |
 |   LUT as Memory            |   48 |     0 |      9600 |  0.50 |
 |     LUT as Distributed RAM |   48 |     0 |           |       |
 |     LUT as Shift Register  |    0 |     0 |           |       |
@@ -154,9 +154,9 @@ Table of Contents
 +----------+------+---------------------+
 | LUT6     |  538 |                 LUT |
 | FDCE     |  418 |        Flop & Latch |
-| LUT5     |  253 |                 LUT |
-| LUT4     |  113 |                 LUT |
-| LUT2     |   83 |                 LUT |
+| LUT5     |  260 |                 LUT |
+| LUT4     |  106 |                 LUT |
+| LUT2     |   79 |                 LUT |
 | RAMD32   |   72 |  Distributed Memory |
 | LUT3     |   58 |                 LUT |
 | CARRY4   |   50 |          CarryLogic |
