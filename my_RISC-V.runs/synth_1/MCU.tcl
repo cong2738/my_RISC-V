@@ -96,14 +96,13 @@ read_verilog -library xil_defaultlib -sv {
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/APB_Master.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ControlUnit.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/DataPath.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPI.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPIO.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPO.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GN_FND.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/RV32I_Core.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ram.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/rom.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/MCU.sv
 }
+read_verilog -library xil_defaultlib C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/imports/NJH/fndController.v
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
