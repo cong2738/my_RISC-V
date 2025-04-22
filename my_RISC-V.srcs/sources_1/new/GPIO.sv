@@ -86,8 +86,8 @@ module GPIO (  // my_IP
 );
     generate
         for (genvar i = 0; i < 8; i = i + 1) begin
-            assign ioPort[i] = (moder[i]) ? odr[i] : 1'bz;
-            assign idr[i]    = ~(moder[i]) ? ioPort[i] : 1'bz;
+            assign ioPort[i] = (moder[i]) ? odr[i] : 1'bz;      //INPUT
+            assign idr[i]    = (~moder[i]) ? ioPort[i] : 1'bz;  //OUTPUT
         end
     endgenerate
 endmodule
