@@ -2,8 +2,8 @@
 
 module GP_FND (
     // Global Signal                (APB_MS - APB_SL)
-    input  logic        pclk,
-    input  logic        preset,
+    input  logic        PCLK,
+    input  logic        PRESET,
     // APB Interface Signal
     input  logic [ 3:0] PADDR,
     input  logic        PWRITE,
@@ -26,8 +26,8 @@ endmodule
 
 module APB_SlaveIntf_FND (
     // Global Signal                (APB_MS - APB_SL)
-    input  logic        pclk,
-    input  logic        preset,
+    input  logic        PCLK,
+    input  logic        PRESET,
     // APB Interface Signal
     input  logic [ 3:0] PADDR,
     input  logic        PWRITE,
@@ -47,8 +47,8 @@ module APB_SlaveIntf_FND (
     assign FMR = slv_reg1[3:0];
     assign FDR = slv_reg2[3:0];
 
-    always_ff @(posedge pclk, posedge preset) begin : slv_sel
-        if (preset) begin
+    always_ff @(posedge PCLK, posedge PRESET) begin : slv_sel
+        if (PRESET) begin
             slv_reg0 <= 0;
             slv_reg1 <= 0;
             slv_reg2 <= 0;
