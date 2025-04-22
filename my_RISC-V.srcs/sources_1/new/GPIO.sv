@@ -77,7 +77,6 @@ module APB_SlaveIntf_GPIO (
     end
 endmodule
 
-
 module GPIO (  // my_IP
     input  logic [7:0] moder,
     output logic [7:0] idr,
