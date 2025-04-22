@@ -97,6 +97,7 @@ read_verilog -library xil_defaultlib -sv {
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ControlUnit.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/DataPath.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GN_FND.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPIO.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/RV32I_Core.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ram.sv
   C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/rom.sv
