@@ -44,7 +44,7 @@ module APB_SlaveIntf_GPIO (
 
     assign moder         = slv_reg0[7:0];
     assign slv_reg1[7:0] = idr;
-    assign odr   = slv_reg2[7:0];
+    assign odr           = slv_reg2[7:0];
 
     always_ff @(posedge pclk, posedge preset) begin : slv_sel
         if (preset) begin
@@ -87,7 +87,7 @@ module GPIO (  // my_IP
     generate
         for (genvar i = 0; i < 8; i = i + 1) begin
             assign ioPort[i] = (moder[i]) ? odr[i] : 1'bz;
-            assign idr[i] = ~(moder[i]) ? ioPort[i] : 1'bz;
+            assign idr[i]    = ~(moder[i]) ? ioPort[i] : 1'bz;
         end
     endgenerate
 endmodule
