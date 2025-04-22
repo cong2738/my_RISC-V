@@ -3,9 +3,10 @@
 module MCU (
     input logic       clk,
     input logic       reset,
-    inout logic [7:0] GPIOA,
-    inout logic [7:0] GPIOB,
-    inout logic [7:0] GPIOC
+    output logic [7:0] GPOA,
+    input logic [7:0] GPIB,
+    inout logic [7:0] GPIOC,
+    inout logic [7:0] GPIOD
 );
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
@@ -26,14 +27,17 @@ module MCU (
     logic        PSEL_P1;
     logic        PSEL_P2;
     logic        PSEL_P3;
+    logic        PSEL_P4;
     logic [31:0] PRDATA_RAM;
     logic [31:0] PRDATA_P1;
     logic [31:0] PRDATA_P2;
     logic [31:0] PRDATA_P3;
+    logic [31:0] PRDATA_P4;
     logic        PREADY_RAM;
     logic        PREADY_P1;
     logic        PREADY_P2;
     logic        PREADY_P3;
+    logic        PREADY_P4;
     // CPU - APB_MASTER Signals    (CPU - APB_MS)
     logic        transfer;  //trigger signal
     logic        ready;
@@ -63,30 +67,33 @@ module MCU (
         .PSEL1  (PSEL_P1),
         .PSEL2  (PSEL_P2),
         .PSEL3  (PSEL_P3),
+        .PSEL4  (PSEL_P4),
         .PRDATA0(PRDATA_RAM),
         .PRDATA1(PRDATA_P1),
         .PRDATA2(PRDATA_P2),
         .PRDATA3(PRDATA_P3),
-        .PREADY0(PREADY0),
+        .PRDATA4(PRDATA_P4),
+        .PREADY0(PREADY_RAM),
         .PREADY1(PREADY_P1),
         .PREADY2(PREADY_P2),
-        .PREADY3(PREADY_P3)
+        .PREADY3(PREADY_P3),
+        .PREADY4(PREADY_P4)
     );
 
-    GPIO_Periph u_GPIOA (
+    GPO_Periph u_GPOA (
         .*,
         .PSEL  (PSEL_P1),
         .PRDATA(PRDATA_P1),
         .PREADY(PREADY_P1),
-        .ioPort(GPIOA)
+        .outPort(GPOA)
     );
 
-    GPIO_Periph u_GPIOB (
+    GPI_Periph u_GPIB (
         .*,
         .PSEL  (PSEL_P2),
         .PRDATA(PRDATA_P2),
         .PREADY(PREADY_P2),
-        .ioPort(GPIOB)
+        .inPort(GPIB)
     );
 
     GPIO_Periph u_GPIOC (
@@ -94,14 +101,22 @@ module MCU (
         .PSEL  (PSEL_P3),
         .PRDATA(PRDATA_P3),
         .PREADY(PREADY_P3),
-        .ioPort(GPIC)
+        .ioPort(GPIOC)
+    );
+
+    GPIO_Periph u_GPIOD (
+        .*,
+        .PSEL  (PSEL_P4),
+        .PRDATA(PRDATA_P4),
+        .PREADY(PREADY_P4),
+        .ioPort(GPIOD)
     );
 
     ram u_ram (
         .*,
         .PSEL  (PSEL_RAM),
         .PRDATA(PRDATA_RAM),
-        .PREADY(PREADY0)
+        .PREADY(PREADY_RAM)
     );
 
 endmodule
