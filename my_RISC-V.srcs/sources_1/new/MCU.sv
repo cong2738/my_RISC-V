@@ -4,7 +4,8 @@ module MCU (
     input  logic       clk,
     input  logic       reset,
     output logic [3:0] commOut,
-    output logic [7:0] segOut
+    output logic [7:0] segOut,
+    inout  logic [7:0] ioB
 );
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
@@ -86,11 +87,18 @@ module MCU (
 
     GP_FND u_FND_CTRL (
         .*,
-        .PSEL   (PSEL_P1),
-        .PRDATA (PRDATA_P1),
-        .PREADY (PREADY_P1)
+        .PSEL  (PSEL_P1),
+        .PRDATA(PRDATA_P1),
+        .PREADY(PREADY_P1)
     );
 
+    GPIO_Periph u_GPIOB (
+        .*,
+        .PSEL  (PSEL_P2),
+        .PRDATA(PRDATA_P2),
+        .PREADY(PREADY_P2),
+        .ioPort(ioB)
+    );
 
     ram u_ram (
         .*,

@@ -85,10 +85,10 @@ module IP_FND (  // my_IP
     output logic [3:0] commOut,
     output logic [7:0] segOut
 );
-    logic [3:0] temp_cmm = (FCR) ? FMR : 4'b1;  //OUTPUT    
+    logic [3:0] temp_cmm = (FCR) ? FMR : 4'bz;  //OUTPUT    
     logic [3:0] temp_bcd = (FCR) ? FDR : 4'bz;  //OUTPUT    
 
-    assign commOut = temp_cmm;  //OUTPUT    
+    assign commOut = ~temp_cmm;  //OUTPUT    
     BCDtoSEG_decoder u_BCDtoSEG_decoder (
         .bcd(temp_bcd),
         .seg(segOut)
