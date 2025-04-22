@@ -19,14 +19,9 @@ module GP_FND (
     logic       FCR;
     logic [3:0] FMR;
     logic [3:0] FDR;
-    logic [3:0] dataOut;
 
     APB_SlaveIntf_FND u_APB_SlaveIntf_FND (.*);
     IP_FND u_FND (.*);
-    BCDtoSEG_decoder u_BCDtoSEG_decoder(
-        .bcd (dataOut ),
-        .seg (segOut )
-    );
 endmodule
 
 module APB_SlaveIntf_FND (
@@ -84,18 +79,18 @@ module APB_SlaveIntf_FND (
 endmodule
 
 module IP_FND (  // my_IP
-    input logic FCR,
-    input logic [3:0] FMR,
-    input logic [3:0] FDR,
+    input  logic       FCR,
+    input  logic [3:0] FMR,
+    input  logic [3:0] FDR,
     output logic [3:0] commOut,
-    output logic [3:0] dataOut
+    output logic [7:0] segOut
 );
-    generate
-        for (genvar i = 0; i < 4; i = i + 1) begin
-            assign commOut[i] = (FCR) ? FMR[i] : 1'b1;  //OUTPUT    
-        end
-        for (genvar i = 0; i < 8; i = i + 1) begin
-            assign dataOut[i] = (FCR) ? FDR[i] : 1'bz;  //OUTPUT    
-        end
-    endgenerate
+    logic [3:0] temp_cmm = (FCR) ? FMR : 4'b1;  //OUTPUT    
+    logic [3:0] temp_bcd = (FCR) ? FDR : 4'bz;  //OUTPUT    
+
+    assign commOut = temp_cmm;  //OUTPUT    
+    BCDtoSEG_decoder u_BCDtoSEG_decoder (
+        .bcd(temp_bcd),
+        .seg(segOut)
+    );
 endmodule
