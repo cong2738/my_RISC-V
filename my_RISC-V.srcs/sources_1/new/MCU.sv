@@ -1,12 +1,10 @@
 `timescale 1ns / 1ps
 
 module MCU (
-    input logic       clk,
-    input logic       reset,
-    output logic [7:0] GPOA,
-    input logic [7:0] GPIB,
-    inout logic [7:0] GPIOC,
-    inout logic [7:0] GPIOD
+    input  logic       clk,
+    input  logic       reset,
+    output logic [3:0] commOut,
+    output logic [7:0] segOut
 );
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
@@ -80,37 +78,13 @@ module MCU (
         .PREADY4(PREADY_P4)
     );
 
-    GPO_Periph u_GPOA (
+    GP_FND u_FND_CTRL (
         .*,
-        .PSEL  (PSEL_P1),
-        .PRDATA(PRDATA_P1),
-        .PREADY(PREADY_P1),
-        .outPort(GPOA)
+        .PSEL   (PSEL_P1),
+        .PRDATA (PRDATA_P1),
+        .PREADY (PREADY_P1)
     );
 
-    GPI_Periph u_GPIB (
-        .*,
-        .PSEL  (PSEL_P2),
-        .PRDATA(PRDATA_P2),
-        .PREADY(PREADY_P2),
-        .inPort(GPIB)
-    );
-
-    GPIO_Periph u_GPIOC (
-        .*,
-        .PSEL  (PSEL_P3),
-        .PRDATA(PRDATA_P3),
-        .PREADY(PREADY_P3),
-        .ioPort(GPIOC)
-    );
-
-    GPIO_Periph u_GPIOD (
-        .*,
-        .PSEL  (PSEL_P4),
-        .PRDATA(PRDATA_P4),
-        .PREADY(PREADY_P4),
-        .ioPort(GPIOD)
-    );
 
     ram u_ram (
         .*,

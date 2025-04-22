@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module GPIO_Periph (
+module GP_FND (
     // Global Signal                (APB_MS - APB_SL)
     input  logic        pclk,
     input  logic        preset,
@@ -13,17 +13,23 @@ module GPIO_Periph (
     output logic [31:0] PRDATA,
     output logic        PREADY,
     // inport signals
-    inout  logic [ 7:0] ioPort
+    output logic [ 3:0] commOut,
+    output logic [ 7:0] segOut
 );
-    logic [7:0] moder;
-    logic [7:0] idr;
-    logic [7:0] odr;
+    logic       FCR;
+    logic [3:0] FMR;
+    logic [3:0] FDR;
+    logic [3:0] dataOut;
 
-    APB_SlaveIntf_GPIO u_APB_SlaveIntf_GPIO (.*);
-    GPIO u_GPIO (.*);
+    APB_SlaveIntf_FND u_APB_SlaveIntf_FND (.*);
+    IP_FND u_FND (.*);
+    BCDtoSEG_decoder u_BCDtoSEG_decoder(
+        .bcd (dataOut ),
+        .seg (segOut )
+    );
 endmodule
 
-module APB_SlaveIntf_GPIO (
+module APB_SlaveIntf_FND (
     // Global Signal                (APB_MS - APB_SL)
     input  logic        pclk,
     input  logic        preset,
@@ -36,20 +42,20 @@ module APB_SlaveIntf_GPIO (
     output logic [31:0] PRDATA,
     output logic        PREADY,
     // internal signal
-    output logic [ 7:0] moder,
-    input  logic [ 7:0] idr,
-    output logic [ 7:0] odr
+    input  logic        FCR,
+    output logic [ 3:0] FMR,
+    output logic [ 3:0] FDR
 );
     logic [31:0] slv_reg0, slv_reg1, slv_reg2;  //, slv_reg3;
 
-    assign moder         = slv_reg0[7:0];
-    assign slv_reg1[7:0] = idr;
-    assign odr           = slv_reg2[7:0];
+    assign FCR = slv_reg0[0];
+    assign FMR = slv_reg1[3:0];
+    assign FDR = slv_reg2[3:0];
 
     always_ff @(posedge pclk, posedge preset) begin : slv_sel
         if (preset) begin
             slv_reg0 <= 0;
-            // slv_reg1 <= 0;
+            slv_reg1 <= 0;
             slv_reg2 <= 0;
             // slv_reg3 <= 0;
         end else begin
@@ -59,7 +65,7 @@ module APB_SlaveIntf_GPIO (
                 if (PWRITE) begin
                     case (PADDR[3:2])
                         2'd0: slv_reg0 <= PWDATA;
-                        2'd1: ;
+                        2'd1: slv_reg1 <= PWDATA;
                         2'd2: slv_reg2 <= PWDATA;
                         // 2'd3: slv_reg3 <= PWDATA;
                     endcase
@@ -69,7 +75,7 @@ module APB_SlaveIntf_GPIO (
                         2'd0: PRDATA <= slv_reg0;
                         2'd1: PRDATA <= slv_reg1;
                         2'd2: PRDATA <= slv_reg2;
-                        // 2'd3: PRDATA <= slv_reg3;
+                        // 2'd3: PRDATA <= slv_reg3;  
                     endcase
                 end
             end
@@ -77,16 +83,19 @@ module APB_SlaveIntf_GPIO (
     end
 endmodule
 
-module GPIO (  // my_IP
-    input  logic [7:0] moder,
-    output logic [7:0] idr,
-    input  logic [7:0] odr,
-    inout  logic [7:0] ioPort
+module IP_FND (  // my_IP
+    input logic FCR,
+    input logic [3:0] FMR,
+    input logic [3:0] FDR,
+    output logic [3:0] commOut,
+    output logic [3:0] dataOut
 );
     generate
+        for (genvar i = 0; i < 4; i = i + 1) begin
+            assign commOut[i] = (FCR) ? FMR[i] : 1'b1;  //OUTPUT    
+        end
         for (genvar i = 0; i < 8; i = i + 1) begin
-            assign idr[i]    = (~moder[i]) ? ioPort[i] : 1'bz;  //INPUT
-            assign ioPort[i] = (moder[i]) ? odr[i] : 1'bz;  //OUTPUT
+            assign dataOut[i] = (FCR) ? FDR[i] : 1'bz;  //OUTPUT    
         end
     endgenerate
 endmodule
