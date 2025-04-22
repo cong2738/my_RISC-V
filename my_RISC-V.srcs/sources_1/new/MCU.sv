@@ -3,9 +3,12 @@
 module MCU (
     input  logic       clk,
     input  logic       reset,
+    inout  logic [7:0] ioA,
+    inout  logic [7:0] ioB,
+    inout  logic [7:0] ioC,
+    inout  logic [7:0] ioD,
     output logic [3:0] commOut,
-    output logic [7:0] segOut,
-    inout  logic [7:0] ioB
+    output logic [7:0] segOut
 );
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
@@ -85,19 +88,41 @@ module MCU (
         .PREADY5(PREADY_P5)
     );
 
-    GP_FND u_FND_CTRL (
+
+    GPIO_Periph u_GPIOA (
         .*,
         .PSEL  (PSEL_P1),
         .PRDATA(PRDATA_P1),
-        .PREADY(PREADY_P1)
+        .PREADY(PREADY_P1),
+        .ioPort(ioA)
     );
-
     GPIO_Periph u_GPIOB (
         .*,
         .PSEL  (PSEL_P2),
         .PRDATA(PRDATA_P2),
         .PREADY(PREADY_P2),
         .ioPort(ioB)
+    );
+    GPIO_Periph u_GPIOC (
+        .*,
+        .PSEL  (PSEL_P3),
+        .PRDATA(PRDATA_P3),
+        .PREADY(PREADY_P3),
+        .ioPort(ioC)
+    );
+    GPIO_Periph u_GPIOD (
+        .*,
+        .PSEL  (PSEL_P4),
+        .PRDATA(PRDATA_P4),
+        .PREADY(PREADY_P4),
+        .ioPort(ioD)
+    );
+
+    GP_FND u_FND_CTRL (
+        .*,
+        .PSEL  (PSEL_P5),
+        .PRDATA(PRDATA_P5),
+        .PREADY(PREADY_P5)
     );
 
     ram u_ram (
