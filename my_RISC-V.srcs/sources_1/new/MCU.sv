@@ -88,7 +88,12 @@ module MCU (
         .PREADY5(PREADY_P5)
     );
 
-
+    ram u_ram (
+        .*,
+        .PSEL  (PSEL_RAM),
+        .PRDATA(PRDATA_RAM),
+        .PREADY(PREADY_RAM)
+    );
     GPIO_Periph u_GPIOA (
         .*,
         .PSEL  (PSEL_P1),
@@ -117,19 +122,11 @@ module MCU (
         .PREADY(PREADY_P4),
         .ioPort(ioD)
     );
-
     GP_FND u_FND_CTRL (
         .*,
         .PSEL  (PSEL_P5),
         .PRDATA(PRDATA_P5),
         .PREADY(PREADY_P5)
-    );
-
-    ram u_ram (
-        .*,
-        .PSEL  (PSEL_RAM),
-        .PRDATA(PRDATA_RAM),
-        .PREADY(PREADY_RAM)
     );
 
 endmodule
