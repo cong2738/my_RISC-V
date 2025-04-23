@@ -16,12 +16,23 @@ module GP_FND (
     output logic [ 3:0] commOut,
     output logic [ 7:0] segOut
 );
-    logic       FCR;
-    logic [3:0] FMR;
-    logic [3:0] FDR;
+    logic        FCR;
+    logic [13:0] FDR;
+    logic [ 3:0] DPR;
+    logic [13:0] bcd;
+    logic [ 3:0] dp;
 
     APB_SlaveIntf_FND u_APB_SlaveIntf_FND (.*);
     IP_FND u_FND (.*);
+
+    fndController u_fndController (
+        .clk    (pclk),
+        .reset  (preset),
+        .fndData(bcd),
+        .fndDot (dp),
+        .fndCom (commOut),
+        .fndFont(segOut)
+    );
 endmodule
 
 module APB_SlaveIntf_FND (
@@ -38,14 +49,17 @@ module APB_SlaveIntf_FND (
     output logic        PREADY,
     // internal signal
     input  logic        FCR,
-    output logic [ 3:0] FMR,
-    output logic [ 3:0] FDR
+    output logic [13:0] FDR,
+    output logic [ 3:0] DPR
 );
-    logic [31:0] slv_reg0, slv_reg1, slv_reg2;  //, slv_reg3;
+    logic [31:0] slv_reg0;
+    logic [31:0] slv_reg1;
+    logic [31:0] slv_reg2;
+    // logic [31:0] slv_reg3;
 
     assign FCR = slv_reg0[0];
-    assign FMR = slv_reg1[3:0];
-    assign FDR = slv_reg2[3:0];
+    assign FDR = slv_reg1[13:0];
+    assign DPR = slv_reg2[3:0];
 
     always_ff @(posedge pclk, posedge preset) begin : slv_sel
         if (preset) begin
@@ -79,15 +93,12 @@ module APB_SlaveIntf_FND (
 endmodule
 
 module IP_FND (  // my_IP
-    input  logic       FCR,
-    input  logic [3:0] FMR,
-    input  logic [3:0] FDR,
-    output logic [3:0] commOut,
-    output logic [7:0] segOut
+    input  logic        FCR,
+    input  logic [13:0] FDR,
+    output logic [ 3:0] DPR,
+    output logic [13:0] bcd,
+    output logic [ 3:0] dp
 );
-    assign commOut = (FCR) ? ~FMR : 4'b1111;  //OUTPUT    
-    BCDtoSEG_decoder u_BCDtoSEG_decoder (
-        .bcd(FDR),
-        .seg(segOut)
-    );
+    assign bcd = FCR ? FDR : 13'dx;
+    assign dp  = FCR ? DPR : 4'b1111;
 endmodule
