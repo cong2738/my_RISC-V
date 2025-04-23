@@ -128,7 +128,7 @@
     - 7-SEGMENT  
       ![alt text](image-9.png)
 
-#### april miniProject
+#### april miniProject  
   - RISC-V SOC AMBA APB BUS 기반 Peripheral 설계  
   - SystemVerilog TestBench  
   - 발표일: 5/7  
