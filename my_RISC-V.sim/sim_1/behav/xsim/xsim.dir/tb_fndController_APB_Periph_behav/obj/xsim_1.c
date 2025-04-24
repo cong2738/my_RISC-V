@@ -138,11 +138,11 @@ iki_register_root_pointers(1, 10056, 11,0,0) ;
 
 }
 #include "iki_bridge.h"
-void subprog_m_716b08a1_23b8a6aa_5() ;
-void subprog_m_716b08a1_23b8a6aa_4() ;
-void subprog_m_716b08a1_23b8a6aa_3() ;
-void subprog_m_716b08a1_23b8a6aa_2() ;
-static char* ng00[] = {(void *)subprog_m_716b08a1_23b8a6aa_5, (void *)subprog_m_716b08a1_23b8a6aa_4, (void *)subprog_m_716b08a1_23b8a6aa_3, (void *)subprog_m_716b08a1_23b8a6aa_2};
+void subprog_m_c885d4ef_23b8a6aa_5() ;
+void subprog_m_c885d4ef_23b8a6aa_4() ;
+void subprog_m_c885d4ef_23b8a6aa_3() ;
+void subprog_m_c885d4ef_23b8a6aa_2() ;
+static char* ng00[] = {(void *)subprog_m_c885d4ef_23b8a6aa_5, (void *)subprog_m_c885d4ef_23b8a6aa_4, (void *)subprog_m_c885d4ef_23b8a6aa_3, (void *)subprog_m_c885d4ef_23b8a6aa_2};
 void relocate(char *);
 
 void sensitize(char *);
