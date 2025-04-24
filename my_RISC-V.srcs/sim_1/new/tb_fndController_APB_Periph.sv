@@ -13,25 +13,32 @@ class transaction;
     // outport signals
     logic      [ 3:0] fndCom;  // dut out data
     logic      [ 7:0] fndFont;  // dut out data
-
+    logic      [ 3:0] sim_dp;  // dut out data
+    logic      [13:0] sim_bcd;  // dut out data
+    // en / com / data
     constraint c_paddr {
-        PADDR dist {4'h0:=10, 4'h4:=50, 4'h8:=50};
+        PADDR dist {
+            4'h0 := 10,
+            4'h4 := 50,
+            4'h8 := 50
+        };
     }  // 이 중에 하나 쓸거임
-    constraint c_wdata {
+    // constraint c_wdata {PWDATA < 10;}
+    constraint c_paddr_0 {
         if (PADDR == 0)
         PWDATA inside {1'b0, 1'b1};
         else
         if (PADDR == 4)
-        PWDATA < 4'b1111;
+        PWDATA < 14'd10000;
         else
-        if (PADDR == 8) PWDATA < 10;
+        if (PADDR == 8) PWDATA < 4'b1111;
     }
 
     task display(string name);
         $display(
-            "[%s] PADDR=%h, PWDATA=%h, PWRITE=%h, PENABLE=%h, PSEL=%h, PRDATA=%h, PREADY=%h, fndCom=%h, fndFont=%h",
+            "[%s] PADDR=%h, PWDATA=%h, PWRITE=%h, PENABLE=%h, PSEL=%h, PRDATA=%h, PREADY=%h, fndCom=%h, fndFont=%h, dp=%b, bcd=%d",
             name, PADDR, PWDATA, PWRITE, PENABLE, PSEL, PRDATA, PREADY, fndCom,
-            fndFont);
+            fndFont, sim_dp, sim_bcd);
     endtask
 
 endclass  //transaction
@@ -51,6 +58,9 @@ interface APB_Slave_Interface;
     logic [ 3:0] fndCom;  // dut out data
     logic [ 7:0] fndFont;  // dut out data
 
+
+    logic [ 3:0] sim_dp;  // dut out data
+    logic [13:0] sim_bcd;  // dut out data
 endinterface  //APB_Slave_Interface
 
 class generator;
@@ -69,7 +79,6 @@ class generator;
             if (!fnd_tr.randomize()) $error("Randomization fail!");
             fnd_tr.display("GEN");
             Gen2Drv_mbox.put(fnd_tr);
-            #10;
             @(gen_next_event);  // wait a event from driver
         end
     endtask
@@ -78,8 +87,8 @@ endclass  //generator
 
 class driver;
     virtual APB_Slave_Interface fnd_intf;
-    mailbox #(transaction)      Gen2Drv_mbox;
-    transaction                 fnd_tr;
+    mailbox #(transaction) Gen2Drv_mbox;
+    transaction fnd_tr;
 
     function new(virtual APB_Slave_Interface fnd_intf,
                  mailbox#(transaction) Gen2Drv_mbox);
@@ -91,6 +100,10 @@ class driver;
         forever begin
             Gen2Drv_mbox.get(fnd_tr);
             fnd_tr.display("DRV");
+            // fnd_intf.PRDATA <= 0;  // dut out data
+            // fnd_intf.PREADY <= 0;  // dut out data
+            // fnd_intf.fndCom <= 0;  // dut out data
+            // fnd_intf.fndFont <= 0;  // dut out data
             @(posedge fnd_intf.PCLK);
             fnd_intf.PADDR   <= fnd_tr.PADDR;
             fnd_intf.PWDATA  <= fnd_tr.PWDATA;
@@ -104,9 +117,7 @@ class driver;
             fnd_intf.PENABLE <= 1'b1;
             fnd_intf.PSEL    <= 1'b1;
             wait (fnd_intf.PREADY == 1'b1);
-            @(posedge fnd_intf.PCLK);
-            @(posedge fnd_intf.PCLK);
-            @(posedge fnd_intf.PCLK);
+            // @(posedge fnd_intf.PCLK);
         end
     endtask  //
 
@@ -114,9 +125,9 @@ endclass  // driver
 
 
 class monitor;
-    mailbox #(transaction)      Mon2SCB_mbox;
+    mailbox #(transaction) Mon2SCB_mbox;
     virtual APB_Slave_Interface fnd_intf;
-    transaction                 fnd_tr;
+    transaction fnd_tr;
 
     function new(virtual APB_Slave_Interface fnd_intf,
                  mailbox#(transaction) Mon2SCB_mbox);
@@ -127,7 +138,8 @@ class monitor;
     task run();
         forever begin
             fnd_tr = new();
-            wait (fnd_intf.PREADY == 1'b1);
+            // wait (fnd_intf.PREADY == 1'b1);
+            @(posedge fnd_intf.PREADY);
             #1;
             fnd_tr.PADDR   = fnd_intf.PADDR;
             fnd_tr.PWDATA  = fnd_intf.PWDATA;
@@ -138,9 +150,14 @@ class monitor;
             fnd_tr.PREADY  = fnd_intf.PREADY;
             fnd_tr.fndCom  = fnd_intf.fndCom;
             fnd_tr.fndFont = fnd_intf.fndFont;
-            fnd_tr.display("MON");
+            fnd_tr.sim_dp = fnd_intf.sim_dp;
+            fnd_tr.sim_bcd = fnd_intf.sim_bcd;
             Mon2SCB_mbox.put(fnd_tr);
+            fnd_tr.display("MON");
             @(posedge fnd_intf.PCLK);
+            // @(posedge fnd_intf.PCLK);
+            // @(posedge fnd_intf.PCLK);
+            // @(posedge fnd_intf.PCLK);
         end
     endtask
 endclass  //monitor
@@ -152,76 +169,99 @@ class scoreboard;
     event gen_next_event;
 
     // reference model
-    logic [31:0] refFndReg[0:2];
-    logic [7:0] refFndFont[0:15] = '{
-        8'hc0,
-        8'hf9,
-        8'ha4,
-        8'hb0,
-        8'h99,
-        8'h92,
-        8'h82,
-        8'hf8,
-        8'h80,
-        8'h90,
-        8'h88,
-        8'h83,
-        8'hc6,
-        8'ha1,
-        8'h86,
-        8'h8e
-    };
+    logic [31:0] refFndReg[0:2];  // = slv_reg0, slv_reg1, slv_reg2;
+
+
+    // logic [7:0] refFndFont[0:15] = '{
+    //     8'hc0,
+    //     8'hf9,
+    //     8'ha4,
+    //     8'hb0,
+    //     8'h99,
+    //     8'h92,
+    //     8'h82,
+    //     8'hf8,
+    //     8'h80,
+    //     8'h90,
+    //     8'h88,
+    //     8'h83,
+    //     8'hc6,
+    //     8'ha1,
+    //     8'h86,
+    //     8'h8e
+    // };
+
+    int write_cnt;
+    int read_cnt;
+    int bcd_pass_cnt;
+    int dp_pass_cnt;
+    int en_pass_cnt;
+    int bcd_fail_cnt;
+    int dp_fail_cnt;
+    int en_fail_cnt;
+    int total_cnt;
 
     function new(mailbox#(transaction) Mon2SCB_mbox, event gen_next_event);
         this.Mon2SCB_mbox = Mon2SCB_mbox;
+        this.gen_next_event = gen_next_event;
+
+        write_cnt = 0;
+        read_cnt = 0;
+        bcd_pass_cnt = 0;
+        dp_pass_cnt = 0;
+        en_pass_cnt = 0;
+        bcd_fail_cnt = 0;
+        dp_fail_cnt = 0;
+        en_fail_cnt = 0;
+        total_cnt = 0;
+
         for (int i = 0; i < 3; i++) begin
             refFndReg[i] = 0;
         end
-        this.gen_next_event = gen_next_event;
     endfunction  //new()
 
     task run();
         forever begin
             Mon2SCB_mbox.get(fnd_tr);
             fnd_tr.display("SCB");
+
             if (fnd_tr.PWRITE) begin  // write mode
+                write_cnt++;
+                total_cnt++;
                 refFndReg[fnd_tr.PADDR[3:2]] = fnd_tr.PWDATA;
-                if (refFndFont[refFndReg[2]] == fnd_tr.fndFont)  // PASS!
-                    $display("FND Font PASS!");
-                else  // FAIL!
-                    $display("FND Font FAIL!");
-                if (refFndReg[0] == 0) begin  // en == 0: fndCom = 4'b1111
-                    if (4'hf == fnd_tr.fndCom[3:0])
-                        $display(
-                            "FND Enable FND ComPort PASS!,%h,%h",
-                            refFndReg[1][3:0],
-                            ~fnd_tr.fndCom[3:0]
-                        );
-                    else
-                        $display(
-                            "FND Enable FND ComPort FAIL!,%h,%h",
-                            refFndReg[1][3:0],
-                            ~fnd_tr.fndCom[3:0]
-                        );
-                end else begin  // en == 1
-                    if (refFndReg[1][3:0] == ~fnd_tr.fndCom[3:0])
-                        $display(
-                            "FND ComPort PASS!,%h,%h",
-                            refFndReg[1][3:0],
-                            ~fnd_tr.fndCom[3:0]
-                        );
-                    else
-                        $display(
-                            "FND ComPort FAIL!,%h,%h",
-                            refFndReg[1][3:0],
-                            ~fnd_tr.fndCom[3:0]
-                        );
+                if (refFndReg[1] == fnd_tr.sim_bcd) begin  // PASS!
+                    bcd_pass_cnt++;
+                    $display("FND BCD PASS!, %d, %d", refFndReg[1],
+                             fnd_tr.sim_bcd);
+                end else begin
+                    bcd_fail_cnt++;
+                    $display("FND BCD FAIL!, %d, %d", refFndReg[1],
+                             fnd_tr.sim_bcd);
+                end
+                if (refFndReg[0] == 0) begin  // en == 0: fndCom == 4'b1111;
+                    if (4'hf == fnd_tr.fndCom) begin
+                        dp_pass_cnt++;
+                        $display("FND Enable PASS!");
+                    end else begin
+                        dp_fail_cnt++;
+                        $display("FND Enable FAIL!");
+                    end
+                end else begin  // en == 1;
+                    if (refFndReg[2][3:0] == fnd_tr.sim_dp) begin
+                        en_pass_cnt++;
+                        $display("FND DP PASS!, %h, %h", refFndReg[2][3:0],
+                                 fnd_tr.sim_dp);
+                    end else en_fail_cnt++;
+                    $display("FND DP FAIL!, %h, %h", refFndReg[2][3:0],
+                             fnd_tr.sim_dp);
                 end
             end else begin  // read mode 나중에 할게
             end
             ->gen_next_event;
         end
     endtask
+
+
 endclass  //scoreboard
 
 
@@ -234,7 +274,24 @@ class envirnment;
     monitor                fnd_mon;
     scoreboard             fnd_scb;
 
-    event                  gen_next_event;
+    task show_report();
+        $display("==================================");
+        $display("==        Final Report          ==");
+        $display("==================================");
+        $display("Write_cnt Test  : %0d", this.fnd_scb.write_cnt);
+        $display("Read_cnt  Test  : %0d", this.fnd_scb.read_cnt);
+        $display("Bcd_pass_cnt  Test  : %0d", this.fnd_scb.bcd_pass_cnt);
+        $display("Dp_pass_cnt  Test  : %0d", this.fnd_scb.dp_pass_cnt);
+        $display("En_pass_cnt  Test  : %0d", this.fnd_scb.en_pass_cnt);
+        $display("Bcd_fail_cnt  Test  : %0d", this.fnd_scb.bcd_fail_cnt);
+        $display("Dp_fail_cnt  Test  : %0d", this.fnd_scb.dp_fail_cnt);
+        $display("En_fail_cnt  Test  : %0d", this.fnd_scb.en_fail_cnt);
+        $display("Total Test  : %0d", this.fnd_scb.total_cnt);
+        $display("==================================");
+        $display("==    test bench is finished!   ==");
+    endtask
+
+    event gen_next_event;
 
     function new(virtual APB_Slave_Interface fnd_intf);
         this.Gen2Drv_mbox = new();
@@ -263,10 +320,10 @@ module tb_fndController_APB_Periph ();
 
     always #5 fnd_intf.PCLK = ~fnd_intf.PCLK;
 
-    GP_FND dut (
+    fnd_Periph dut (
         // global signal
-        .pclk(fnd_intf.PCLK),
-        .preset(fnd_intf.PRESET),
+        .PCLK(fnd_intf.PCLK),
+        .PRESET(fnd_intf.PRESET),
         // APB Interface Signals
         .PADDR(fnd_intf.PADDR),
         .PWDATA(fnd_intf.PWDATA),
@@ -276,17 +333,23 @@ module tb_fndController_APB_Periph ();
         .PRDATA(fnd_intf.PRDATA),
         .PREADY(fnd_intf.PREADY),
         // outport signals
-        .commOut(fnd_intf.fndCom),
-        .segOut(fnd_intf.fndFont)
+        .fndCom(fnd_intf.fndCom),
+        .fndFont(fnd_intf.fndFont),
+        .sim_dp(fnd_intf.sim_dp),
+        .sim_bcd(fnd_intf.sim_bcd)
     );
+
+
 
     initial begin
         fnd_intf.PCLK   = 0;
         fnd_intf.PRESET = 1;
         #10 fnd_intf.PRESET = 0;
         fnd_env = new(fnd_intf);
-        fnd_env.run(10);
+        fnd_env.run(100);
         #30;
+        fnd_env.show_report();
+        $display("finished!");
         $finish;
     end
 endmodule

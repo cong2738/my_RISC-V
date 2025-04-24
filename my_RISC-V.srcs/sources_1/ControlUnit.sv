@@ -24,7 +24,7 @@ module ControlUnit (
     };  // {func7[5], func3}
 
     logic [10:0] signals;
-    assign {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel, branch, jal, jalr, transfer} = signals;
+    assign {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel, branch, jal, jalr,transfer} = signals;
 
     typedef enum {
         FETCH,
@@ -86,7 +86,7 @@ module ControlUnit (
         signals = 11'b0_0_0_0_000_0_0_0_0;
         aluControl = operators;
         case (state)
-            // {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel(3), branch, jal, jalr, transfer} = signals
+            // {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel(3), branch, jal, jalr,transfer} = signals
             FETCH:  signals = 11'b1_0_0_0_000_0_0_0_0;
             DECODE: signals = 11'b0_0_0_0_000_0_0_0_0;
             R_EXE:  signals = 11'b0_1_0_0_000_0_0_0_0;
@@ -94,13 +94,13 @@ module ControlUnit (
                 signals    = 11'b0_0_1_0_000_0_0_0_0;
                 aluControl = `ADD;
             end
-            S_MEM:  signals = 11'b0_0_1_1_000_0_0_0_1;  // pp trf on
+            S_MEM:  signals = 11'b0_0_1_1_000_0_0_0_1;
             L_EXE: begin
-                signals    = 11'b0_0_1_0_001_0_0_0_0;
+                signals = 11'b0_0_1_0_001_0_0_0_0;
                 aluControl = `ADD;
             end
             L_MEM:  signals = 11'b0_0_1_0_001_0_0_0_1;
-            L_WB:   signals = 11'b0_1_1_0_001_0_0_0_0;  // pp trf on
+            L_WB:   signals = 11'b0_1_1_0_001_0_0_0_0;
             I_EXE: begin
                 signals = 11'b0_1_1_0_000_0_0_0_0;
                 if (operators == 4'b1101)
@@ -112,9 +112,47 @@ module ControlUnit (
             AU_EXE: signals = 11'b0_1_0_0_011_0_0_0_0;
             J_EXE:  signals = 11'b0_1_0_0_100_0_1_0_0;
             JL_EXE: begin
-                signals = 11'b0_1_0_0_100_0_1_1_0;
-                aluControl = `ADD;  // {func7[5], func3}
+                signals    = 11'b0_1_0_0_100_0_1_1_0;
+                aluControl = `ADD;
             end
         endcase
     end
+
+    /*
+    always_comb begin
+        signals = 10'b0;
+        case (opcode)
+            // {PCEn, regFileWe, aluSrcMuxSel, dataWe, RFWDSrcMuxSel(3), branch, jal, jalr} = signals
+            `OP_TYPE_R:  signals = 9'b1_0_0_000_0_0_0;
+            `OP_TYPE_S:  signals = 9'b0_1_1_000_0_0_0;
+            `OP_TYPE_L:  signals = 9'b1_1_0_001_0_0_0;
+            `OP_TYPE_I:  signals = 9'b1_1_0_000_0_0_0;
+            `OP_TYPE_B:  signals = 9'b0_0_0_000_1_0_0;
+            `OP_TYPE_LU: signals = 9'b1_0_0_010_0_0_0;
+            `OP_TYPE_AU: signals = 9'b1_0_0_011_0_0_0;
+            `OP_TYPE_J:  signals = 9'b1_0_0_100_0_1_0;
+            `OP_TYPE_JL: signals = 9'b1_0_0_100_0_1_1;
+        endcase
+    end
+
+    always_comb begin
+        aluControl = 4'bx;
+        case (opcode)
+            `OP_TYPE_S: aluControl = `ADD;
+            `OP_TYPE_L: aluControl = `ADD;
+            `OP_TYPE_JL: aluControl = `ADD;  // {func7[5], func3}
+            `OP_TYPE_I: begin
+                if (operators == 4'b1101)
+                    aluControl = operators;  // {1'b1, func3}
+                else aluControl = {1'b0, operators[2:0]};  // {1'b0, func3}
+            end
+            default: aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_R:  aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_B:  aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_LU: aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_AU: aluControl = operators;  // {func7[5], func3}
+            // `OP_TYPE_J:  aluControl = operators;  // {func7[5], func3}
+        endcase
+    end
+    */
 endmodule
