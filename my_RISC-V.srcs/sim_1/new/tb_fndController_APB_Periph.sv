@@ -320,7 +320,6 @@ module tb_fndController_APB_Periph ();
         fnd_env.run(100);
         #30;
         fnd_env.show_report();
-        $display("finished!");
         $finish;
     end
 endmodule
