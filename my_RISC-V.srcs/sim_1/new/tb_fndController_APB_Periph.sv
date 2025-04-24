@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 
 class transaction;
-
     // APB Interface Signals
     rand logic [ 3:0] PADDR;
     rand logic [31:0] PWDATA;
@@ -100,10 +99,6 @@ class driver;
         forever begin
             Gen2Drv_mbox.get(fnd_tr);
             fnd_tr.display("DRV");
-            // fnd_intf.PRDATA <= 0;  // dut out data
-            // fnd_intf.PREADY <= 0;  // dut out data
-            // fnd_intf.fndCom <= 0;  // dut out data
-            // fnd_intf.fndFont <= 0;  // dut out data
             @(posedge fnd_intf.PCLK);
             fnd_intf.PADDR   <= fnd_tr.PADDR;
             fnd_intf.PWDATA  <= fnd_tr.PWDATA;
@@ -117,9 +112,8 @@ class driver;
             fnd_intf.PENABLE <= 1'b1;
             fnd_intf.PSEL    <= 1'b1;
             wait (fnd_intf.PREADY == 1'b1);
-            // @(posedge fnd_intf.PCLK);
         end
-    endtask  //
+    endtask  //run
 
 endclass  // driver
 
@@ -150,14 +144,11 @@ class monitor;
             fnd_tr.PREADY  = fnd_intf.PREADY;
             fnd_tr.fndCom  = fnd_intf.fndCom;
             fnd_tr.fndFont = fnd_intf.fndFont;
-            fnd_tr.sim_dp = fnd_intf.sim_dp;
+            fnd_tr.sim_dp  = fnd_intf.sim_dp;
             fnd_tr.sim_bcd = fnd_intf.sim_bcd;
             Mon2SCB_mbox.put(fnd_tr);
             fnd_tr.display("MON");
             @(posedge fnd_intf.PCLK);
-            // @(posedge fnd_intf.PCLK);
-            // @(posedge fnd_intf.PCLK);
-            // @(posedge fnd_intf.PCLK);
         end
     endtask
 endclass  //monitor
@@ -169,27 +160,7 @@ class scoreboard;
     event gen_next_event;
 
     // reference model
-    logic [31:0] refFndReg[0:2];  // = slv_reg0, slv_reg1, slv_reg2;
-
-
-    // logic [7:0] refFndFont[0:15] = '{
-    //     8'hc0,
-    //     8'hf9,
-    //     8'ha4,
-    //     8'hb0,
-    //     8'h99,
-    //     8'h92,
-    //     8'h82,
-    //     8'hf8,
-    //     8'h80,
-    //     8'h90,
-    //     8'h88,
-    //     8'h83,
-    //     8'hc6,
-    //     8'ha1,
-    //     8'h86,
-    //     8'h8e
-    // };
+    logic [31:0] refFndReg[0:2];  // = slv_reg0, slv_reg1, slv_reg2
 
     int write_cnt;
     int read_cnt;
