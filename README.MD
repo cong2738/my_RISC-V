@@ -131,4 +131,18 @@
 #### april miniProject  
   - RISC-V SOC AMBA APB BUS 기반 Peripheral 설계  
   - SystemVerilog TestBench  
-  - 발표일: 5/7  
+  - 발표일: 5/7 
+
+#### 2025 04 24
+  - SV Simulation 구조  
+  ![alt text](image-10.png)  
+  referenceModel: 시뮬레이션 예상값.  
+  transfer: 값들을 한번에 쓰기위한 뭉탱이.  
+  Generator: 값 생성 클래스  
+  Driver: interface 접근/실행 클래스  
+  Monitor: interface 접근/캡처 클래스  
+  Scoreboard: interface 값 (refmodel과)비교 클래스  
+  Interface: 실제 DUT와 연결되는 선들의 뭉탱이  
+  Mailbox: C++의 컨테이너중 큐 역할.  
+  - 시뮬레이션 출력 예시  
+  ![alt text](image-11.png)  
