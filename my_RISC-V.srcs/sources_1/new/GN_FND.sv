@@ -19,20 +19,9 @@ module GP_FND (
     logic        FCR;
     logic [13:0] FDR;
     logic [ 3:0] DPR;
-    logic [13:0] bcd;
-    logic [ 3:0] dp;
 
     APB_SlaveIntf_FND u_APB_SlaveIntf_FND (.*);
     IP_FND u_FND (.*);
-
-    fndController u_fndController (
-        .clk    (pclk),
-        .reset  (preset),
-        .fndData(bcd),
-        .fndDot (dp),
-        .fndCom (commOut),
-        .fndFont(segOut)
-    );
 endmodule
 
 module APB_SlaveIntf_FND (
@@ -93,12 +82,22 @@ module APB_SlaveIntf_FND (
 endmodule
 
 module IP_FND (  // my_IP
+    input  logic        pclk,
+    input  logic        preset,
     input  logic        FCR,
     input  logic [13:0] FDR,
-    output logic [ 3:0] DPR,
-    output logic [13:0] bcd,
-    output logic [ 3:0] dp
+    input  logic [ 3:0] DPR,
+    output logic [ 3:0] commOut,
+    output logic [13:0] segOut
 );
-    assign bcd = FCR ? FDR : 13'dx;
-    assign dp  = FCR ? DPR : 4'b1111;
+    logic [3:0] comm;
+    fndController u_fndController (
+        .clk    (pclk),
+        .reset  (preset),
+        .fndData(FDR),
+        .fndDot (DPR),
+        .fndCom (comm),
+        .fndFont(segOut)
+    );
+    assign commOut = FCR ? comm : 4'b1111;
 endmodule
