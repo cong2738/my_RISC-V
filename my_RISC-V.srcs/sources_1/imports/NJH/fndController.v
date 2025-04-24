@@ -3,7 +3,6 @@
 module fndController (
     input         clk,
     input         reset,
-    input         fnd_ON,
     input  [13:0] fndData,
     input  [ 3:0] fndDot,
     output [ 3:0] fndCom,
