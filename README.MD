@@ -105,35 +105,34 @@
       - T0: Idle, T1: Setup, T2: Acces(slave ready not send), T4: Acces(slave ready send), T5: Idle  
       ![alt text](image-7.png)  
     - ready신호는 규격화 된 범용버스으로서 쓰기 위해 표준규격을 만든것이다  
-### APB MASTER  
-#### 2025 04 18  
+### 2025 04 18  
   - MASTER  Logical design
   - SLAVE   Logical design
 
-#### 2025 04 20  
+### 2025 04 20  
   - CPU는 모든 패리패럴을 메모리와 구분하지 않고 항상 같은 형태(프로토콜)의 신호를 보낸다.  
     "주소를 던지고 값을 읽고 쓰는 구조"가 동일하다.
 
-#### 2025 04 21  
+### 2025 04 21  
   - paripheral device module template  
     - APB_INTERFACE
     - GPO  
     - GPI  
     - GPIO  
 
-#### 2025 04 22  
+### 2025 04 22  
   <img src="AMBA_APB_BUS_SC.png" alt="alt text" style="width:100%;">    
     
   - APB interface 시험 적용
     - 7-SEGMENT  
       ![alt text](image-9.png)
 
-#### april miniProject  
+### april miniProject  
   - RISC-V SOC AMBA APB BUS 기반 Peripheral 설계  
   - SystemVerilog TestBench  
   - 발표일: 5/7 
 
-#### 2025 04 24
+### 2025 04 24
   - SV Simulation 구조  
   ![alt text](image-10.png)  
   referenceModel: 시뮬레이션 예상값.  
@@ -145,4 +144,19 @@
   Interface: 실제 DUT와 연결되는 선들의 뭉탱이  
   Mailbox: C++의 컨테이너중 큐 역할.  
   - 시뮬레이션 출력 예시  
-  ![alt text](image-11.png)  
+  
+
+### 2025 04 24
+  - FIFO mem(QUEUE, IOBUFFER) 
+    - 버퍼 사용 이유: 도메인간 클럭차이 또는 입출력동작속도의 차이가 생길때(싱크가 안맞을때) 데이터를 잡아둘 용도로 사용.
+    - FIFO mem: 선입선출형 메모리
+    - 구조     
+    <img src="FIFO_MEM_구조.png" alt="alt text">  
+    - 예시 입출력  
+    <img src="FIFO_WaveDrom.png" alt="alt text">  
+    <img src="image-12.png" alt="alt text">  
+    <img src="image-14.png" alt="alt text">  
+    - 합성된 회로  
+    <img src="image-13.png" alt="alt text">
+    - 시뮬레이션  
+    <img src="image-15.png" alt="alt text">
