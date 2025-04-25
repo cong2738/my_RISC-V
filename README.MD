@@ -159,4 +159,8 @@
     - 합성된 회로  
     <img src="image-13.png" alt="alt text">
     - 시뮬레이션  
-    <img src="image-15.png" alt="alt text">
+    <img src="image-15.png" alt="alt text">  
+
+#### 2025 04 25~27
+  - 입출력 버퍼 AMAB버스에 연결해보기.  
+  <img src="image-16.png" alt="alt text"> 
