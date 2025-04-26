@@ -2,52 +2,31 @@
 
 module APB_Master (
     // global signal
-    input logic PCLK,
-    input logic PRESET,
+    input  logic        PCLK,
+    input  logic        PRESET,
     // APB Interface Signals
     output logic [31:0] PADDR,
     output logic [31:0] PWDATA,
     output logic        PWRITE,
     output logic        PENABLE,
-    output logic        PSEL0,
-    output logic        PSEL1,
-    output logic        PSEL2,
-    output logic        PSEL3,
-    output logic        PSEL4,
-    output logic        PSEL5,
-    output logic        PSEL6,
-    output logic        PSEL7,
-    input  logic [31:0] PRDATA0,
-    input  logic [31:0] PRDATA1,
-    input  logic [31:0] PRDATA2,
-    input  logic [31:0] PRDATA3,
-    input  logic [31:0] PRDATA4,
-    input  logic [31:0] PRDATA5,
-    input  logic [31:0] PRDATA6,
-    input  logic [31:0] PRDATA7,
-    input  logic        PREADY0,
-    input  logic        PREADY1,
-    input  logic        PREADY2,
-    input  logic        PREADY3,
-    input  logic        PREADY4,
-    input  logic        PREADY5,
-    input  logic        PREADY6,
-    input  logic        PREADY7,
+    output logic [15:0] PSEL,
+    input  logic [31:0] PRDATA  [0:15],
+    input  logic [15:0] PREADY,
     // Internal Interface Signals
-    input logic transfer,  // trigger signal
+    input  logic        transfer,        // trigger signal
     output logic        ready,
     input  logic [31:0] addr,
     input  logic [31:0] wdata,
     output logic [31:0] rdata,
-    input  logic        write   // 1:write, 0:read
+    input  logic        write            // 1:write, 0:read
 );
     logic [31:0] temp_addr_next, temp_addr_reg;
     logic [31:0] temp_wdata_next, temp_wdata_reg;
     logic temp_write_next, temp_write_reg;
     logic decoder_en;
-    logic [7:0] pselx;
+    logic [15:0] pselx;
 
-    assign {PSEL7, PSEL6, PSEL5, PSEL4, PSEL3, PSEL2, PSEL1, PSEL0} = pselx;
+    assign PSEL = pselx;
 
     typedef enum bit [1:0] {
         IDLE,
@@ -86,7 +65,7 @@ module APB_Master (
                 decoder_en = 1'b0;
                 if (transfer) begin
                     state_next      = SETUP;
-                    temp_addr_next  = addr;  // latching
+                    temp_addr_next  = addr;  
                     temp_wdata_next = wdata;
                     temp_write_next = write;
                 end
@@ -128,22 +107,8 @@ module APB_Master (
 
     APB_Mux U_APB_Mux (
         .sel  (temp_addr_reg),
-        .d0   (PRDATA0),
-        .d1   (PRDATA1),
-        .d2   (PRDATA2),
-        .d3   (PRDATA3),
-        .d4   (PRDATA4),
-        .d5   (PRDATA5),
-        .d6   (PRDATA6),
-        .d7   (PRDATA7),
-        .r0   (PREADY0),
-        .r1   (PREADY1),
-        .r2   (PREADY2),
-        .r3   (PREADY3),
-        .r4   (PREADY4),
-        .r5   (PREADY5),
-        .r6   (PREADY6),
-        .r7   (PREADY7),
+        .d   (PRDATA),
+        .r   (PREADY),
         .rdata(rdata),
         .ready(ready)
     );
@@ -152,20 +117,28 @@ endmodule
 module APB_Decoder (
     input  logic        en,
     input  logic [31:0] sel,
-    output logic [ 5:0] y
+    output logic [15:0] y
 );
     always_comb begin
-        y = 8'b0;
+        y = 16'b0;
         if (en) begin
             casex (sel)
-                32'h1000_0xxx: y = 8'b00000001;
-                32'h1000_1xxx: y = 8'b00000010;
-                32'h1000_2xxx: y = 8'b00000100;
-                32'h1000_3xxx: y = 8'b00001000;
-                32'h1000_4xxx: y = 8'b00010000;
-                32'h1000_5xxx: y = 8'b00100000;
-                32'h1000_6xxx: y = 8'b01000000;
-                32'h1000_7xxx: y = 8'b10000000;
+                32'h1000_0xxx: y[0]  = 1;
+                32'h1000_1xxx: y[1]  = 1;
+                32'h1000_2xxx: y[2]  = 1;
+                32'h1000_3xxx: y[3]  = 1;
+                32'h1000_4xxx: y[4]  = 1;
+                32'h1000_5xxx: y[5]  = 1;
+                32'h1000_6xxx: y[6]  = 1;
+                32'h1000_7xxx: y[7]  = 1;
+                32'h1000_8xxx: y[8]  = 1;
+                32'h1000_9xxx: y[9]  = 1;
+                32'h1000_axxx: y[10] = 1;
+                32'h1000_bxxx: y[11] = 1;
+                32'h1000_cxxx: y[12] = 1;
+                32'h1000_dxxx: y[13] = 1;
+                32'h1000_exxx: y[14] = 1;
+                32'h1000_fxxx: y[15] = 1;
             endcase
         end
     end
@@ -173,22 +146,8 @@ endmodule
 
 module APB_Mux (
     input  logic [31:0] sel,
-    input  logic [31:0] d0,
-    input  logic [31:0] d1,
-    input  logic [31:0] d2,
-    input  logic [31:0] d3,
-    input  logic [31:0] d4,
-    input  logic [31:0] d5,
-    input  logic [31:0] d6,
-    input  logic [31:0] d7,
-    input  logic        r0,
-    input  logic        r1,
-    input  logic        r2,
-    input  logic        r3,
-    input  logic        r4,
-    input  logic        r5,
-    input  logic        r6,
-    input  logic        r7,
+    input  logic [31:0] d    [0:15],
+    input  logic [15:0] r,
     output logic [31:0] rdata,
     output logic        ready
 );
@@ -196,26 +155,44 @@ module APB_Mux (
     always_comb begin
         rdata = 32'bx;
         casex (sel)
-            32'h1000_0xxx: rdata = d0;
-            32'h1000_1xxx: rdata = d1;
-            32'h1000_2xxx: rdata = d2;
-            32'h1000_3xxx: rdata = d3;
-            32'h1000_4xxx: rdata = d4;
-            32'h1000_5xxx: rdata = d5;
-            32'h1000_6xxx: rdata = d6;
-            32'h1000_7xxx: rdata = d7;
+            32'h1000_0xxx: rdata = d[0];
+            32'h1000_1xxx: rdata = d[1];
+            32'h1000_2xxx: rdata = d[2];
+            32'h1000_3xxx: rdata = d[3];
+            32'h1000_4xxx: rdata = d[4];
+            32'h1000_5xxx: rdata = d[5];
+            32'h1000_6xxx: rdata = d[6];
+            32'h1000_7xxx: rdata = d[7];
+            32'h1000_8xxx: rdata = d[8];
+            32'h1000_9xxx: rdata = d[9];
+            32'h1000_axxx: rdata = d[10];
+            32'h1000_bxxx: rdata = d[11];
+            32'h1000_cxxx: rdata = d[12];
+            32'h1000_dxxx: rdata = d[13];
+            32'h1000_exxx: rdata = d[14];
+            32'h1000_fxxx: rdata = d[15];
         endcase
     end
 
     always_comb begin
         ready = 1'b0;
         casex (sel)
-            32'h1000_0xxx: ready = r0;
-            32'h1000_1xxx: ready = r1;
-            32'h1000_2xxx: ready = r2;
-            32'h1000_3xxx: ready = r3;
-            32'h1000_4xxx: ready = r4;
-            32'h1000_5xxx: ready = r5;
+            32'h1000_0xxx: ready = r[0];
+            32'h1000_1xxx: ready = r[1];
+            32'h1000_2xxx: ready = r[2];
+            32'h1000_3xxx: ready = r[3];
+            32'h1000_4xxx: ready = r[4];
+            32'h1000_5xxx: ready = r[5];
+            32'h1000_6xxx: ready = r[6];
+            32'h1000_7xxx: ready = r[7];
+            32'h1000_8xxx: ready = r[8];
+            32'h1000_9xxx: ready = r[9];
+            32'h1000_axxx: ready = r[10];
+            32'h1000_bxxx: ready = r[11];
+            32'h1000_cxxx: ready = r[12];
+            32'h1000_dxxx: ready = r[13];
+            32'h1000_exxx: ready = r[14];
+            32'h1000_fxxx: ready = r[15];
         endcase
     end
 endmodule
