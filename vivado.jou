@@ -11,3 +11,4 @@
 #-----------------------------------------------------------
 start_gui
 open_project D:/harman/my_RISC-V/my_RISC-V.xpr
+xhub::refresh_catalog [xhub::get_xstores xilinx_board_store]
