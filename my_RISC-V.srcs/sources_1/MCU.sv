@@ -11,10 +11,9 @@ module MCU (
     output logic [7:0] fndFont,
     output logic [7:0] fifoReadData
 );
-    // global signals
     logic        PCLK;
     logic        PRESET;
-    // APB Interface Signals
+
     logic [31:0] PADDR;
     logic [31:0] PWDATA;
     logic        PWRITE;
@@ -22,19 +21,18 @@ module MCU (
     logic [15:0] PSEL;
     logic [31:0] PRDATA[0:15];
     logic [15:0] PREADY;
-    // CPU - APB_Master Signals
-    // Internal Interface Signals
-    logic        transfer;  // trigger signal
+    
+    logic        transfer;  
     logic        ready;
     logic [31:0] addr;
     logic [31:0] wdata;
     logic [31:0] rdata;
-    logic        write;  // 1:write, 0:read
+    logic        write;  
     logic        dataWe;
     logic [31:0] dataAddr;
     logic [31:0] dataWData;
     logic [31:0] dataRData;
-    // ROM Signals
+    
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
 
