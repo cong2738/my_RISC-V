@@ -19,30 +19,9 @@ module MCU (
     logic [31:0] PWDATA;
     logic        PWRITE;
     logic        PENABLE;
-    logic        PSEL0;
-    logic        PSEL1;
-    logic        PSEL2;
-    logic        PSEL3;
-    logic        PSEL4;
-    logic        PSEL5;
-    logic        PSEL6;
-    logic        PSEL7;
-    logic [31:0] PRDATA0;
-    logic [31:0] PRDATA1;
-    logic [31:0] PRDATA2;
-    logic [31:0] PRDATA3;
-    logic [31:0] PRDATA4;
-    logic [31:0] PRDATA5;
-    logic [31:0] PRDATA6;
-    logic [31:0] PRDATA7;
-    logic        PREADY0;
-    logic        PREADY1;
-    logic        PREADY2;
-    logic        PREADY3;
-    logic        PREADY4;
-    logic        PREADY5;
-    logic        PREADY6;
-    logic        PREADY7;
+    logic [15:0] PSEL;
+    logic [31:0] PRDATA[0:15];
+    logic [15:0] PREADY;
     // CPU - APB_Master Signals
     // Internal Interface Signals
     logic        transfer;  // trigger signal
@@ -77,52 +56,48 @@ module MCU (
 
     ram U_RAM (
         .*,
-        .PSEL  (PSEL0),
-        .PRDATA(PRDATA0),
-        .PREADY(PREADY0)
+        .PSEL  (PSEL[0]),
+        .PRDATA(PRDATA[0]),
+        .PREADY(PREADY[0])
     );
 
     GPO_Periph U_GPOA (
         .*,
-        .PSEL(PSEL1),
-        .PRDATA(PRDATA1),
-        .PREADY(PREADY1),
-        // export signals
+        .PSEL(PSEL[1]),
+        .PRDATA(PRDATA[1]),
+        .PREADY(PREADY[1]),
         .outPort(GPOA)
     );
 
     GPI_Periph U_GPIB (
         .*,
-        .PSEL  (PSEL2),
-        .PRDATA(PRDATA2),
-        .PREADY(PREADY2),
-        // inport signals
+        .PSEL  (PSEL[2]),
+        .PRDATA(PRDATA[2]),
+        .PREADY(PREADY[2]),
         .inPort(GPIB)
     );
 
     GPIO_Periph U_GPIOC (
         .*,
-        .PSEL(PSEL3),
-        .PRDATA(PRDATA3),
-        .PREADY(PREADY3),
-        // inoutport signals
+        .PSEL(PSEL[3]),
+        .PRDATA(PRDATA[3]),
+        .PREADY(PREADY[3]),
         .inoutPort(GPIOC)
     );
 
     GPIO_Periph U_GPIOD (
         .*,
-        .PSEL(PSEL4),
-        .PRDATA(PRDATA4),
-        .PREADY(PREADY4),
-        // inoutport signals
+        .PSEL(PSEL[4]),
+        .PRDATA(PRDATA[4]),
+        .PREADY(PREADY[4]),
         .inoutPort(GPIOD)
     );
 
     fnd_Periph u_fnd_pp (
         .*,
-        .PSEL   (PSEL5),
-        .PRDATA (PRDATA5),
-        .PREADY (PREADY5),
+        .PSEL   (PSEL[5]),
+        .PRDATA (PRDATA[5]),
+        .PREADY (PREADY[5]),
         .fndFont(fndFont),
         .fndCom (fndCom),
         .sim_dp (),
@@ -131,9 +106,9 @@ module MCU (
 
     GP_FIFO u_GP_FIFO (
         .*,
-        .PSEL        (PSEL6),
-        .PRDATA      (PRDATA6),
-        .PREADY      (PREADY6),
+        .PSEL        (PSEL[6]),
+        .PRDATA      (PRDATA[6]),
+        .PREADY      (PREADY[6]),
         .fifoReadData(fifoReadData)
     );
 
