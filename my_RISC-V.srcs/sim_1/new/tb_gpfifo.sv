@@ -12,15 +12,15 @@ module tb_gpfifo ();
     logic        PREADY;
 
     GP_FIFO dut (
-        .PCLK     (PCLK),
-        .PRESET   (PRESET),
-        .PADDR    (PADDR),
-        .PWDATA   (PWDATA),
-        .PWRITE   (PWRITE),
-        .PENABLE  (PENABLE),
-        .PSEL     (PSEL),
-        .PRDATA   (PRDATA),
-        .PREADY   (PREADY)
+        .PCLK   (PCLK),
+        .PRESET (PRESET),
+        .PADDR  (PADDR),
+        .PWDATA (PWDATA),
+        .PWRITE (PWRITE),
+        .PENABLE(PENABLE),
+        .PSEL   (PSEL),
+        .PRDATA (PRDATA),
+        .PREADY (PREADY)
     );
 
     logic [7:0] mem[0:2**2-1];
@@ -67,7 +67,6 @@ module tb_gpfifo ();
         gp_fifo_ruN(0, 0);
         gp_fifo_ruN(1, 15);
 
-        #50;
-        $finish;
+        #50 $finish;
     end
 endmodule
