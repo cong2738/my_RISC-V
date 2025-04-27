@@ -186,13 +186,14 @@ class GPFIFO_scoreboard;
                         read_pass_cnt++;
                         $display("[SCB] : DATA Matched %h == %h",
                                  fifo_tr.PRDATA, pop_data);
-                    end else
+                    end else begin
                         read_fail_cnt++;
                         $display(
                             "[SCB] : DATA Mismatched %h != %h",
                             fifo_tr.PRDATA,
                             pop_data
                         );
+                    end
                 end
             end
             total_cnt++;
