@@ -172,18 +172,22 @@ class GPFIFO_scoreboard;
             fifo_tr.display("SCB");
 
             if (fifo_tr.PWRITE) begin  // write mode
+                write_cnt++;
                 if (!fifo_tr.sim_full) begin
                     scb_fifo.push_back(fifo_tr.PWDATA);
                     $display("[SCB] : DATA Stored in queue : %d, %p",
                              fifo_tr.PWDATA, scb_fifo);
                 end else $display("[SCB] : FIFO is full, %p", scb_fifo);
             end else begin  // read mode 
+                read_cnt++;
                 if (!fifo_tr.sim_empty) begin
                     pop_data = scb_fifo.pop_front();
                     if (fifo_tr.PRDATA == pop_data) begin
+                        read_pass_cnt++;
                         $display("[SCB] : DATA Matched %h == %h",
                                  fifo_tr.PRDATA, pop_data);
                     end else
+                        read_fail_cnt++;
                         $display(
                             "[SCB] : DATA Mismatched %h != %h",
                             fifo_tr.PRDATA,
@@ -191,6 +195,7 @@ class GPFIFO_scoreboard;
                         );
                 end
             end
+            total_cnt++;
             ->gen_next_event;
         end
     endtask
@@ -203,7 +208,7 @@ class GPFIFO_envirnment;
     mailbox #(GPFIFO_transaction) Gen2Drv_mbox;
     mailbox #(GPFIFO_transaction) Mon2SCB_mbox;
 
-    GPFIFO_generator              fifo_gen;
+    GPFIFO_generator       fifo_gen;
     GPFIFO_driver          fifo_drv;
     GPFIFO_monitor         fifo_mon;
     GPFIFO_scoreboard      fifo_scb;
@@ -274,8 +279,8 @@ module tb_gpfifo_uvm_style ();
         @(posedge gnfifo_if.PCLK);
         env = new(gnfifo_if);
         env.run(100);
-        #50;
-        $finish;
+        #10 env.show_report();
+        #50 $finish;
     end
 endmodule
 
