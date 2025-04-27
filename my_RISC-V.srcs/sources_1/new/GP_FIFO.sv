@@ -11,9 +11,8 @@ module GP_FIFO (
     input  logic        PENABLE,
     input  logic        PSEL,
     output logic [31:0] PRDATA,
-    output logic        PREADY,
+    output logic        PREADY
     // export signals
-    output logic [ 7:0] fifoReadData
 );
     logic [7:0] FWD;
     logic [7:0] FRD;
@@ -31,9 +30,6 @@ module GP_FIFO (
         .full  (full  ),
         .empty (empty )
     );
-    
-    assign fifoReadData = FRD;
-
 endmodule
 
 module APB_SlaveIntf_GPFIFO (
@@ -51,8 +47,8 @@ module APB_SlaveIntf_GPFIFO (
     // internal signals
     input  logic        full,
     input  logic        empty,
-    input  logic [ 7:0] FWD,
-    output logic [ 7:0] FRD,
+    output logic [ 7:0] FWD,
+    input  logic [ 7:0] FRD,
     output logic        wr_en,
     output logic        rd_en
 );
@@ -68,26 +64,23 @@ module APB_SlaveIntf_GPFIFO (
     logic rd_reg, rd_next;
     logic [31:0] slv_reg0, slv_next0;
     logic [31:0] slv_reg1, slv_next1;
-    logic PREADY_reg, PREADY_next;
 
-    assign wr_en         = wr_reg;
-    assign rd_en         = rd_reg;
-    assign slv_reg0[7:0] = FWD;
-    assign FRD           = slv_reg1[7:0];
-    assign PREADY        = PREADY_reg;
+    assign wr_en    = wr_reg;
+    assign rd_en    = rd_reg;
+    assign FWD      = slv_reg0[7:0];
+    assign slv_reg1 = FRD;
 
     always_ff @(posedge PCLK, posedge PRESET) begin
         if (PRESET) begin
             state      <= STOP;
             rd_reg     <= 0;
             wr_reg     <= 0;
-            slv_reg1   <= 0;
-            PREADY_reg <= 0;
+            slv_reg0   <= 0;
         end else begin
             state      <= next;
             wr_reg     <= wr_next;
             rd_reg     <= rd_next;
-            PREADY_reg <= PREADY_next;
+            slv_reg0   <= slv_next0;
         end
     end
     always_comb begin : next_logic
@@ -96,24 +89,34 @@ module APB_SlaveIntf_GPFIFO (
         rd_next     = rd_reg;
         slv_next0   = slv_reg0;
         slv_next1   = slv_reg1;
-        PREADY_next = PREADY_reg;
+        PREADY = 0;
         case (state)
             STOP: begin
-                PREADY_next = 0;
+                wr_next = 0;
+                rd_next = 0;
                 if (PSEL && PENABLE) begin
                     next = ACCESS;
                 end
             end
             ACCESS: begin
                 if (PWRITE) begin
-                    wr_next = ~full;
                     rd_next = 0;
+                    case (PADDR[3:2])
+                        2'd0: begin
+                            wr_next = ~full;
+                            slv_next0 <= PWDATA[7:0];
+                        end
+                        default: ;
+                    endcase
                 end else begin
                     wr_next = 0;
-                    rd_next = ~empty;
+                    PRDATA = 32'dx;
                     case (PADDR[3:2])
-                        2'd1: slv_next1 <= PWDATA;
-                        default: ;
+                        2'd0: PRDATA <= slv_reg0;
+                        2'd1: begin
+                            rd_next = ~empty;
+                            PRDATA <= slv_reg1;
+                        end
                     endcase
                 end
                 next = SEND;
@@ -122,11 +125,6 @@ module APB_SlaveIntf_GPFIFO (
                 PREADY  = 1;
                 wr_next = 0;
                 rd_next = 0;
-                PRDATA <= 32'bx;
-                case (PADDR[3:2])
-                    2'd0: PRDATA <= slv_reg0;
-                    2'd1: PRDATA <= slv_reg1;
-                endcase
                 next = STOP;
             end
         endcase
