@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1745460260">
-  <File Type="ROUTE-PWR" Name="MCU_power_routed.rpt"/>
   <File Type="PA-TCL" Name="MCU.tcl"/>
-  <File Type="ROUTE-PWR-SUM" Name="MCU_power_summary_routed.pb"/>
   <File Type="REPORTS-TCL" Name="MCU_reports.tcl"/>
   <File Type="BITSTR-MSK" Name="MCU.msk"/>
-  <File Type="ROUTE-CLK" Name="MCU_clock_utilization_routed.rpt"/>
   <File Type="RDI-RDI" Name="MCU.vdi"/>
   <File Type="BG-BIT" Name="MCU.bit"/>
   <File Type="BG-DRC" Name="MCU.drc"/>
@@ -14,33 +11,18 @@
   <File Type="BITSTR-RBT" Name="MCU.rbt"/>
   <File Type="BITSTR-NKY" Name="MCU.nky"/>
   <File Type="BITSTR-BMM" Name="MCU_bd.bmm"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="MCU_methodology_drc_routed.rpt"/>
   <File Type="BITSTR-MMI" Name="MCU.mmi"/>
   <File Type="BITSTR-SYSDEF" Name="MCU.sysdef"/>
   <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
   <File Type="BITSTR-LTX" Name="MCU.ltx"/>
+  <File Type="RCFI_FILE" Name="MCU.rcfi"/>
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
-  <File Type="OPT-DRC" Name="MCU_drc_opted.rpt"/>
   <File Type="OPT-HWDEF" Name="MCU.hwdef"/>
-  <File Type="PLACE-IO" Name="MCU_io_placed.rpt"/>
-  <File Type="PLACE-UTIL" Name="MCU_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="MCU_utilization_placed.pb"/>
-  <File Type="PLACE-CTRL" Name="MCU_control_sets_placed.rpt"/>
   <File Type="PLACE-PRE-SIMILARITY" Name="MCU_incremental_reuse_pre_placed.rpt"/>
-  <File Type="ROUTE-DRC" Name="MCU_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-PB" Name="MCU_drc_routed.pb"/>
-  <File Type="ROUTE-PWR-RPX" Name="MCU_power_routed.rpx"/>
-  <File Type="ROUTE-STATUS" Name="MCU_route_status.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="MCU_route_status.pb"/>
   <File Type="ROUTE-DCP" Name="MCU_routed.dcp"/>
   <File Type="ROUTE-ERROR-DCP" Name="MCU_routed_error.dcp"/>
   <File Type="ROUTE-BLACKBOX-DCP" Name="MCU_routed_bb.dcp"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="MCU_timing_summary_routed.rpt"/>
   <File Type="ROUTE-TIMING-PB" Name="MCU_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMING-RPX" Name="MCU_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-BUS-SKEW" Name="MCU_bus_skew_routed.rpt"/>
-  <File Type="ROUTE-BUS-SKEW-PB" Name="MCU_bus_skew_routed.pb"/>
-  <File Type="ROUTE-BUS-SKEW-RPX" Name="MCU_bus_skew_routed.rpx"/>
   <File Type="OPT-DCP" Name="MCU_opt.dcp"/>
   <File Type="PLACE-DCP" Name="MCU_placed.dcp"/>
   <File Type="PWROPT-DCP" Name="MCU_pwropt.dcp"/>
@@ -48,11 +30,7 @@
   <File Type="PHYSOPT-DCP" Name="MCU_physopt.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-DCP" Name="MCU_postroute_physopt.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="MCU_postroute_physopt_bb.dcp"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="MCU_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-DRC-RPX" Name="MCU_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="MCU_methodology_drc_routed.rpx"/>
   <File Type="PDI-FILE" Name="MCU.pdi"/>
-  <File Type="RCFI_FILE" Name="MCU.rcfi"/>
   <File Type="CFI_FILE" Name="MCU.cfi"/>
   <File Type="RNPI_FILE" Name="MCU.rnpi"/>
   <File Type="NPI_FILE" Name="MCU.npi"/>

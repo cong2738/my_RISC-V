@@ -3,55 +3,274 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="tb_fifo_sv_behav.wdb" id="1">
+      <db_ref path="tb_gpfifo_behav.wdb" id="1">
          <top_modules>
             <top_module name="\$unit_gpi_sv " />
             <top_module name="glbl" />
             <top_module name="std" />
-            <top_module name="tb_fifo_sv" />
+            <top_module name="tb_gpfifo" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="1394fs"></ZoomEndTime>
-      <Cursor1Time time="1000fs"></Cursor1Time>
+      <ZoomEndTime time="506000fs"></ZoomEndTime>
+      <Cursor1Time time="506000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="186"></NameColumnWidth>
-      <ValueColumnWidth column_width="69"></ValueColumnWidth>
+      <ValueColumnWidth column_width="65"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="8" />
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/clk" type="logic">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
+   <WVObjectSize size="6" />
+   <wvobject fp_name="/tb_gpfifo/PCLK" type="logic">
+      <obj_property name="ElementShortName">PCLK</obj_property>
+      <obj_property name="ObjectShortName">PCLK</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/reset" type="logic">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
+   <wvobject fp_name="/tb_gpfifo/PRESET" type="logic">
+      <obj_property name="ElementShortName">PRESET</obj_property>
+      <obj_property name="ObjectShortName">PRESET</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/wr_en" type="logic">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
+   <wvobject fp_name="group239" type="group">
+      <obj_property name="label">tb</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_gpfifo/PADDR" type="array">
+         <obj_property name="ElementShortName">PADDR[3:0]</obj_property>
+         <obj_property name="ObjectShortName">PADDR[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/PWRITE" type="logic">
+         <obj_property name="ElementShortName">PWRITE</obj_property>
+         <obj_property name="ObjectShortName">PWRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/PENABLE" type="logic">
+         <obj_property name="ElementShortName">PENABLE</obj_property>
+         <obj_property name="ObjectShortName">PENABLE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/PSEL" type="logic">
+         <obj_property name="ElementShortName">PSEL</obj_property>
+         <obj_property name="ObjectShortName">PSEL</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/PRDATA" type="array">
+         <obj_property name="ElementShortName">PRDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PRDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/PREADY" type="logic">
+         <obj_property name="ElementShortName">PREADY</obj_property>
+         <obj_property name="ObjectShortName">PREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/PWDATA" type="array">
+         <obj_property name="ElementShortName">PWDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PWDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/mem" type="array">
+         <obj_property name="ElementShortName">mem[0:3][7:0]</obj_property>
+         <obj_property name="ObjectShortName">mem[0:3][7:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/rd_en" type="logic">
-      <obj_property name="ElementShortName">rd_en</obj_property>
-      <obj_property name="ObjectShortName">rd_en</obj_property>
+   <wvobject fp_name="group146" type="group">
+      <obj_property name="label">FIFO</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/wData" type="array">
+         <obj_property name="ElementShortName">wData[7:0]</obj_property>
+         <obj_property name="ObjectShortName">wData[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/rData" type="array">
+         <obj_property name="ElementShortName">rData[7:0]</obj_property>
+         <obj_property name="ObjectShortName">rData[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/wr_ptr" type="array">
+         <obj_property name="ElementShortName">wr_ptr[1:0]</obj_property>
+         <obj_property name="ObjectShortName">wr_ptr[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/u_fifo/rd_ptr" type="array">
+         <obj_property name="ElementShortName">rd_ptr[1:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_ptr[1:0]</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/wData" type="array">
-      <obj_property name="ElementShortName">wData[7:0]</obj_property>
-      <obj_property name="ObjectShortName">wData[7:0]</obj_property>
+   <wvobject fp_name="group93" type="group">
+      <obj_property name="label">DUT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_gpfifo/dut/PCLK" type="logic">
+         <obj_property name="ElementShortName">PCLK</obj_property>
+         <obj_property name="ObjectShortName">PCLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PRESET" type="logic">
+         <obj_property name="ElementShortName">PRESET</obj_property>
+         <obj_property name="ObjectShortName">PRESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PADDR" type="array">
+         <obj_property name="ElementShortName">PADDR[3:0]</obj_property>
+         <obj_property name="ObjectShortName">PADDR[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PWDATA" type="array">
+         <obj_property name="ElementShortName">PWDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PWDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PWRITE" type="logic">
+         <obj_property name="ElementShortName">PWRITE</obj_property>
+         <obj_property name="ObjectShortName">PWRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PENABLE" type="logic">
+         <obj_property name="ElementShortName">PENABLE</obj_property>
+         <obj_property name="ObjectShortName">PENABLE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PSEL" type="logic">
+         <obj_property name="ElementShortName">PSEL</obj_property>
+         <obj_property name="ObjectShortName">PSEL</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PRDATA" type="array">
+         <obj_property name="ElementShortName">PRDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PRDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/PREADY" type="logic">
+         <obj_property name="ElementShortName">PREADY</obj_property>
+         <obj_property name="ObjectShortName">PREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/FWD" type="array">
+         <obj_property name="ElementShortName">FWD[7:0]</obj_property>
+         <obj_property name="ObjectShortName">FWD[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/FRD" type="array">
+         <obj_property name="ElementShortName">FRD[7:0]</obj_property>
+         <obj_property name="ObjectShortName">FRD[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/rData" type="array">
-      <obj_property name="ElementShortName">rData[7:0]</obj_property>
-      <obj_property name="ObjectShortName">rData[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/full" type="logic">
-      <obj_property name="ElementShortName">full</obj_property>
-      <obj_property name="ObjectShortName">full</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_fifo_sv/fifo_if/empty" type="logic">
-      <obj_property name="ElementShortName">empty</obj_property>
-      <obj_property name="ObjectShortName">empty</obj_property>
+   <wvobject fp_name="group117" type="group">
+      <obj_property name="label">APBINTF</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PCLK" type="logic">
+         <obj_property name="ElementShortName">PCLK</obj_property>
+         <obj_property name="ObjectShortName">PCLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PRESET" type="logic">
+         <obj_property name="ElementShortName">PRESET</obj_property>
+         <obj_property name="ObjectShortName">PRESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PADDR" type="array">
+         <obj_property name="ElementShortName">PADDR[3:0]</obj_property>
+         <obj_property name="ObjectShortName">PADDR[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PWDATA" type="array">
+         <obj_property name="ElementShortName">PWDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PWDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PWRITE" type="logic">
+         <obj_property name="ElementShortName">PWRITE</obj_property>
+         <obj_property name="ObjectShortName">PWRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PENABLE" type="logic">
+         <obj_property name="ElementShortName">PENABLE</obj_property>
+         <obj_property name="ObjectShortName">PENABLE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PSEL" type="logic">
+         <obj_property name="ElementShortName">PSEL</obj_property>
+         <obj_property name="ObjectShortName">PSEL</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PRDATA" type="array">
+         <obj_property name="ElementShortName">PRDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PRDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/PREADY" type="logic">
+         <obj_property name="ElementShortName">PREADY</obj_property>
+         <obj_property name="ObjectShortName">PREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/FWD" type="array">
+         <obj_property name="ElementShortName">FWD[7:0]</obj_property>
+         <obj_property name="ObjectShortName">FWD[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/FRD" type="array">
+         <obj_property name="ElementShortName">FRD[7:0]</obj_property>
+         <obj_property name="ObjectShortName">FRD[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/state" type="array">
+         <obj_property name="ElementShortName">state[1:0]</obj_property>
+         <obj_property name="ObjectShortName">state[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/next" type="array">
+         <obj_property name="ElementShortName">next[1:0]</obj_property>
+         <obj_property name="ObjectShortName">next[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/wr_reg" type="logic">
+         <obj_property name="ElementShortName">wr_reg</obj_property>
+         <obj_property name="ObjectShortName">wr_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/wr_next" type="logic">
+         <obj_property name="ElementShortName">wr_next</obj_property>
+         <obj_property name="ObjectShortName">wr_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/rd_reg" type="logic">
+         <obj_property name="ElementShortName">rd_reg</obj_property>
+         <obj_property name="ObjectShortName">rd_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/rd_next" type="logic">
+         <obj_property name="ElementShortName">rd_next</obj_property>
+         <obj_property name="ObjectShortName">rd_next</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/slv_reg0" type="array">
+         <obj_property name="ElementShortName">slv_reg0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">slv_reg0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/slv_next0" type="array">
+         <obj_property name="ElementShortName">slv_next0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">slv_next0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/slv_reg1" type="array">
+         <obj_property name="ElementShortName">slv_reg1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">slv_reg1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_gpfifo/dut/U_APB_Intf_GP_FIFO/slv_next1" type="array">
+         <obj_property name="ElementShortName">slv_next1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">slv_next1[31:0]</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>
