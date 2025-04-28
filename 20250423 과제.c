@@ -24,12 +24,20 @@ typedef struct{
     __IO uint32_t DPR;
 } FND_TypeDef;
 
+typedef struct{
+    __IO uint32_t TCR;
+    __IO uint32_t PSC;
+    __IO uint32_t ARR;
+    __IO uint32_t TCNT;
+} TIMER_TypeDef;
+
 #define APB_BASEADDR    0x10000000
 #define GPOA_BASEADDR   (APB_BASEADDR + 0x1000)
 #define GPIB_BASEADDR   (APB_BASEADDR + 0x2000)
 #define GPIOC_BASEADDR  (APB_BASEADDR + 0x3000)
 #define GPIOD_BASEADDR  (APB_BASEADDR + 0x4000)
 #define FND_BASEADDR    (APB_BASEADDR + 0x5000)
+#define TIMER_BASEADDR  (APB_BASEADDR + 0x6000)
 
 
 #define GPOA            ((GPO_TypeDef *) GPOA_BASEADDR)
@@ -37,6 +45,7 @@ typedef struct{
 #define GPIOC           ((GPIO_TypeDef *) GPIOC_BASEADDR)
 #define GPIOD           ((GPIO_TypeDef *) GPIOD_BASEADDR)
 #define FND             ((FND_TypeDef *) FND_BASEADDR)
+#define TIMER           ((TIMER_TypeDef *) TIMER_BASEADDR)
 
 #define FND_OFF         0
 #define FND_ON          1
@@ -51,8 +60,7 @@ void Switch_init(GPIO_TypeDef *GPIOx);
 uint32_t Switch_read(GPIO_TypeDef *GPIOx);
 
 void FND_init(FND_TypeDef *fnd, uint32_t ON_OFF);
-void FND_writeData(FND_TypeDef *fnd, uint32_t data);
-void FND_writeDP(FND_TypeDef *fnd, uint32_t ON_OFF);
+void FND_writeData(FND_TypeDef *fnd, uint32_t data, uint32_t dp);
 
 
 int main()
@@ -71,7 +79,7 @@ int main()
             dp = 0b1101;
         }
         if(count == 10000) count = 0;
-        FND_writeData(FND, count);
+        FND_writeData(FND, count, 0b1111);
         FND_writeDP(FND, dp);
         delay(100);
 
@@ -111,17 +119,13 @@ uint32_t Switch_read(GPIO_TypeDef *GPIOx)
     return GPIOx->IDR;
 }
 
-void FND_init(FND_TypeDef *fnd, uint32_t dp)
+void FND_init(FND_TypeDef *fnd, uint32_t onoff)
 {
-    fnd->FCR = dp;
+    fnd->FCR = onoff;
 }
 
-void FND_writeDP(FND_TypeDef *fnd, uint32_t ON_OFF) {
-    fnd->DPR = ON_OFF;
-
-}
-
-void FND_writeData(FND_TypeDef *fnd, uint32_t data)
+void FND_writeData(FND_TypeDef *fnd, uint32_t data, uint32_t dp)
 {
     fnd->FDR = data;
+    fnd->DPR = dp;
 }
