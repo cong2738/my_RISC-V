@@ -9,3 +9,4 @@
 # Log file: C:/harman/my_RISC-V/my_RISC-V.runs/impl_1/MCU.vdi
 # Journal file: C:/harman/my_RISC-V/my_RISC-V.runs/impl_1\vivado.jou
 #-----------------------------------------------------------
+source MCU.tcl -notrace
