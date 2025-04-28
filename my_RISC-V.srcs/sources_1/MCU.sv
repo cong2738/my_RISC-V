@@ -4,7 +4,7 @@ module MCU (
     input  logic       clk,
     input  logic       reset,
     inout  logic [7:0] GPIOC,
-    inout  logic [7:0] GPIOD,
+    inout  logic [3:0] GPIOD,
     output logic [3:0] fndCom,
     output logic [7:0] fndFont
 );
@@ -97,18 +97,11 @@ module MCU (
         .fndCom (fndCom)
     );
 
-    GP_FIFO u_GP_FIFO (
+    GP_Timer u_GP_Timer (
         .*,
         .PSEL  (PSEL[6]),
         .PRDATA(PRDATA[6]),
         .PREADY(PREADY[6])
-    );
-
-    GP_Counter u_GP_Counter (
-        .*,
-        .PSEL  (PSEL[7]),
-        .PRDATA(PRDATA[7]),
-        .PREADY(PREADY[7])
     );
 
 endmodule

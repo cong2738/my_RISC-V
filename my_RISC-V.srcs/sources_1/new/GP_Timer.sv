@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps `timescale 1ns / 1ps `timescale 1ns / 1ps
 
-module GP_Counter (
+module GP_Timer (
     // global signal
     input  logic        PCLK,
     input  logic        PRESET,
@@ -16,11 +16,11 @@ module GP_Counter (
     logic [1:0] TCR;
     logic [31:0] TCNT, PSC, ARR;
 
-    APB_GP_CounterIntf U_APB_GP_CounterIntf (.*);
+    APB_GP_TimerIntf U_APB_GP_TimerIntf (.*);
     IP_counter u_IP_counter (.*);
 endmodule
 
-module APB_GP_CounterIntf (
+module APB_GP_TimerIntf (
     // global signal
     input  logic        PCLK,
     input  logic        PRESET,
@@ -34,9 +34,9 @@ module APB_GP_CounterIntf (
     output logic        PREADY,
     // internal signals
     output logic [ 1:0] TCR,
+    input  logic [31:0] TCNT,
     output logic [31:0] PSC,
-    output logic [31:0] ARR,
-    input  logic [31:0] TCNT
+    output logic [31:0] ARR
 );
     logic [31:0] slv_reg[0:3];
 
