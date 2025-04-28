@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Apr 28 17:47:35 2025
-| Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
+| Date         : Tue Apr 29 05:38:35 2025
+| Host         : PKLT running 64-bit major release  (build 9200)
 | Command      : report_drc -file MCU_drc_routed.rpt -pb MCU_drc_routed.pb -rpx MCU_drc_routed.rpx
 | Design       : MCU
 | Device       : xc7a35tcpg236-1
@@ -24,12 +24,11 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max violations: <unlimited>
-             Violations found: 22
+             Violations found: 21
 +-----------+----------+----------------------------+------------+
 | Rule      | Severity | Description                | Violations |
 +-----------+----------+----------------------------+------------+
 | CHECK-3   | Warning  | Report rule limit reached  | 1          |
-| PDRC-153  | Warning  | Gated clock check          | 1          |
 | REQP-1839 | Warning  | RAMB36 async control check | 20         |
 +-----------+----------+----------------------------+------------+
 
@@ -38,11 +37,6 @@ Table of Contents
 CHECK-3#1 Warning
 Report rule limit reached  
 REQP-1839 rule limit reached: 20 violations have been found.
-Related violations: <none>
-
-PDRC-153#1 Warning
-Gated clock check  
-Net U_APB_Master/FSM_onehot_state_reg[1]_0[0] is a gated clock net sourced by a combinational pin U_APB_Master/PRDATA_reg[7]_i_2/O, cell U_APB_Master/PRDATA_reg[7]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
 Related violations: <none>
 
 REQP-1839#1 Warning
@@ -72,12 +66,12 @@ Related violations: <none>
 
 REQP-1839#6 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ADDRARDADDR[5] (net: U_RAM/ADDRARDADDR[0]) which is driven by a register (U_APB_Master/temp_addr_reg_reg[2]_rep) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ADDRARDADDR[5] (net: U_RAM/ADDRARDADDR[0]) which is driven by a register (U_APB_Master/temp_addr_reg_reg[2]_rep__0) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#7 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ADDRARDADDR[6] (net: U_RAM/ADDRARDADDR[1]) which is driven by a register (U_APB_Master/temp_addr_reg_reg[3]_rep) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ADDRARDADDR[6] (net: U_RAM/ADDRARDADDR[1]) which is driven by a register (U_APB_Master/temp_addr_reg_reg[3]_rep__0) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#8 Warning
@@ -102,47 +96,47 @@ Related violations: <none>
 
 REQP-1839#12 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[12]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[13]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#13 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[13]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[14]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#14 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[14]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[16]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#15 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[15]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[19]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#16 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[16]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[21]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#17 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[17]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[22]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#18 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[18]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[25]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#19 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[19]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[27]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1839#20 Warning
 RAMB36 async control check  
-The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[28]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB36E1 U_RAM/mem_reg has an input control pin U_RAM/mem_reg/ENARDEN (net: U_RAM/PREADY_reg_0) which is driven by a register (U_APB_Master/temp_addr_reg_reg[29]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 
