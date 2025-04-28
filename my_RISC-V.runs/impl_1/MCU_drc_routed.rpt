@@ -1,14 +1,14 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
-------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Apr 28 17:47:07 2025
+| Date         : Mon Apr 28 17:47:35 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
-| Command      : report_drc -file MCU_drc_opted.rpt -pb MCU_drc_opted.pb -rpx MCU_drc_opted.rpx
+| Command      : report_drc -file MCU_drc_routed.rpt -pb MCU_drc_routed.pb -rpx MCU_drc_routed.rpx
 | Design       : MCU
 | Device       : xc7a35tcpg236-1
 | Speed File   : -1
-| Design State : Synthesized
-------------------------------------------------------------------------------------------------
+| Design State : Fully Routed
+---------------------------------------------------------------------------------------------------
 
 Report DRC
 
@@ -24,11 +24,12 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max violations: <unlimited>
-             Violations found: 21
+             Violations found: 22
 +-----------+----------+----------------------------+------------+
 | Rule      | Severity | Description                | Violations |
 +-----------+----------+----------------------------+------------+
 | CHECK-3   | Warning  | Report rule limit reached  | 1          |
+| PDRC-153  | Warning  | Gated clock check          | 1          |
 | REQP-1839 | Warning  | RAMB36 async control check | 20         |
 +-----------+----------+----------------------------+------------+
 
@@ -37,6 +38,11 @@ Table of Contents
 CHECK-3#1 Warning
 Report rule limit reached  
 REQP-1839 rule limit reached: 20 violations have been found.
+Related violations: <none>
+
+PDRC-153#1 Warning
+Gated clock check  
+Net U_APB_Master/FSM_onehot_state_reg[1]_0[0] is a gated clock net sourced by a combinational pin U_APB_Master/PRDATA_reg[7]_i_2/O, cell U_APB_Master/PRDATA_reg[7]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
 Related violations: <none>
 
 REQP-1839#1 Warning
