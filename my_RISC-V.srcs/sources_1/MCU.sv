@@ -3,13 +3,10 @@
 module MCU (
     input  logic       clk,
     input  logic       reset,
-    output logic [7:0] GPOA,
-    input  logic [7:0] GPIB,
-    inout  logic [7:0] GPIOC,
+    inout  logic [3:0] GPIOC,
     inout  logic [7:0] GPIOD,
     output logic [3:0] fndCom,
-    output logic [7:0] fndFont,
-    output logic [7:0] fifoReadData
+    output logic [7:0] fndFont
 );
     logic        PCLK;
     logic        PRESET;
@@ -19,20 +16,20 @@ module MCU (
     logic        PWRITE;
     logic        PENABLE;
     logic [15:0] PSEL;
-    logic [31:0] PRDATA[0:15];
+    logic [31:0] PRDATA       [0:15];
     logic [15:0] PREADY;
-    
-    logic        transfer;  
+
+    logic        transfer;
     logic        ready;
     logic [31:0] addr;
     logic [31:0] wdata;
     logic [31:0] rdata;
-    logic        write;  
+    logic        write;
     logic        dataWe;
     logic [31:0] dataAddr;
     logic [31:0] dataWData;
     logic [31:0] dataRData;
-    
+
     logic [31:0] instrCode;
     logic [31:0] instrMemAddr;
 
@@ -59,20 +56,20 @@ module MCU (
         .PREADY(PREADY[0])
     );
 
-    GPO_Periph U_GPOA (
+    GPIO_Periph U_GPOA (
         .*,
         .PSEL(PSEL[1]),
         .PRDATA(PRDATA[1]),
         .PREADY(PREADY[1]),
-        .outPort(GPOA)
+        .inoutPort(GPIOA)
     );
 
-    GPI_Periph U_GPIB (
+    GPIO_Periph U_GPIB (
         .*,
         .PSEL  (PSEL[2]),
         .PRDATA(PRDATA[2]),
         .PREADY(PREADY[2]),
-        .inPort(GPIB)
+        .inoutPort(GPIOB)
     );
 
     GPIO_Periph U_GPIOC (
@@ -97,17 +94,21 @@ module MCU (
         .PRDATA (PRDATA[5]),
         .PREADY (PREADY[5]),
         .fndFont(fndFont),
-        .fndCom (fndCom),
-        .sim_dp (),
-        .sim_bcd()
+        .fndCom (fndCom)
     );
 
     GP_FIFO u_GP_FIFO (
         .*,
-        .PSEL        (PSEL[6]),
-        .PRDATA      (PRDATA[6]),
-        .PREADY      (PREADY[6]),
-        .fifoReadData(fifoReadData)
+        .PSEL  (PSEL[6]),
+        .PRDATA(PRDATA[6]),
+        .PREADY(PREADY[6])
+    );
+
+    GP_Counter u_GP_Counter (
+        .*,
+        .PSEL  (PSEL[7]),
+        .PRDATA(PRDATA[7]),
+        .PREADY(PREADY[7])
     );
 
 endmodule

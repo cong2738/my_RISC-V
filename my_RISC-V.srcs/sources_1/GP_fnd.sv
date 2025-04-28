@@ -14,17 +14,13 @@ module fnd_Periph (
     output logic        PREADY,
     // export signals
     output logic [ 3:0] fndCom,
-    output logic [ 7:0] fndFont,
-    output logic [ 3:0] sim_dp,   // 시뮬레이션을 위한 출력포트
-    output logic [13:0] sim_bcd   // 시뮬레이션을 위한 출력포트
+    output logic [ 7:0] fndFont
 );
     logic        FCR;
-    logic [13:0] FDR;
+    logic [31:0] FDR;
     logic [ 3:0] DP;  //FPR
     APB_SlaveIntf_fnd U_APB_Intf_GPIO (.*);
     GPfnd U_GPIO_IP (.*);
-    assign sim_dp  = DP;  // 시뮬레이션을 위한 assign
-    assign sim_bcd = FDR;  // 시뮬레이션을 위한 assign
 endmodule
 
 module APB_SlaveIntf_fnd (
@@ -41,13 +37,13 @@ module APB_SlaveIntf_fnd (
     output logic        PREADY,
     // internal signals
     output logic        FCR,
-    output logic [13:0] FDR,
+    output logic [31:0] FDR,
     output logic [ 3:0] DP
 );
     logic [31:0] slv_reg0, slv_reg1, slv_reg2;  // ,slv_reg3;
 
     assign FCR = slv_reg0[0];
-    assign FDR = slv_reg1[13:0];
+    assign FDR = slv_reg1;
     assign DP  = slv_reg2[3:0];
 
     always_ff @(posedge PCLK, posedge PRESET) begin
@@ -87,7 +83,7 @@ module GPfnd (
     input  logic        PCLK,
     input  logic        PRESET,
     input  logic        FCR,
-    input  logic [13:0] FDR,
+    input  logic [31:0] FDR,
     input  logic [ 3:0] DP,
     output logic [ 3:0] fndCom,
     output logic [ 7:0] fndFont
