@@ -70,7 +70,7 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param xicom.use_bs_reader 1
+set_param chipscope.maxJobs 4
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
@@ -87,19 +87,26 @@ set_property ip_output_repo c:/harman/my_RISC-V/my_RISC-V.cache/ip [current_proj
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_mem C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/code.mem
+read_verilog C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/defines.sv
+set_property file_type "Verilog Header" [get_files C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/defines.sv]
+read_mem C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/code.mem
 read_verilog -library xil_defaultlib -sv {
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/APB_Master.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ControlUnit.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/DataPath.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GN_FND.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GPIO.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/RV32I_Core.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/ram.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/rom.sv
-  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/MCU.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/DataPath.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/rom.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/gpi.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/APB_Master.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/APB_Slave.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/gpio.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/RV32I_Core.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/ControlUnit.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/MCU.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/GP_fnd.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/ram.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/fifo.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GP_FIFO.sv
+  C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/new/GP_Counter.sv
 }
-read_verilog -library xil_defaultlib C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/imports/NJH/fndController.v
+read_verilog -library xil_defaultlib C:/harman/my_RISC-V/my_RISC-V.srcs/sources_1/fndController.v
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
