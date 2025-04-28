@@ -3,7 +3,7 @@
 module MCU (
     input  logic       clk,
     input  logic       reset,
-    inout  logic [3:0] GPIOC,
+    inout  logic [7:0] GPIOC,
     inout  logic [7:0] GPIOD,
     output logic [3:0] fndCom,
     output logic [7:0] fndFont
