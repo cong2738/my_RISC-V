@@ -206,11 +206,6 @@ void FND_init(FND_TypeDef *fnd, uint32_t dp)
     fnd->FCR = dp;
 }
 
-void FND_writeDP(FND_TypeDef *fnd, uint32_t ON_OFF) {
-    fnd->DPR = ON_OFF;
-
-}
-
 void FND_writeData(FND_TypeDef *fnd, uint32_t data)
 {
     fnd->FDR = data;
