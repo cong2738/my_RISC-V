@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Tue Apr 29 05:46:15 2025
-| Host         : PKLT running 64-bit major release  (build 9200)
+| Date         : Tue Apr 29 10:45:58 2025
+| Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_utilization -file MCU_utilization_synth.rpt -pb MCU_utilization_synth.pb
 | Design       : MCU
 | Device       : 7a35tcpg236-1
@@ -30,16 +30,16 @@ Table of Contents
 +----------------------------+------+-------+-----------+-------+
 |          Site Type         | Used | Fixed | Available | Util% |
 +----------------------------+------+-------+-----------+-------+
-| Slice LUTs*                | 1776 |     0 |     20800 |  8.54 |
-|   LUT as Logic             | 1728 |     0 |     20800 |  8.31 |
+| Slice LUTs*                | 1777 |     0 |     20800 |  8.54 |
+|   LUT as Logic             | 1729 |     0 |     20800 |  8.31 |
 |   LUT as Memory            |   48 |     0 |      9600 |  0.50 |
 |     LUT as Distributed RAM |   48 |     0 |           |       |
 |     LUT as Shift Register  |    0 |     0 |           |       |
 | Slice Registers            | 1060 |     0 |     41600 |  2.55 |
 |   Register as Flip Flop    | 1060 |     0 |     41600 |  2.55 |
 |   Register as Latch        |    0 |     0 |     41600 |  0.00 |
-| F7 Muxes                   |  113 |     0 |     16300 |  0.69 |
-| F8 Muxes                   |    4 |     0 |      8150 |  0.05 |
+| F7 Muxes                   |   92 |     0 |     16300 |  0.56 |
+| F8 Muxes                   |   16 |     0 |      8150 |  0.20 |
 +----------------------------+------+-------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
 
@@ -152,23 +152,23 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| LUT6     |  941 |                 LUT |
+| LUT6     |  932 |                 LUT |
 | FDCE     |  848 |        Flop & Latch |
-| LUT4     |  282 |                 LUT |
-| LUT5     |  262 |                 LUT |
-| LUT3     |  204 |                 LUT |
+| LUT5     |  289 |                 LUT |
+| LUT4     |  270 |                 LUT |
+| LUT3     |  213 |                 LUT |
 | FDRE     |  199 |        Flop & Latch |
-| LUT2     |  162 |                 LUT |
-| MUXF7    |  113 |               MuxFx |
+| LUT2     |  153 |                 LUT |
 | CARRY4   |  104 |          CarryLogic |
+| MUXF7    |   92 |               MuxFx |
 | LUT1     |   88 |                 LUT |
 | RAMD32   |   72 |  Distributed Memory |
 | RAMS32   |   24 |  Distributed Memory |
+| MUXF8    |   16 |               MuxFx |
 | IBUF     |   14 |                  IO |
 | FDPE     |   13 |        Flop & Latch |
 | OBUFT    |   12 |                  IO |
 | OBUF     |   12 |                  IO |
-| MUXF8    |    4 |               MuxFx |
 | RAMB36E1 |    1 |        Block Memory |
 | BUFG     |    1 |               Clock |
 +----------+------+---------------------+
