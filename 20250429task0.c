@@ -65,9 +65,12 @@ void TIM_writeAutoReload(TIMER_TypeDef *tim, uint32_t arr);
 void TIM_clear(TIMER_TypeDef *tim);
 uint32_t TIM_readCounter(TIMER_TypeDef *tim);
 
-uint32_t LED_DataSet(uint32_t sw,uint32_t* en0,uint32_t* en1,uint32_t* en2,uint32_t* en3,uint32_t*preCnt0,uint32_t*preCnt1,uint32_t*preCnt2,uint32_t*preCnt3,uint32_t* dtime,uint32_t* ledData);
+uint32_t LED_DataSet(uint32_t sw,uint32_t* en0, uint32_t* state, uint32_t* ledData);
 void LED_ctrl(uint32_t en, uint32_t* preCnt, uint32_t* indicator, uint32_t Ontime, uint32_t led_num);
-
+void ButtonPush(uint32_t sw, uint32_t swNum, uint32_t *state);
+void ButtonRelease(uint32_t sw, uint32_t swNum, uint32_t *push, uint32_t *release);
+void ButtonReleaseEvent(uint32_t sw, uint32_t swNum, uint32_t *push, uint32_t *release, uint32_t *led_data);
+    
 int main(void)
 {
     LED_init(GPIOC);
@@ -75,26 +78,18 @@ int main(void)
     TIM_init(TIMER,100000-1,3000-1);
     FND_init(GPFND,1);
 
-    uint32_t dtime = 500;
-    uint32_t en0 = 1;
-    uint32_t en1 = 0;
-    uint32_t en2 = 0;
-    uint32_t en3 = 0;
-    uint32_t preCnt0 = 0;
-    uint32_t preCnt1 = 0;
-    uint32_t preCnt2 = 0;
-    uint32_t preCnt3 = 0;
+    uint32_t stateBtn0 = 0;
+    uint32_t releaseBtn0 = 0;
     uint32_t led_data = 0b00000000;    
     TIM_start(TIMER);
     while(1)
     {
+        uint32_t sw = Switch_read(GPIOD);
         FND_writeData(GPFND,TIM_readCounter(TIMER),0xf);
-        LED_ctrl(1,&preCnt0, &led_data,500,0);
-        LED_ctrl(en1,&preCnt1, &led_data,dtime,1);
-        LED_ctrl(en2,&preCnt2, &led_data,dtime,2);
-        LED_ctrl(en3,&preCnt3, &led_data,dtime,3);
-        LED_DataSet(Switch_read(GPIOD),&en0,&en1,&en2,&en3,&preCnt0,&preCnt1,&preCnt2,&preCnt3,&dtime,&led_data);
-        LED_write(GPIOC, led_data);
+        ButtonReleaseEvent(sw,0,&stateBtn0,&releaseBtn0,&led_data);
+        ButtonReleaseEvent(sw,1,&stateBtn0,&releaseBtn0,&led_data);
+        ButtonReleaseEvent(sw,2,&stateBtn0,&releaseBtn0,&led_data);
+        ButtonReleaseEvent(sw,3,&stateBtn0,&releaseBtn0,&led_data);
     }
     return 0;
 }
@@ -179,41 +174,26 @@ uint32_t TIM_readCounter(TIMER_TypeDef *tim)
     return tim->TCNT;
 }
 
-uint32_t LED_DataSet(uint32_t sw,uint32_t* en0,uint32_t* en1,uint32_t* en2,uint32_t* en3,uint32_t*preCnt0,uint32_t*preCnt1,uint32_t*preCnt2,uint32_t*preCnt3,uint32_t* dtime,uint32_t* ledData){
-    *en0 = 1;
-    if(sw){
-        *ledData = 0;
-        *preCnt0 = TIM_readCounter(TIMER);
-        *preCnt1 = TIM_readCounter(TIMER);
-        *preCnt2 = TIM_readCounter(TIMER);
-        *preCnt3 = TIM_readCounter(TIMER);
+void ButtonPush(uint32_t sw, uint32_t swNum, uint32_t *push){
+    if(sw & (1<<swNum)){
+        *push = 1;
     }
-    switch (sw)
-    {
-    case (1<<0):
-        *dtime = 200;
-        *en1 = 1;
-        *en2 = 0;
-        *en3 = 0;
-        return 0;
-    case (1<<1):
-        *dtime = 500;
-        *en1 = 0;
-        *en2 = 1;
-        *en3 = 0;
-        return 0;
-    case (1<<2):
-        *dtime = 1000;
-        *en1 = 0;
-        *en2 = 0;
-        *en3 = 1;
-        return 0;
-    case (1<<3):
-        *dtime = 1500;
-        *en1 = 1;
-        *en2 = 1;
-        *en3 = 1;
-        return 0;
+}
+
+void ButtonRelease(uint32_t sw, uint32_t swNum, uint32_t *push, uint32_t *release){
+    if(*push & ~(sw & (1<<swNum))){
+        *release = 1;
+        *push = 0;
+    }
+}
+
+void ButtonReleaseEvent(uint32_t sw, uint32_t swNum, uint32_t *push, uint32_t *release, uint32_t *led_data){
+    ButtonPush(sw,swNum,push);
+    ButtonRelease(sw,swNum,push,release);
+    if(*release) {
+        *led_data ^= (1<<swNum);
+        *release = 0;
+        LED_write(GPIOC, *led_data);
     }
 }
 
@@ -222,10 +202,10 @@ void LED_ctrl(uint32_t en, uint32_t* preCnt, uint32_t* indicator, uint32_t Ontim
     uint32_t gap = currCnt - *preCnt;
     if(gap<0) gap = -gap;
     if(gap < Ontime) return;
+    *preCnt = currCnt;
     if(!en) {
         *indicator &= ~(1<<led_num);
         return;
     }
     *indicator ^= 1<<led_num;
-    *preCnt = currCnt;
 }
