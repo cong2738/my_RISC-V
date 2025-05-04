@@ -66,13 +66,16 @@ void TIM_clear(TIMER_TypeDef *tim);
 uint32_t TIM_readCounter(TIMER_TypeDef *tim);
 
 uint32_t LED_DataSet(uint32_t sw,uint32_t* en0,uint32_t* en1,uint32_t* en2,uint32_t* en3,uint32_t*preCnt0,uint32_t*preCnt1,uint32_t*preCnt2,uint32_t*preCnt3,uint32_t* dtime,uint32_t* ledData);
-void LED_ctrl(uint32_t en, uint32_t* preCnt, uint32_t* indicator, uint32_t Ontime, uint32_t led_num);
+void LED_ctrl(uint32_t arr_max, uint32_t en, uint32_t* preCnt, uint32_t* indicator, uint32_t Ontime, uint32_t led_num);
 
 int main(void)
 {
+    uint32_t psc_max = 100000 - 1;
+    uint32_t arr_max = 3000 - 1;
+
     LED_init(GPIOC);
     Switch_init(GPIOD);
-    TIM_init(TIMER,100000-1,3000-1);
+    TIM_init(TIMER,psc_max,arr_max);
     FND_init(GPFND,1);
 
     uint32_t dtime = 500;
@@ -89,10 +92,10 @@ int main(void)
     while(1)
     {
         FND_writeData(GPFND,TIM_readCounter(TIMER),0xf);
-        LED_ctrl(1,&preCnt0, &led_data,500,0);
-        LED_ctrl(en1,&preCnt1, &led_data,dtime,1);
-        LED_ctrl(en2,&preCnt2, &led_data,dtime,2);
-        LED_ctrl(en3,&preCnt3, &led_data,dtime,3);
+        LED_ctrl(arr_max , 1,&preCnt0, &led_data,500,0);
+        LED_ctrl(arr_max , en1,&preCnt1, &led_data,dtime,1);
+        LED_ctrl(arr_max , en2,&preCnt2, &led_data,dtime,2);
+        LED_ctrl(arr_max , en3,&preCnt3, &led_data,dtime,3);
         LED_DataSet(Switch_read(GPIOD),&en0,&en1,&en2,&en3,&preCnt0,&preCnt1,&preCnt2,&preCnt3,&dtime,&led_data);
         LED_write(GPIOC, led_data);
     }
@@ -217,10 +220,10 @@ uint32_t LED_DataSet(uint32_t sw,uint32_t* en0,uint32_t* en1,uint32_t* en2,uint3
     }
 }
 
-void LED_ctrl(uint32_t en, uint32_t* preCnt, uint32_t* indicator, uint32_t Ontime, uint32_t led_num){
+void LED_ctrl(uint32_t max_count, uint32_t en, uint32_t* preCnt, uint32_t* indicator, uint32_t Ontime, uint32_t led_num) {
     uint32_t currCnt = TIM_readCounter(TIMER);
     uint32_t gap = currCnt - *preCnt;
-    if(gap<0) gap = -gap;
+    if(gap < 0) gap = max_count + gap;
     if(gap < Ontime) return;
     if(!en) {
         *indicator &= ~(1<<led_num);
