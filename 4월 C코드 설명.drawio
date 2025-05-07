@@ -1,0 +1,62 @@
+<mxfile host="65bd71144e">
+    <diagram id="yg3X5ZUB5-sNffCoT9FX" name="페이지-1">
+        <mxGraphModel dx="954" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="Capture Data" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="100" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Data to String" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="150" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="true" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="10" target="12">
+                    <mxGeometry x="0.3339" y="-20" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="10" value="timercount&lt;div&gt;monitor&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="PrintResult" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="280" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="true" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="16" target="18">
+                    <mxGeometry x="0.2" y="-20" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="BUFFER&lt;div&gt;notEmpty&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="330" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Proccess&lt;br&gt;RxData" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="420" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="FND_Print" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="85" y="470" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="센서 패리패럴과 시계패리패럴의 버퍼에서 값을 캡쳐해서 레지스트에 저장" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="224" y="105" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="캡처된 데이터(정수)를 문자열로 변환" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="224" y="155" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="precount와 currcount를 비교하여&lt;div&gt;실행 주기인지 판별&amp;nbsp;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="224" y="215" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="결과 TX를 통해 PC에 출력" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="224" y="285" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="유아트 입력 버퍼에 값이 있는지 확인 있을경우 RxData Read" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="345" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="입력 버퍼의 데이터를 처리하는 부분" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="420" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="입력받은 데이터를 출력" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="475" width="190" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
