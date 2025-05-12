@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sat Apr 26 15:23:06 2025
+# Process ID: 17264
+# Current directory: D:/harman/my_RISC-V
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2764 D:\harman\my_RISC-V\my_RISC-V.xpr
+# Log file: D:/harman/my_RISC-V/vivado.log
+# Journal file: D:/harman/my_RISC-V\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/harman/my_RISC-V/my_RISC-V.xpr
+xhub::refresh_catalog [xhub::get_xstores xilinx_board_store]
