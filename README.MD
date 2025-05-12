@@ -263,3 +263,6 @@
 
 - axi diagram
   ![alt text](image-35.png)  
+- state logic  
+  ![alt text](image-36.png)  
+  
