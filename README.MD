@@ -190,14 +190,23 @@
   - 시뮬레이션  
   <img src="image-15.png" alt="alt text">  
 
-#### 2025 04 25~27
+### 2025 04 25~27
 
 - 입출력 버퍼 AMAB버스에 연결해보기.  
   <img src="image-16.png" alt="alt text"> 
 
-#### 2025 04 28
+### 2025 04 28
 
 - DATA_SHEET 작성 예시  
   <img src="image-17.png" alt="alt text"> 
   - GP_COUNTER  
   <img src="image-18.png" alt="alt text"> 
+
+## AMBA AXI Protocol  
+
+### STUDY
+
+  AXI is not BUS specification, but **point to point specification**  
+  ![alt text](image-19.png)  
+
+### 2025 05 12
