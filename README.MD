@@ -206,7 +206,60 @@
 
 ### STUDY
 
-  AXI is not BUS specification, but **point to point specification**  
+- bus: brodcast식으로 한방에 전부 보냄  
+- point to point: 일대일 연결  
+- AXI is not BUS specification, but **point to point specification**  
   ![alt text](image-19.png)  
+- AXI channels  
+  ![alt text](image-20.png)  
+  WR과 RD의 ADDR이 분리되어 복잡해보인다. 하지만 충분히 가치가 있을것.  
+  각 채널은 uniderectional(단방향이다)
+  각 체널이 단방향이기에 WRITE RESPONSE가 따로있다. READ Response는 READ Data에 포함시켜서 보낸다. (WRITE는 master to slave이기 때문에 slave의 상태를 master에게 알릴 필요가 있으나 READ는 slave to master이기에 READ Data가 곧 slave의 상태이다.)
+  채널이 분리되어 있기 때문에 READ와 WRITE가 같은 시간(타이밍)에 **가능**하다.  
+  ![alt text](image-21.png)  
+  ![alt text](image-22.png)  
+- channel handshake(valid ready handshake)  
+  ![alt text](image-24.png)  
+  ![alt text](image-23.png)  
+  valid 신호는 inforamtion(예를들어 ADDR, RDATA, WDATA)이 유효함(valid)을 알린다.(거리,온습도 센서 할 때 done 신호를 생각하면 이해가 쉬울것)  
+  ready 신호는 피수신자가 수신가능상태임을 알린다.  
+  동기 handshake를 사용한다(clk에 맞춰서 동작한다.)  
+- channel: 데이터 하나를 보내는 뭉탱이  
+  ![alt text](image-25.png)  
+- transaction: 같은 기능의 뭉탱이  
+  ![alt text](image-26.png)  
+- axi와 ahb차이는? -> ahb는 브로드캐스트방식 한방에 보냄 axi는 포인트투포인트방식이며 밸리드레디핸드셰이크형태를 가진다. 덕분에 read write 동시에 가능.  
+- Channel transfer examples(AXI는 아래 케이스가 다 되는 회로임)  
+  - case1: valid를 받고나서 ready하는 경우(일반적인 상황)  
+    ![alt text](image-27.png)  
+    1: idle  
+    2: valid high  
+    3: ready high  
+    4: handshake  
+  - case2: information을 먼저 받고 ready를 하는 경우(데이터가 들어올것이 기대되는(확정된)상황)  
+    ![alt text](image-28.png)  
+    1: idle  
+    2: ready high  
+    3: valid high  
+    4: handshake  
+    (왜?): waddr이 들어온 상태일때 WDATA가 들어올게 확실하니 READY를 먼저 보내서 한클럭 아낄 수 있다  
+  - case3: valid, ready동시(잘안쓰임 양측이 전부 조합회로여야 가능)  
+    ![alt text](image-29.png)  
+    1: idle  
+    2: no change  
+    3: valid, ready high  
+    4: handshake  
+- Write transaction: single data item  
+  ![alt text](image-30.png)  
+  ![alt text](image-31.png)  
+  - Write transaction handshake dependencies  
+    ![alt text](image-32.png)  
+- Read transaction: single data item  
+  ![alt text](image-34.png)
+  - read transaction handshake dependencies  
+  ![alt text](image-33.png)  
 
 ### 2025 05 12
+
+- axi diagram
+  ![alt text](image-35.png)  
