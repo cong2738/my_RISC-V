@@ -261,8 +261,6 @@
 
 ### 2025 05 12
 
-- axi diagram
-  ![alt text](image-35.png)  
-- state logic  
+- axi diagram  
   ![alt text](image-36.png)  
   
