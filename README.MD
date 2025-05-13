@@ -224,9 +224,9 @@
   valid 신호는 inforamtion(예를들어 ADDR, RDATA, WDATA)이 유효함(valid)을 알린다.(거리,온습도 센서 할 때 done 신호를 생각하면 이해가 쉬울것)  
   ready 신호는 피수신자가 수신가능상태임을 알린다.  
   동기 handshake를 사용한다(clk에 맞춰서 동작한다.)  
-- channel: 데이터 하나를 보내는 뭉탱이  
+- channel: 데이터 하나를 보내는 신호선 뭉탱이  
   ![alt text](image-25.png)  
-- transaction: 같은 기능의 뭉탱이  
+- transaction: 같은 기능의 채널들의 뭉탱이  
   ![alt text](image-26.png)  
 - axi와 ahb차이는? -> ahb는 브로드캐스트방식 한방에 보냄 axi는 포인트투포인트방식이며 밸리드레디핸드셰이크형태를 가진다. 덕분에 read write 동시에 가능.  
 - Channel transfer examples(AXI는 아래 케이스가 다 되는 회로임)  
@@ -242,7 +242,7 @@
     2: ready high  
     3: valid high  
     4: handshake  
-    (왜?): waddr이 들어온 상태일때 WDATA가 들어올게 확실하니 READY를 먼저 보내서 한클럭 아낄 수 있다  
+    (예시): waddr이 들어온 상태일때 WDATA가 들어올게 확실하니 미리 READY를 준비시켜서(asserted) 한클럭 클럭 아낄 수 있다  
   - case3: valid, ready동시(잘안쓰임 양측이 전부 조합회로여야 가능)  
     ![alt text](image-29.png)  
     1: idle  
