@@ -147,7 +147,7 @@
 
 ### 2025 04 22  
 
-<img src="AMBA_APB_BUS_SC.png" alt="alt text" style="width:100%;">    
+<img src="AMBA_APB_BUS_SC.png" alt="alt text" style="width:100%;">  
     
 - APB interface 시험 적용
   - 7-SEGMENT  
