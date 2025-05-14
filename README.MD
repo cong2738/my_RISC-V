@@ -264,3 +264,9 @@
 - axi diagram  
   ![alt text](image-36.png)  
   
+### 2025 05 12
+
+- Xilinx AXI4-Lite  
+  STRB: 사용 바이트부분를 할당하는 입력비트  
+  ex)strb = 0001 -> 1바이트(8비트)  
+    &emsp;strb = 0011 -> 2바이트(16비트)
