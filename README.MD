@@ -83,7 +83,7 @@
 
 #### 2025 04 17
 
-- Fethc/Decode/Execute/MemAcc/WriteBack 스테이지에 대한 공부
+- Fetch/Decode/Execute/MemAcc/WriteBack 스테이지에 대한 공부
 - MultiCtcleProccesing 매커니즘 완성
 
 ## AMBA APB Protocol
