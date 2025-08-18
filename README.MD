@@ -64,11 +64,11 @@
 
 #### 2025 04 14
 
-- Single Cycle RISC-V 완성 
+- My Single Cycle RISC-V 완성 
 
 #### 2025 04 15
 
-- Single Cycle RISC-V 발표 
+- My Single Cycle RISC-V 발표 
 
 #### 2025 04 16
 
