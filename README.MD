@@ -6,7 +6,7 @@
 
 ![InstructuonSet](./RV32I-1.png) 
 
-### SingleCycleRISC-V
+### My RISC-V
 
 #### 2025 04 08
 
