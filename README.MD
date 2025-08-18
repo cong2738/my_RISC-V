@@ -1,4 +1,4 @@
-# RISC-V Project
+# MyRISC-V Project
 
 ## RV32I
 
@@ -6,9 +6,11 @@
 
 ![InstructuonSet](./RV32I-1.png) 
 
-### My RISC-V
+### MyRISC-V
 
-#### 2025 04 08
+#### SingleCycle RISC-V
+
+##### 2025 04 08
 
 - R_Type  
   - ADD  
@@ -22,7 +24,7 @@
   - OR  
   - AND  
 
-#### 2025 04 09
+##### 2025 04 09
 
 - S_Type  
   - SW  
@@ -39,7 +41,7 @@
   - SRLI  
   - SRAI  
 
-#### 2025 04 10
+##### 2025 04 10
 
 - I_Type Error Fix  
   - operation selection 매커니즘 이슈:  
@@ -55,22 +57,22 @@
   - BLTU  
   - BGEU  
 
-#### 2025 04 11
+##### 2025 04 11
 
 - LU_Type
 - AU_Type
 - J_Type
 - JR_Type
 
-#### 2025 04 14
+##### 2025 04 14
 
 - My Single Cycle RISC-V 완성 
 
-#### 2025 04 15
+##### 2025 04 15
 
 - My Single Cycle RISC-V 발표 
 
-#### 2025 04 16
+##### 2025 04 16
 
 - B_Type Error Fix
   - immExt 매커니즘 이슈:
@@ -79,9 +81,9 @@
     - fix:  
     B_Type immExt 매커니즘을 Signed Integer 매커니즘으로 변경
 
-### MultiCtcleRISC-V
+#### MultiCtcleRISC-V
 
-#### 2025 04 17
+##### 2025 04 17
 
 - Fetch/Decode/Execute/MemAcc/WriteBack 스테이지에 대한 공부
 - MultiCtcleProccesing 매커니즘 완성
